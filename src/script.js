@@ -43,8 +43,3 @@ function viewLogado(){
     $container.appendChild($logout)
     location.hash ="#dash"
 }
-
-function onHashChange(){
-    console.log('alo')
-}
-
