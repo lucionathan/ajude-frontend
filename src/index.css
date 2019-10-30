@@ -1,0 +1,25 @@
+.root{
+    display:grid;
+    grid-row-gap:10px;
+    grid-template-areas:"h h h"
+                        ". m ."
+                        "f f f";
+
+    grid-template-columns: 1fr 12fr 1fr;
+    grid-template-rows: 10vh 85vh 5vh;
+}
+
+footer{
+    grid-area: f;
+    background-color: red;
+}
+
+header{
+    grid-area: h;
+    background-color: violet;
+}
+
+#container{
+    grid-area:m;
+    background-color:gray;
+}
