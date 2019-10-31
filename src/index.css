@@ -1,25 +1,115 @@
-.root{
-    display:grid;
-    grid-row-gap:10px;
-    grid-template-areas:"h h h"
-                        ". m ."
-                        "f f f";
-
-    grid-template-columns: 1fr 12fr 1fr;
-    grid-template-rows: 10vh 85vh 5vh;
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
 }
 
-footer{
-    grid-area: f;
-    background-color: red;
-}
+body{
+    background: rgb(250, 250, 250);
 
-header{
-    grid-area: h;
-    background-color: violet;
 }
-
+/*  CONTAINER ONDE FICA TUDO */
 #container{
-    grid-area:m;
-    background-color:gray;
+    display: flex;
+    margin: 0 auto;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+/*  PAGINA DE LOGIN */
+#loginForm{
+    display: flex;
+    flex-direction: column;
+    background-color:rgb(255, 255, 255);
+    flex: 0;
+    padding: 20px 20px 30px 20px;
+    border: 1px solid #3B839A;
+}
+
+#loginForm .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 15px 5px;
+}
+
+#loginForm .fields input{
+    padding: 10px;
+    margin: 5px;
+    width: 262px;
+    border: 1px solid #80E3BE;
+    border-bottom: 1px solid #3B839A;
+    
+}
+
+#loginForm .fields input::placeholder{
+    color: #FF474A;
+}
+
+#loginForm h2{
+    text-align: center;
+    font-size: 35px;
+    padding: 0 0 40px 0;
+    color: #FF474A;
+    letter-spacing: 2px;
+    font-weight: lighter;
+}
+
+#loginForm a{
+    text-align: end;
+    margin: 5px;
+    color: black;
+    font-size: 13px;
+}
+
+#loginForm button {
+    padding: 15px;
+    font-size: 16px;
+    width: 115px;
+}
+
+#loginForm button:hover {
+    cursor: pointer;
+}
+
+#loginForm .options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#loginForm .options .checkElements{
+    margin: 5px;
+}
+
+.options label{
+    font-size: 15px;
+}
+
+
+#loginForm #registerBtn{
+    background-color: #DDFCCE;
+    border: 1px solid white;
+    color: #3B839A;
+    transition: background-color 0.3s ease;
+}
+
+#loginForm #registerBtn:hover{
+    background-color: #3B839A;
+    border: 1px solid #DDFCCE;
+    color: #DDFCCE;
+}
+
+#loginForm #loginBtn{
+    color: #DDFCCE;
+    border: 1px solid white;
+    background-color: #3B839A;
+    transition: background-color 0.3s ease;
+}
+
+#loginForm #loginBtn:hover{
+    background-color: #DDFCCE;
+    border: 1px solid #3B839A;
+    color: #3B839A;
 }

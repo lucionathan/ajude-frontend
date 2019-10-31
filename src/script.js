@@ -13,7 +13,7 @@ function viewLogin(){
     $container.innerHTML = ''
     let $template = document.querySelector("#login")
     $container.appendChild($template.content.querySelector('form').cloneNode(true))
-    let $button =$container.querySelector('form').querySelector('button')
+    let $button =$container.querySelector('form').querySelector('#loginBtn')
     $button.addEventListener('click', viewLogado)
     location.hash = "#login"
 }

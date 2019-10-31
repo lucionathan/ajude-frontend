@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,28 +8,40 @@
     <title>aJuDe</title>
     <link rel="stylesheet" type="text/css" href="index.css">
     <script type="module" src="./script.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300&display=swap" rel="stylesheet">
 </head>
-<body>
-    <div class="root">
-        <header>header works</header>
-        <div id="container">
 
-        </div>
-        <footer>footer works</footer>
+<body>
+    <div id="container">
+
     </div>
     <template id="login">
-        <form>
-            <h2>Login</h2>
-            <input id="email" placeholder="e-mail">
-            <input id="senha" placeholder="senha">
-            <button id="send">Login</button>
+        <form id="loginForm">
+            <h2>AjuDe</h2>
+            <div class="fields">
+                <input id="email" placeholder="e-mail">
+                <input id="senha" placeholder="senha" type="password">
+            </div>
+            <div class="options">
+                <div class="checkElements">
+                    <input type="checkbox" id="check">
+                    <label for="check">lembrar senha</label>
+                </div>
+                <a href="#">esqueci a senha</a>
+            </div>
+            
+            <div class="buttons">
+                <button id="registerBtn">CADASTRO</button>
+                <button id="loginBtn">LOGIN</button>
+            </div>
         </form>
     </template>
     <template id="dashBoard">
         <div>
-           <h2>Logado</h2> 
-           <button>Logout</button>
+            <h2>Logado</h2>
+            <button>Logout</button>
         </div>
-    </template>    
+    </template>
 </body>
+
 </html>
