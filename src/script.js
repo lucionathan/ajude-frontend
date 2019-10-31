@@ -1,8 +1,6 @@
 let $container
 
 (function (){
-    
-
     $container = document.querySelector('#container')
     $container.innerHTML = ''
     if(["", "#login"].includes(location.hash)){
@@ -11,35 +9,20 @@ let $container
         viewLogado()
     }
 }())
-
 function viewLogin(){
     $container.innerHTML = ''
-    let $email = document.createElement('input')
-    let $senha = document.createElement('input')
-    let $title = document.createElement('h2')
-    let $send = document.createElement('button')
-    $send.innerText="Send"
-    let $form = document.createElement('form')
-    $title.innerText="Login"
-    $email.placeholder="Insira seu e-mail aqui"
-    $senha.placeholder="Insira sua senha aqui"
-    $send.addEventListener('click', viewLogado)
-    $form.appendChild($title)
-    $form.appendChild($email)
-    $form.appendChild($senha)
-    $form.appendChild($send)
-    $container.appendChild($form)
+    let $template = document.querySelector("#login")
+    $container.appendChild($template.content.querySelector('form').cloneNode(true))
+    let $button =$container.querySelector('form').querySelector('button')
+    $button.addEventListener('click', viewLogado)
     location.hash = "#login"
 }
 
 function viewLogado(){
     $container.innerHTML = ''
-    let $h2 = document.createElement('h2')
-    $h2.innerText = "logado"
-    $container.appendChild($h2)
-    let $logout = document.createElement('button')
-    $logout.innerText = "Logout"
-    $logout.addEventListener('click', viewLogin)
-    $container.appendChild($logout)
+    let $template = document.querySelector('#dashBoard')
+    $container.appendChild($template.content.querySelector('div').cloneNode(true))
+    let $button = $container.querySelector('div').querySelector('button')
+    $button.addEventListener('click', viewLogin)
     location.hash ="#dash"
 }
