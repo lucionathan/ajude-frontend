@@ -83,10 +83,15 @@ body{
     margin: 5px;
 }
 
-.options label{
+#loginForm .options label{
     font-size: 15px;
 }
 
+#loginForm p{
+    margin-left: 5px;
+    color: rgb(0, 0, 0);
+    visibility: hidden;
+}
 
 #loginForm #registerBtn{
     background-color: #DDFCCE;
