@@ -44,16 +44,20 @@ function login() {
     let $password = document.querySelector("#password").value
     let $check = document.querySelector("#check").checked
     viewLogging()
+
     fetch(URL_BASE+"/login", {
         'method' : 'POST',
         'body' : `{"email": "${$email}", "password": "${$password}", "savePassword": "${$check}"}`,
         'headers' : {'Content-Type' : 'application/json'}
-    }).then(res => {
-        localStorage.setItem('token', res.token)
-        viewLogado()
     }).catch(err => {
         console.log("\n\n[DEBUG script.js login]", err)
         viewLogin()
+    }).then(res =>{
+        return res.json()
+    }).then(res => {
+        localStorage.setItem('token', res.token)
+        viewLogado()
     })
 
 }
+
