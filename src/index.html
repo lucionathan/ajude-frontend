@@ -72,22 +72,21 @@
         </div>
     </template>
 
-    <template id="register">
-            <form id="registerForm">
-                <h2>Cadastro</h2>
-                <div class="fields">
-                    <input id="firstname" placeholder="primeiro nome">
-                    <input id="lastname" placeholder="ultimo nome">
-                    <input id="email" placeholder="e-mail">
-                   <!-- <input id="cartaoDeCredito" placeholder="cartão de crédito"> -->
-                    <input id="password" placeholder="senha" type="password">
-                </div>
-                
-                <div class="buttons">
-                    <button id="registerBtn">CADASTRAR</button>
-                </div>
-            </form>
-        </template>
+    <template id="registerCampaign">
+        <form class="registerCampaign">
+            <h2>Cadastro de Campanha</h2>
+            <div class="fields">
+                <input id="shortname" placeholder="Nome curto da campanha">
+                <input id="description" placeholder="descricao">
+                <input id="date" placeholder="data limite">
+                <input id="goal" placeholder="Objetivo de arrecadação">
+            </div>
+            
+            <div class="buttons">
+                <button id="postCampaign">CADASTRAR</button>
+            </div>
+        </form>
+    </template>
 
     <template id="logging">
         <div>

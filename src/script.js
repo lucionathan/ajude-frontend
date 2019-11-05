@@ -60,7 +60,12 @@ function viewRegister() {
 }
 
 function viewCreateCampaign(){
-    console.log('eh nois man')
+    $container.innerHTML = ''
+    let $template = document.querySelector("#registerCampaign")
+    $container.appendChild($template.content.querySelector('form').cloneNode(true))
+    let $button = $container.querySelector('#postCampaign')
+    $button.addEventListener('click', postCampaign)
+    location.hash = "#campaign"
 }
 
 //REQUESTS LOGIC
@@ -133,3 +138,40 @@ function register() {
 
 }
 
+function postCampaign(){
+    console.log("testing")
+    //recover data from form
+    let shortName = document.querySelector("#shortname").value
+    let description = document.querySelector("#description").value
+    let date = document.querySelector("#date").value
+    let goal = document.querySelector("#goal").value
+
+    //make a register request to the api
+    fetch(URL_BASE+"/campaign", {
+        'method' : 'POST',
+        'body' : `{"shortName": "${shortName}","description": "${description}", "date": "${date}", "goal": ${goal}, "shortUrl":"${getShortUrl(shortName)}"}`,
+        'headers' : {'Content-Type' : 'application/json', 'Authorization':`Bearer ${localStorage.getItem('token')}`}
+    }).catch(err => {
+        console.log("\n\n[DEBUG script.js register]", err)
+        viewCreateCampaign()
+    }).then(res =>{
+        return res.json()
+    }).then(res => {
+        console.log(res)
+        //if the request was ok, show the next page; else, go back to the login page with a warning message
+        if(res.ok){
+            viewLogado()
+        }else{
+            viewCreateCampaign()
+        }
+        
+    })
+
+}
+
+//UTIL
+
+function getShortUrl(shortName){
+    let sName = shortName
+    return sName
+}
