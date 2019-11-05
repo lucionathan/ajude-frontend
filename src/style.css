@@ -118,3 +118,93 @@ body{
     border: 1px solid #3B839A;
     color: #3B839A;
 }
+
+/*  PAGINA DE REGISTRO */
+#registerForm{
+    display: flex;
+    flex-direction: column;
+    background-color:rgb(255, 255, 255);
+    flex: 0;
+    padding: 20px 20px 30px 20px;
+    border: 1px solid #3B839A;
+}
+
+#registerForm .buttons{
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 15px 5px;
+}
+
+#registerForm .fields input{
+    padding: 10px;
+    margin: 5px;
+    width: 262px;
+    border: 1px solid #80E3BE;
+    border-bottom: 1px solid #3B839A;
+    
+}
+
+#registerForm .fields input::placeholder{
+    color: #FF474A;
+}
+
+#registerForm h2{
+    text-align: center;
+    font-size: 35px;
+    padding: 0 0 40px 0;
+    color: #FF474A;
+    letter-spacing: 2px;
+    font-weight: lighter;
+}
+
+#registerForm a{
+    text-align: end;
+    margin: 5px;
+    color: black;
+    font-size: 13px;
+}
+
+#registerForm button {
+    padding: 15px;
+    font-size: 16px;
+    width: 115px;
+}
+
+#registerForm button:hover {
+    cursor: pointer;
+}
+
+#registerForm .options{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#registerForm .options .checkElements{
+    margin: 5px;
+}
+
+#registerForm .options label{
+    font-size: 15px;
+}
+
+#registerForm p{
+    margin-left: 5px;
+    color: rgb(0, 0, 0);
+    visibility: hidden;
+}
+
+#registerForm #registerBtn{
+    background-color: #DDFCCE;
+    border: 1px solid white;
+    color: #3B839A;
+    transition: background-color 0.3s ease;
+}
+
+#registerForm #registerBtn:hover{
+    background-color: #3B839A;
+    border: 1px solid #DDFCCE;
+    color: #DDFCCE;
+}

@@ -26,6 +26,8 @@ function viewLogin(){
     $container.appendChild($template.content.querySelector('form').cloneNode(true))
     let $button =$container.querySelector('form').querySelector('#loginBtn')
     $button.addEventListener('click', login)
+    let $buttonRegister =$container.querySelector('form').querySelector('#registerBtn')
+    $buttonRegister.addEventListener('click', viewRegister);
     location.hash = "#login"
 }
 
@@ -51,7 +53,7 @@ function viewRegister() {
     $container.appendChild($template.content.querySelector('form').cloneNode(true))
     let $button = $container.querySelector('form').querySelector('#registerBtn')
     $button.addEventListener('click', register)
-    location.hash = "#dash"
+    location.hash = "#register"
 }
 
 //REQUESTS LOGIC
@@ -97,6 +99,7 @@ function register() {
     let $lastname = document.querySelector("#lastname").value
     let $email = document.querySelector("#email").value
     let $password = document.querySelector("#password").value
+    let $check = false;
     //show logging page
     viewLogging()
     //make a register request to the api
@@ -112,12 +115,9 @@ function register() {
     }).then(res => {
         //if the request was ok, show the next page; else, go back to the login page with a warning message
         if(res.ok){
-            let $template = document.querySelector("#register")
-            $template.content.querySelector("p").style.visibility = "hidden";
-            localStorage.setItem('token', res.token)
-            viewLogado()
+            login()
         }else{
-            let $template = document.querySelector("#login")
+            let $template = document.querySelector("#register")
             $template.content.querySelector("p").style.visibility = "initial";
             viewRegister()
         }
