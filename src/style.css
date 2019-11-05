@@ -208,3 +208,36 @@ body{
     border: 1px solid #DDFCCE;
     color: #DDFCCE;
 }
+
+/* VIEW LOGADO */
+
+.dashBoard{
+    display:grid;
+    width: 100%;
+    grid-template-columns: 1fr 10fr 1fr;
+    grid-template-rows: 10vh 90vh;
+    grid-template-areas: "h h h"
+                         ". m m";
+
+}
+
+.dashBoard header{
+    grid-area:h;
+    display:flex;
+    justify-content: space-between;
+}
+
+.dashBoard main{
+    grid-area:m;
+}
+
+.dashBoard .content{
+    display:flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+.dashBoard header button{
+    background: none;
+    border-width: 0;
+}

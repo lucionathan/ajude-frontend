@@ -42,8 +42,11 @@ function viewLogado(){
     $container.innerHTML = ''
     let $template = document.querySelector('#dashBoard')
     $container.appendChild($template.content.querySelector('div').cloneNode(true))
-    let $button = $container.querySelector('div').querySelector('button')
+    //let $button = $container.querySelector('div').querySelector('button')
+    let $button = document.querySelector('#logoutButton')
     $button.addEventListener('click', viewLogin)
+    let $addCampaignButton = document.querySelector('#addCampaignButton')
+    $addCampaignButton.addEventListener('click', viewCreateCampaign)
     location.hash ="#dash"
 }
 
@@ -54,6 +57,10 @@ function viewRegister() {
     let $button = $container.querySelector('form').querySelector('#registerBtn')
     $button.addEventListener('click', register)
     location.hash = "#register"
+}
+
+function viewCreateCampaign(){
+    console.log('eh nois man')
 }
 
 //REQUESTS LOGIC
