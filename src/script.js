@@ -12,6 +12,9 @@ const URL_BASE = "http://localhost:8080";
         case "#login":
             viewLogin()
             break
+        case "#register":
+            viewRegister()
+            break
         case "#dash":
             viewLogado()
             break
@@ -40,6 +43,15 @@ function viewLogado(){
     let $button = $container.querySelector('div').querySelector('button')
     $button.addEventListener('click', viewLogin)
     location.hash ="#dash"
+}
+
+function viewRegister() {
+    $container.innerHTML = ''
+    let $template = document.querySelector("#register")
+    $container.appendChild($template.content.querySelector('form').cloneNode(true))
+    let $button = $container.querySelector('form').querySelector('#registerBtn')
+    $button.addEventListener('click', register)
+    location.hash = "#dash"
 }
 
 //REQUESTS LOGIC
@@ -72,6 +84,42 @@ function login() {
             let $template = document.querySelector("#login")
             $template.content.querySelector("p").style.visibility = "initial";
             viewLogin()
+        }
+        
+    })
+
+}
+
+
+function register() {
+    //recover data from form
+    let $firstname = document.querySelector("#firstname").value
+    let $lastname = document.querySelector("#lastname").value
+    let $email = document.querySelector("#email").value
+    let $password = document.querySelector("#password").value
+    //show logging page
+    viewLogging()
+    //make a register request to the api
+    fetch(URL_BASE+"/user/register", {
+        'method' : 'POST',
+        'body' : `{"firstName": "${$firstname}","lastName": "${$lastname}", "email": "${$email}", "password": "${$password}"}`,
+        'headers' : {'Content-Type' : 'application/json'}
+    }).catch(err => {
+        console.log("\n\n[DEBUG script.js register]", err)
+        viewRegister()
+    }).then(res =>{
+        return res.json()
+    }).then(res => {
+        //if the request was ok, show the next page; else, go back to the login page with a warning message
+        if(res.ok){
+            let $template = document.querySelector("#register")
+            $template.content.querySelector("p").style.visibility = "hidden";
+            localStorage.setItem('token', res.token)
+            viewLogado()
+        }else{
+            let $template = document.querySelector("#login")
+            $template.content.querySelector("p").style.visibility = "initial";
+            viewRegister()
         }
         
     })
