@@ -172,6 +172,19 @@ function postCampaign(){
 //UTIL
 
 function getShortUrl(shortName){
-    let sName = shortName
-    return sName
+    shortName = shortName.replace(/\s\s+/g, ' ');
+    shortName = shortName.normalize("NFD").toLowerCase();
+
+    shortName = shortName.split("").map(e =>{
+        if(e in [".",":","?","!",",","/","|"]){
+            return " "
+        }else{
+            return e;
+        }
+    }).join("")
+
+    shortName = shortName.split(" ").join("-")
+
+    console.log(shortName)
+    return shortName
 }
