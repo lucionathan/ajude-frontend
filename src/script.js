@@ -1,6 +1,5 @@
 let $container
 const URL_BASE = "http://localhost:8080";
-
 //SINGLE PAGE LOGIC
 (function (){
     $container = document.querySelector('#container')
@@ -22,6 +21,7 @@ const URL_BASE = "http://localhost:8080";
 }())
 function viewLogin(){
     $container.innerHTML = ''
+
     let $template = document.querySelector("#login")
     $container.appendChild($template.content.querySelector('form').cloneNode(true))
     let $button =$container.querySelector('form').querySelector('#loginBtn')
@@ -40,6 +40,14 @@ function viewLogging(){
 
 function viewLogado(){
     $container.innerHTML = ''
+    let email = localStorage.getItem("loggedAs")
+    console.log(`${URL_BASE}/campaign/user/${email}`)
+    fetch(`${URL_BASE}/campaign/user/${email}`,{
+        'headers' : {'Content-Type' : 'application/json', 'Authorization':`Bearer ${localStorage.getItem('token')}`}})
+        .then(res => {return res.json()})
+        .then(res => {
+        populateFeed(res);
+    })
     let $template = document.querySelector('#dashBoard')
     $container.appendChild($template.content.querySelector('div').cloneNode(true))
     //let $button = $container.querySelector('div').querySelector('button')
@@ -75,6 +83,8 @@ function login() {
     let $email = document.querySelector("#email").value
     let $password = document.querySelector("#password").value
     let $check = document.querySelector("#check").checked
+    localStorage.setItem('loggedAs', $email)    
+    
     //show logging page
     viewLogging()
     //make login request to the api
@@ -168,13 +178,50 @@ function postCampaign(){
     })
 
 }
+//Manipulating DOM
+function populateFeed(campaigns){
+    
+    
+    let $feed = document.querySelector('#feed')
+    campaigns.map(c => {
+        let $div = document.createElement('div')
+        $div.className = "campaign"
+        let $title = document.createElement('h2')
+        $title.innerText = c.shortName
+        let $description = document.createElement('p')
+        $description.innerText = c.description
+        let $reach = document.createElement('div')
+        let $tempGoal = document.createElement('p')
+        $tempGoal.innerText = `${c.donated}/${c.goal}`
+        $reach.appendChild($tempGoal)
+        let $likes = document.createElement('p')
+        $likes.innerText= c.likes
+        let $deslikes = document.createElement('p')
+        $deslikes.innerText= c.deslikes
+        let $date = document.createElement('p')
+        $date.innerText = c.date
+        let $likeButton = document.createElement('button')
+        $likeButton.innerText = c.pessoasLike.includes(localStorage.getItem('loggedAs'))
+        let $deslikeButton = document.createElement('button')
+        $deslikeButton.innerText = c.pessoasDeslike.includes(localStorage.getItem('loggedAs'))
+        $div.appendChild($title)
+        $div.appendChild($description)
+        $div.appendChild($reach)
+        $div.appendChild($likes)
+        $div.appendChild($deslikes)
+        $div.appendChild($date)
+        $div.appendChild($likeButton)
+        $div.appendChild($deslikeButton)
+        $feed.appendChild($div)
+    })
+}
+
 
 //UTIL
 
 function getShortUrl(shortName){
     shortName = shortName.replace(/\s\s+/g, ' ');
     shortName = shortName.normalize("NFD").toLowerCase();
-
     shortName = shortName.split("").map(e =>{
         if(e in [".",":","?","!",",","/","|"]){
             return " "
@@ -182,9 +229,6 @@ function getShortUrl(shortName){
             return e;
         }
     }).join("")
-
     shortName = shortName.split(" ").join("-")
-
-    console.log(shortName)
     return shortName
 }
