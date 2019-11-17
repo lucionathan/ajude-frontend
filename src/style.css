@@ -289,3 +289,12 @@ body{
     flex-direction: column;
     justify-content: center;
 }
+
+/* .campaign{
+    display:grid;
+    width: 100%;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-rows: 80px 90vh;
+    grid-template-areas: "h h h"
+                         ". m .";    
+} */
