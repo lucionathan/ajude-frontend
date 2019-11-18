@@ -30,7 +30,7 @@ export class Feed{
     
         let $feed = document.querySelector('#feed')
         campaigns.map(c => {
-            this.feedCampaigns.push(new Campaign(c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated))
+            this.feedCampaigns.push(new Campaign(c.id,c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated))
         })
     
         this.feedCampaigns.map(campaign =>{
