@@ -290,11 +290,74 @@ body{
     justify-content: center;
 }
 
-/* .campaign{
-    display:grid;
-    width: 100%;
-    grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 80px 90vh;
-    grid-template-areas: "h h h"
-                         ". m .";    
-} */
+/*CAMPAIGN IN LISTING*/
+
+.campaign{
+    display:flex;
+    flex-direction: column;
+    border-style: solid;
+    border-width: 2px;
+    border-color:#30b4ba;
+    margin-bottom: 20px;
+    background-color: #f0f0f0;
+    width: 450px;
+    height: 200px;
+    justify-content: space-between;
+}
+
+.campaignHeader{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    background-color:#30b4ba;
+    color:white;
+}
+
+.campaignFooter{
+    display: flex;
+    flex-direction: row;
+}
+
+.campaignDescription{
+    text-align: center;
+}
+
+.progress p{
+    text-align: center;
+}
+
+.campaignFooter button{
+    background: none;
+    border:none;
+}
+
+.campaignFooter button i{
+    background: none;
+    border:none;
+    color:#30b4ba;
+}
+
+.campaignFooter div{
+    margin-left: auto;
+    width: 30%;
+    background-color: #3B839A;
+    text-align: center;
+    text-justify: center;
+}
+
+.campaignFooter div a{
+    text-decoration: none;
+    margin: auto;
+    color: white;;
+}
+
+.progress{
+    margin: 0 auto;
+    width: 85%;
+    background-color: #c4c4c4;
+}
+
+.progress div{
+    background-color:#30b4ba;
+    text-align: center;
+}

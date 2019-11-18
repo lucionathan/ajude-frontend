@@ -1,5 +1,6 @@
 const BASE_URL = "http://localhost:8080";
-
+const outerShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)"
+const innerShadow = "inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
 export class Campaign{
 
     constructor(id,shortName, shortUrl, description, date, likes, deslikes, likedBy, deslikedBy, goal, donated){
@@ -29,7 +30,8 @@ export class Campaign{
         $description.innerText = this.description
         $description.className = "campaignDescription"
         let $reach = document.createElement('div')
-        let $tempGoal = document.createElement('p')
+        let $tempGoal = document.createElement('div')
+        $tempGoal.style.width = `${100 * this.donated/this.goal}%`
         $tempGoal.innerText = `${this.donated}/${this.goal}`
         $reach.appendChild($tempGoal)
         $reach.className="progress"
@@ -47,12 +49,23 @@ export class Campaign{
         $likeButton.addEventListener('click', () =>{
             this.addLike()
         })
-        $likeButton.innerText = this.likedBy.includes(localStorage.getItem('loggedAs'))
+        $likeButton.innerHTML = `<i class="material-icons">thumb_up</i>`
+        //$likeButton.innerText = this.likedBy.includes(localStorage.getItem('loggedAs'))
         let $deslikeButton = document.createElement('button')
-        $deslikeButton.innerText = this.deslikedBy.includes(localStorage.getItem('loggedAs'))
+        //$deslikeButton.innerText = this.deslikedBy.includes(localStorage.getItem('loggedAs'))
+        $deslikeButton.innerHTML = `<i class="material-icons">thumb_down</i>`
+        $likeButton.querySelector('i').style.textShadow = outerShadow;
+        $deslikeButton.querySelector('i').style.textShadow = outerShadow;
+
         $deslikeButton.addEventListener('click', () =>{
             this.addDeslike()
         })
+
+        let $visitUsSquare = document.createElement('div')
+        let $visitUs = document.createElement('a')
+        $visitUs.innerText="VISITAR"
+        $visitUs.href=`${BASE_URL}/campaign/${this.shortUrl}`
+        $visitUsSquare.appendChild($visitUs)
         let $footer = document.createElement('div')
         $footer.className = "campaignFooter"
         $likeButton.className="likeButton"
@@ -63,6 +76,7 @@ export class Campaign{
         $footer.appendChild($likes)
         $footer.appendChild($deslikeButton)
         $footer.appendChild($deslikes)
+        $footer.appendChild($visitUsSquare)
         $div.appendChild($header)
         $div.appendChild($description)
         $div.appendChild($reach)
@@ -72,19 +86,7 @@ export class Campaign{
     }
 
     addLike(){
-        if(this.wasLiked){
-            this.wasLiked = false;
-            this.likes--;
-        }else{
-            this.wasLiked = true;
-            this.likes++;
-        }
-        let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
-        let $likes = document.querySelector(`#c${this.id} .campaignFooter .likes`)
-        $likeButton.innerText = this.wasLiked;
-        $likes.innerText = this.likes
-        console.log("running")
-        
+        this.localLike()
         fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
             'method' : 'PUT',
             'body' : `{"shortUrl": "${this.shortUrl}", "choice":"like"}`,
@@ -96,7 +98,21 @@ export class Campaign{
         })          
     }
 
-    addDeslike(){
+    localLike(){
+        if(this.wasLiked){
+            this.wasLiked = false;
+            this.likes--;
+        }else{
+            this.wasLiked = true;
+            this.likes++;
+        }
+        let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
+        let $likes = document.querySelector(`#c${this.id} .campaignFooter .likes`)
+        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? '' : outerShadow;
+        $likes.innerText = this.likes
+    }
+
+    localDeslike(){
         if(this.wasDesliked){
             this.wasDesliked = false;
             this.deslikes--;
@@ -106,9 +122,12 @@ export class Campaign{
         }
         let $deslikeButton = document.querySelector(`#c${this.id} .campaignFooter .deslikeButton`)
         let $deslikes = document.querySelector(`#c${this.id} .campaignFooter .deslikes`)
-        $deslikeButton.innerText = this.wasDesliked;
+        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? '' : outerShadow;
         $deslikes.innerText = this.deslikes
-        console.log("running deslike")
+    }
+
+    addDeslike(){
+        this.localDeslike()
         
         fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
             'method' : 'PUT',
@@ -148,8 +167,8 @@ export class Campaign{
         $div.querySelector('.progress p').innerText = `${this.donated}/${this.goal}`
         $div.querySelector('.campaignFooter .likes').innerText = this.likes;
         $div.querySelector('.campaignFooter .deslikes').innerText = this.deslikes;
-        $div.querySelector('.campaignFooter .deslikeButton').innerText = this.wasDesliked
-        $div.querySelector('.campaignFooter .likeButton').innerText = this.wasLiked
+        $div.querySelector('.campaignFooter .deslikeButton i').style.textShadow = this.wasDesliked ? '' : outerShadow
+        $div.querySelector('.campaignFooter .likeButton i').style.textShadow = this.wasLiked ? '' : outerShadow;
         
     }
 }
