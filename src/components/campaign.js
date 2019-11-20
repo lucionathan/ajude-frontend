@@ -54,8 +54,8 @@ export class Campaign{
         let $deslikeButton = document.createElement('button')
         //$deslikeButton.innerText = this.deslikedBy.includes(localStorage.getItem('loggedAs'))
         $deslikeButton.innerHTML = `<i class="material-icons">thumb_down</i>`
-        $likeButton.querySelector('i').style.textShadow = outerShadow;
-        $deslikeButton.querySelector('i').style.textShadow = outerShadow;
+        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? '' : outerShadow;
+        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? '' : outerShadow;
 
         $deslikeButton.addEventListener('click', () =>{
             this.addDeslike()
@@ -164,7 +164,7 @@ export class Campaign{
         $div.querySelector('.campaignHeader h2').innerText = this.shortName
         $div.querySelector('.campaignHeader p').innerText = this.date
         $div.querySelector('.campaignDescription').innerText = this.description
-        $div.querySelector('.progress p').innerText = `${this.donated}/${this.goal}`
+        $div.querySelector('.progress div').innerText = `${this.donated}/${this.goal}`
         $div.querySelector('.campaignFooter .likes').innerText = this.likes;
         $div.querySelector('.campaignFooter .deslikes').innerText = this.deslikes;
         $div.querySelector('.campaignFooter .deslikeButton i').style.textShadow = this.wasDesliked ? '' : outerShadow

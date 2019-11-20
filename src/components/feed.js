@@ -1,15 +1,18 @@
 import {Campaign} from './campaign.js'
 export class Feed{
     
+    orderingMethod
+    feedCampaigns
     constructor(){
         let $container = document.querySelector('#container')
         const URL_BASE = "http://localhost:8080";
         this.feedCampaigns = []
+        this.orderingMethod = (c1, c2) => (c1.goal - c1.donated) - (c2.goal - c2.donated)
         $container.innerHTML = ''
         this.email = localStorage.getItem("loggedAs")
-        console.log(`${URL_BASE}/campaign/user/${this.email}`)
-        fetch(`${URL_BASE}/campaign/user/${this.email}`,{
-            'headers' : {'Content-Type' : 'application/json', 'Authorization':`Bearer ${localStorage.getItem('token')}`}})
+        console.log(`logged as ${this.email}`)
+        console.log(this.feedCampaigns)
+        fetch(`${URL_BASE}/campaign/`)
             .then(res => {return res.json()})
             .then(res => {
             this.populateFeed(res);
@@ -18,21 +21,62 @@ export class Feed{
         $container.appendChild($template.content.querySelector('div').cloneNode(true))
         //let $button = $container.querySelector('div').querySelector('button')
         let $button = document.querySelector('#logoutButton')
-        $button.addEventListener('click', viewLogin)
         let $addCampaignButton = document.querySelector('#addCampaignButton')
-        $addCampaignButton.addEventListener('click', viewCreateCampaign)
-        location.hash ="#dash"
+        document.querySelector("#orderByRemaining").addEventListener('click', () =>{           
+            this.orderingMethod = this.orderByRemaining
+            this.sort()
+            this.updateFeed()
+        })
+        
+        document.querySelector("#orderByLikes").addEventListener('click', () =>{           
+            this.orderingMethod = this.orderByLikes
+            this.sort()
+            this.updateFeed()
+        })
 
+        document.querySelector("#orderByDate").addEventListener('click', () =>{           
+            this.orderingMethod = this.orderByDate
+            this.sort()
+            this.updateFeed()
+        })
+
+        location.hash ="#dash"
+        $addCampaignButton.addEventListener('click', viewCreateCampaign)
+        $button.addEventListener('click', viewLogin)
+
+    }
+
+    orderByRemaining(c1,c2){
+        return (c1.goal - c1.donated) - (c2.goal - c2.donated)
+    }
+
+    orderByLikes(c1,c2){
+        return c2.likes - c1.likes
+    }
+
+    orderByDate(c1, c2){
+        return new Date(c1.date) - new Date(c2.date)
+    }
+
+    sort(){
+        this.feedCampaigns.sort(this.orderingMethod)
     }
 
     populateFeed(campaigns){
     
-    
-        let $feed = document.querySelector('#feed')
+        let $feed = document.querySelector('#campaignFeedList')
         campaigns.map(c => {
             this.feedCampaigns.push(new Campaign(c.id,c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated))
         })
-    
+        //this.sort()
+        this.feedCampaigns.map(campaign =>{
+            $feed.appendChild(campaign.render())
+        })
+    }
+
+    updateFeed(){
+        let $feed = document.querySelector('#campaignFeedList')
+        $feed.innerHTML = ''
         this.feedCampaigns.map(campaign =>{
             $feed.appendChild(campaign.render())
         })

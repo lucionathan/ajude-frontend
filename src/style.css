@@ -4,6 +4,16 @@
     font-family: 'Roboto', sans-serif;
 }
 
+button{
+    border:none;
+    
+    background-color:transparent;
+}
+
+button:hover{
+    cursor:pointer;
+}
+
 body{
     background: rgb(250, 250, 250);
 
@@ -282,7 +292,7 @@ body{
     width: 33%;
 }
 
-/*FEED*/
+/*                      FEED                        */
 #feed{
     width: 67%;
     display:flex;
@@ -361,3 +371,14 @@ body{
     background-color:#30b4ba;
     text-align: center;
 }
+
+.orderButton i{
+    font-size:60px;
+    color:#30b4ba;
+}
+
+#menu p{
+    text-align: center;
+}
+
+/*                            FEED END                                       */
