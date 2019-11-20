@@ -82,6 +82,7 @@ function login() {
         console.log("\n\n[DEBUG script.js login]", err)
         viewLogin()
     }).then(res =>{
+        console.log(res)
         return res.json()
     }).then(res => {
         //if the request was ok, show the next page; else, go back to the login page with a warning message
@@ -179,4 +180,8 @@ function getShortUrl(shortName){
     }).join("")
     shortName = shortName.split(" ").join("-")
     return shortName
+}
+
+function disableUpdate(){
+    return false
 }
