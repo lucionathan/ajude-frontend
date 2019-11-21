@@ -106,6 +106,7 @@ function register() {
     let $firstname = document.querySelector("#firstname").value
     let $lastname = document.querySelector("#lastname").value
     let $email = document.querySelector("#email").value
+    let $cartaodecredito = document.querySelector("#cartaodecredito").value
     let $password = document.querySelector("#password").value
     let $check = false;
     //show logging page
