@@ -3,24 +3,28 @@ let $container
 const URL_BASE = "http://localhost:8080";
 
 //SINGLE PAGE LOGIC
-(function (){
+function routing(){
     $container = document.querySelector('#container')
     $container.innerHTML = ''
+    console.log(location.hash)
     switch(location.hash){
         case "":
+            viewLogado()
+            break
+        case "#/login":
             viewLogin()
             break
-        case "#login":
-            viewLogin()
-            break
-        case "#register":
+        case "#/register":
             viewRegister()
             break
-        case "#dash":
+        case "#/dash":
             viewLogado()
             break
     }
-}())
+}
+
+routing()
+window.onhashchange = routing;
 function viewLogin(){
     $container.innerHTML = ''
 
@@ -30,14 +34,14 @@ function viewLogin(){
     $button.addEventListener('click', login)
     let $buttonRegister =$container.querySelector('form').querySelector('#registerBtn')
     $buttonRegister.addEventListener('click', viewRegister);
-    location.hash = "#login"
+    location.hash = "#/login"
 }
 
 function viewLogging(){
     $container.innerHTML = ''
     let $template = document.querySelector('#logging')
     $container.appendChild($template.content.querySelector('div').cloneNode(true))
-    location.hash ="#dash"
+    location.hash ="#/dash"
 }
 
 function viewLogado(){
@@ -59,7 +63,7 @@ function viewCreateCampaign(){
     $container.appendChild($template.content.querySelector('form').cloneNode(true))
     let $button = $container.querySelector('#postCampaign')
     $button.addEventListener('click', postCampaign)
-    location.hash = "#campaign"
+    location.hash = "#/campaign"
 }
 
 //REQUESTS LOGIC

@@ -288,13 +288,8 @@ body{
 
 
 /*MENU*/
-#menu{
-    width: 33%;
-}
-
 /*                      FEED                        */
 #feed{
-    width: 67%;
     display:flex;
     flex-direction: column;
     justify-content: center;

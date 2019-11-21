@@ -1,33 +1,44 @@
 import {Campaign} from './campaign.js'
+import {Router} from '../router.js'
+const URL_BACKEND = "http://localhost:8080";
+const URL_BASE = "http://localhost:8000";
+
+const router = new Router()
 export class Feed{
     
-    orderingMethod
+    sortMethod
     feedCampaigns
     constructor(){
         let $container = document.querySelector('#container')
-        const URL_BASE = "http://localhost:8080";
         this.feedCampaigns = []
-        this.orderingMethod = (c1, c2) => (c1.goal - c1.donated) - (c2.goal - c2.donated)
+        this.sortMethod = this.orderByRemaining
         $container.innerHTML = ''
         this.email = localStorage.getItem("loggedAs")
-        console.log(`logged as ${this.email}`)
-        fetch(`${URL_BASE}/campaign`)
+        fetch(`${URL_BACKEND}/campaign`)
         .then(res => {return res.json()})
         .then(res => {
-            console.log(res)
             this.populateFeed(res);
         })
         let $template = document.querySelector('#dashBoard')
         $container.appendChild($template.content.querySelector('div').cloneNode(true))
-        //let $button = $container.querySelector('div').querySelector('button')
         let $button = document.querySelector('#logoutButton')
         let $addCampaignButton = document.querySelector('#addCampaignButton')
         document.querySelector("#goSearch").addEventListener('click', () =>{           
             console.log(document.querySelector("#orderOption").selectedOptions[0].value)
+            switch(document.querySelector("#orderOption").selectedOptions[0].value){
+                case 'orderByRemaining':
+                    this.sortMethod = this.orderByRemaining;
+                case 'orderByLikes':
+                    this.sortMethod=this.orderByLikes;
+                case 'orderByDate':
+                    this.sortMethod = this.orderByDate
+            }
+            this.sort()
+            this.updateFeed()
+            return false;
         })
-        //location.hash ="#dash"
-        //$addCampaignButton.addEventListener('click', viewCreateCampaign)
-        //$button.addEventListener('click', viewLogin)
+        
+        $button.addEventListener('click', router.navigateToLogin)
 
     }
 
