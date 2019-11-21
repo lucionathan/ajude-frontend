@@ -11,10 +11,10 @@ export class Feed{
         $container.innerHTML = ''
         this.email = localStorage.getItem("loggedAs")
         console.log(`logged as ${this.email}`)
-        console.log(this.feedCampaigns)
-        fetch(`${URL_BASE}/campaign/`)
-            .then(res => {return res.json()})
-            .then(res => {
+        fetch(`${URL_BASE}/campaign`)
+        .then(res => {return res.json()})
+        .then(res => {
+            console.log(res)
             this.populateFeed(res);
         })
         let $template = document.querySelector('#dashBoard')
@@ -22,27 +22,12 @@ export class Feed{
         //let $button = $container.querySelector('div').querySelector('button')
         let $button = document.querySelector('#logoutButton')
         let $addCampaignButton = document.querySelector('#addCampaignButton')
-        document.querySelector("#orderByRemaining").addEventListener('click', () =>{           
-            this.orderingMethod = this.orderByRemaining
-            this.sort()
-            this.updateFeed()
+        document.querySelector("#goSearch").addEventListener('click', () =>{           
+            console.log(document.querySelector("#orderOption").selectedOptions[0].value)
         })
-        
-        document.querySelector("#orderByLikes").addEventListener('click', () =>{           
-            this.orderingMethod = this.orderByLikes
-            this.sort()
-            this.updateFeed()
-        })
-
-        document.querySelector("#orderByDate").addEventListener('click', () =>{           
-            this.orderingMethod = this.orderByDate
-            this.sort()
-            this.updateFeed()
-        })
-
-        location.hash ="#dash"
-        $addCampaignButton.addEventListener('click', viewCreateCampaign)
-        $button.addEventListener('click', viewLogin)
+        //location.hash ="#dash"
+        //$addCampaignButton.addEventListener('click', viewCreateCampaign)
+        //$button.addEventListener('click', viewLogin)
 
     }
 

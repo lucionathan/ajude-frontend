@@ -64,10 +64,6 @@
                 </div>
                 <div class="headerContent">
                     <h2>aJuDe</h2>
-                    <form>
-                        <input type="text">
-                        <button id="goSearch"><i class="material-icons">search</i></button>
-                    </form>
                 </div>
                 <button id="logoutButton">
                     <i class="material-icons">exit_to_app</i>
@@ -76,15 +72,17 @@
             <main>
                 <div class="content">
                     <div id="menu">
-                        <p>Escolha o método de ordenação.</p>
-                        <div>
-                                <button class="orderButton" id="orderByRemaining"><i class="material-icons">money</i></button>
-                                <button class="orderButton" id="orderByDate"><i class="material-icons">calendar_today</i></button>
-                                <button class="orderButton" id="orderByLikes"><i class="material-icons">thumb_up_alt</i></button>    
-                        </div>
+                        <form onsubmit="return disableFunction();">
+                            <input type="text">
+                            <select id="orderOption" name="orderMethod">
+                                <option value="orderByRemaining">por quanto falta pro objetivo</option>
+                                <option value="orderByLikes">por numero de likes</option>
+                                <option value="orderByDate">por data</option>
+                            </select>
+                            <button id="goSearch"><i class="material-icons">search</i></button>
+                        </form>
                     </div>
                     <div id="feed">
-                        <button id="addCampaignButton"><i class="material-icons">add</i></button>
                         <div id="campaignFeedList">
 
                         </div>
