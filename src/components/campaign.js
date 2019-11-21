@@ -22,66 +22,33 @@ export class Campaign{
 
     render(){
         let $div = document.createElement('div')
-        $div.id=`c${this.id}`;
-        $div.className = "campaign"
-        let $title = document.createElement('h2')
-        $title.innerText = this.shortName
-        let $description = document.createElement('p')
-        $description.innerText = this.description
-        $description.className = "campaignDescription"
-        let $reach = document.createElement('div')
-        let $tempGoal = document.createElement('div')
-        $tempGoal.style.width = `${100 * this.donated/this.goal}%`
-        $tempGoal.innerText = `${this.donated}/${this.goal}`
-        $reach.appendChild($tempGoal)
-        $reach.className="progress"
-        let $likes = document.createElement('p')
-        $likes.innerText= this.likes
-        let $deslikes = document.createElement('p')
-        $deslikes.innerText= this.deslikes
-        let $date = document.createElement('p')
-        $date.innerText = this.date
-        let $header = document.createElement('div')
-        $header.className = "campaignHeader"
-        $header.appendChild($title)
-        $header.appendChild($date)
-        let $likeButton = document.createElement('button')
-        $likeButton.addEventListener('click', () =>{
+        $div.innerHTML = `<div class="campaignHeader">
+                            <h2>${this.shortName}</h2>
+                            <p>${this.date}</p>
+                        </div>
+                        <p class="campaignDescription">${this.description}</p>
+                        <div class="progress">
+                            <div>${this.donated}/${this.goal}</div>
+                        </div>
+                        <div class="campaignFooter">
+                            <button class="likeButton"><i class="material-icons">thumb_up</i></button>
+                            <p class="likes">${this.likes}</p>
+                            <button class="deslikeButton"><i class="material-icons">thumb_down</i></button>
+                            <p class="deslikes">${this.deslikes}</p>
+                            <div>
+                                <a href="${BASE_URL}/campaign/${this.shortUrl}">VISITAR</a>
+                            </div>
+                        </div>                  
+        `
+        $div.id=`c${this.id}`
+        $div.className="campaign"
+        $div.querySelector('.progress div').style.width=`${100*this.donated/this.goal}%`
+        $div.querySelector('.likeButton').addEventListener('click', () =>{
             this.addLike()
         })
-        $likeButton.innerHTML = `<i class="material-icons">thumb_up</i>`
-        //$likeButton.innerText = this.likedBy.includes(localStorage.getItem('loggedAs'))
-        let $deslikeButton = document.createElement('button')
-        //$deslikeButton.innerText = this.deslikedBy.includes(localStorage.getItem('loggedAs'))
-        $deslikeButton.innerHTML = `<i class="material-icons">thumb_down</i>`
-        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? '' : outerShadow;
-        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? '' : outerShadow;
-
-        $deslikeButton.addEventListener('click', () =>{
+        $div.querySelector('.deslikeButton').addEventListener('click', () =>{
             this.addDeslike()
         })
-
-        let $visitUsSquare = document.createElement('div')
-        let $visitUs = document.createElement('a')
-        $visitUs.innerText="VISITAR"
-        $visitUs.href=`${BASE_URL}/campaign/${this.shortUrl}`
-        $visitUsSquare.appendChild($visitUs)
-        let $footer = document.createElement('div')
-        $footer.className = "campaignFooter"
-        $likeButton.className="likeButton"
-        $deslikeButton.className="deslikeButton"
-        $deslikes.className = "deslikes"
-        $likes.className = "likes"
-        $footer.appendChild($likeButton)
-        $footer.appendChild($likes)
-        $footer.appendChild($deslikeButton)
-        $footer.appendChild($deslikes)
-        $footer.appendChild($visitUsSquare)
-        $div.appendChild($header)
-        $div.appendChild($description)
-        $div.appendChild($reach)
-        $div.appendChild($footer)
-    
         return $div
     }
 

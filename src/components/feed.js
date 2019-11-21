@@ -11,10 +11,10 @@ export class Feed{
         $container.innerHTML = ''
         this.email = localStorage.getItem("loggedAs")
         console.log(`logged as ${this.email}`)
-        console.log(this.feedCampaigns)
-        fetch(`${URL_BASE}/campaign/`)
-            .then(res => {return res.json()})
-            .then(res => {
+        fetch(`${URL_BASE}/campaign`)
+        .then(res => {return res.json()})
+        .then(res => {
+            console.log(res)
             this.populateFeed(res);
         })
         let $template = document.querySelector('#dashBoard')
@@ -25,11 +25,9 @@ export class Feed{
         document.querySelector("#goSearch").addEventListener('click', () =>{           
             console.log(document.querySelector("#orderOption").selectedOptions[0].value)
         })
-        
-
         //location.hash ="#dash"
-        $addCampaignButton.addEventListener('click', viewCreateCampaign)
-        $button.addEventListener('click', viewLogin)
+        //$addCampaignButton.addEventListener('click', viewCreateCampaign)
+        //$button.addEventListener('click', viewLogin)
 
     }
 
