@@ -1,6 +1,7 @@
 import {Feed} from './components/feed.js'
 import {Login} from './components/login.js'
 import {Registry} from './components/registry.js'
+import { CampaignView } from './components/campaignView.js';
 let $container
 const URL_BASE = "http://localhost:8080";
 
@@ -42,6 +43,11 @@ function viewLogado(){
 
 function viewRegister() {
     new Registry()
+}
+
+function viewCampaign(){
+    let shortUrl = location.hash.split('?')[1]
+    new CampaignView(shortUrl)
 }
 
 function viewCreateCampaign(){
