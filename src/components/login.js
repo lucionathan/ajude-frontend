@@ -1,4 +1,5 @@
 import {Router} from '../router.js'
+const router = new Router()
 
 const URL_BACK = "http://localhost:8080";
 
@@ -15,7 +16,7 @@ export class Login{
         })
         let $buttonRegister =$container.querySelector('form').querySelector('#registerBtn')
         $buttonRegister.addEventListener('click', () =>{
-            Router.navigateToRegister()
+            router.navigateToRegister()
         });
         location.hash = "#/login"
     }
@@ -30,7 +31,7 @@ export class Login{
         localStorage.setItem('loggedAs', $email)    
         
         //show logging page
-        this.viewLogging()
+        router.navigateToLoggin()
 
         //make login request to the api
         fetch(URL_BACK+"/login", {
@@ -39,10 +40,9 @@ export class Login{
             'headers' : {'Content-Type' : 'application/json'}
         }).catch(err => {
             console.log("\n\n[DEBUG script.js login]", err)
-            Router.navigateToLogin()
+            router.navigateToLogin()
 
         }).then(res =>{
-            console.log(res)
             return res.json()
         }).then(res => {
             //if the request was ok, show the next page; else, go back to the login page with a warning message
@@ -50,11 +50,11 @@ export class Login{
                 let $template = document.querySelector("#login")
                 $template.content.querySelector("p").style.visibility = "hidden";
                 localStorage.setItem('token', res.token)
-                Router.navigateToDashBoard()
+                router.navigateToDashBoard()
             }else{
                 let $template = document.querySelector("#login")
                 $template.content.querySelector("p").style.visibility = "initial";
-                Router.navigateToLogin()
+                router.navigateToLogin()
             }
             
         })

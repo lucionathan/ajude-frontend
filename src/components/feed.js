@@ -38,7 +38,11 @@ export class Feed{
             return false;
         })
         
-        $button.addEventListener('click', router.navigateToLogin)
+        $button.addEventListener('click', () =>{
+            localStorage.removeItem("token")
+            localStorage.removeItem("loggedAs")
+            router.navigateToLogin()
+        })
 
     }
 

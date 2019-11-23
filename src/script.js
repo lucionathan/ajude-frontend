@@ -1,5 +1,6 @@
 import {Feed} from './components/feed.js'
 import {Login} from './components/login.js'
+import {Registry} from './components/registry.js'
 let $container
 const URL_BASE = "http://localhost:8080";
 
@@ -7,7 +8,6 @@ const URL_BASE = "http://localhost:8080";
 function routing(){
     $container = document.querySelector('#container')
     $container.innerHTML = ''
-    console.log(location.hash)
     switch(location.hash){
         case "":
             viewLogado()
@@ -20,6 +20,12 @@ function routing(){
             break
         case "#/dash":
             viewLogado()
+            break
+        case "#/campaign":
+            viewCreateCampaign()
+            break
+        case "#/loading":
+            viewLogging()
             break
     }
 }
@@ -35,12 +41,7 @@ function viewLogado(){
 }
 
 function viewRegister() {
-    $container.innerHTML = ''
-    let $template = document.querySelector("#register")
-    $container.appendChild($template.content.querySelector('form').cloneNode(true))
-    let $button = $container.querySelector('form').querySelector('#registerBtn')
-    $button.addEventListener('click', register)
-    location.hash = "#register"
+    new Registry()
 }
 
 function viewCreateCampaign(){
@@ -53,79 +54,6 @@ function viewCreateCampaign(){
 }
 
 //REQUESTS LOGIC
-
-// function login() {
-//     //recover data from form
-//     let $email = document.querySelector("#email").value
-//     let $password = document.querySelector("#password").value
-//     let $check = document.querySelector("#check").checked
-//     localStorage.setItem('loggedAs', $email)    
-    
-//     //show logging page
-//     viewLogging()
-//     //make login request to the api
-//     fetch(URL_BASE+"/login", {
-//         'method' : 'POST',
-//         'body' : `{"email": "${$email}", "password": "${$password}", "savePassword": "${$check}"}`,
-//         'headers' : {'Content-Type' : 'application/json'}
-//     }).catch(err => {
-//         console.log("\n\n[DEBUG script.js login]", err)
-//         viewLogin()
-//     }).then(res =>{
-//         console.log(res)
-//         return res.json()
-//     }).then(res => {
-//         //if the request was ok, show the next page; else, go back to the login page with a warning message
-//         if(res.ok){
-//             let $template = document.querySelector("#login")
-//             $template.content.querySelector("p").style.visibility = "hidden";
-//             localStorage.setItem('token', res.token)
-//             viewLogado()
-//         }else{
-//             let $template = document.querySelector("#login")
-//             $template.content.querySelector("p").style.visibility = "initial";
-//             viewLogin()
-//         }
-        
-//     })
-
-// }
-
-
-function register() {
-    //recover data from form
-    let $firstname = document.querySelector("#firstname").value
-    let $lastname = document.querySelector("#lastname").value
-    let $email = document.querySelector("#email").value
-    let $cartaodecredito = document.querySelector("#cartaodecredito").value
-    let $password = document.querySelector("#password").value
-    let $check = false;
-    //show logging page
-    viewLogging()
-    //make a register request to the api
-    fetch(URL_BASE+"/user/register", {
-        'method' : 'POST',
-        'body' : `{"firstName": "${$firstname}","lastName": "${$lastname}", "email": "${$email}", "password": "${$password}"}`,
-        'headers' : {'Content-Type' : 'application/json'}
-    }).catch(err => {
-        console.log("\n\n[DEBUG script.js register]", err)
-        viewRegister()
-    }).then(res =>{
-        return res.json()
-    }).then(res => {
-        //if the request was ok, show the next page; else, go back to the login page with a warning message
-        if(res.ok){
-            login()
-        }else{
-            let $template = document.querySelector("#register")
-            $template.content.querySelector("p").style.visibility = "initial";
-            viewRegister()
-        }
-        
-    })
-
-}
-
 function postCampaign(){
     console.log("testing")
     //recover data from form
@@ -160,13 +88,13 @@ function postCampaign(){
 //UTIL
 
 function getShortUrl(shortName){
-    shortName = shortName.replace(/\s\s+/g, ' ');
-    shortName = shortName.normalize("NFD").toLowerCase();
+    shortName = shortName.replace(/\s\s+/g, ' ')
+    shortName = shortName.normalize("NFD").toLowerCase()
     shortName = shortName.split("").map(e =>{
         if(e in [".",":","?","!",",","/","|"]){
             return " "
         }else{
-            return e;
+            return e
         }
     }).join("")
     shortName = shortName.split(" ").join("-")
@@ -175,4 +103,12 @@ function getShortUrl(shortName){
 
 function disableUpdate(){
     return false
+}
+
+
+function viewLogging(){
+    let $container = document.querySelector("#container")
+    $container.innerHTML = ''
+    let $template = document.querySelector('#logging')
+    $container.appendChild($template.content.querySelector('div').cloneNode(true))
 }

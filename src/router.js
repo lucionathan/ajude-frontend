@@ -18,4 +18,9 @@ export class Router{
         location.replace(`${URL_BASE}/#/dash`)
         history.pushState({url:"#/dash"}, "", "#/dash")
     }
+
+    navigateToLoggin(){
+        location.replace(`${URL_BASE}/#/loading`)
+        history.pushState({url:"#/loading"}, "", "#/loading")
+    }
 }

@@ -110,7 +110,6 @@ export class Campaign{
 
     
     async updateCampaign(newCampaign){
-        console.log(newCampaign)
         this.id = newCampaign.id;
         this.shortName = newCampaign.shortName;
         this.shortUrl=newCampaign.shortUrl;
