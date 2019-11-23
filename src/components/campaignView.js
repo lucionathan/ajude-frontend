@@ -23,8 +23,10 @@ export class CampaignView{
 
     request(){
             fetch(BASE_URL+`/campaign/${this.shortUrl}`).then(res => {
+                console.log(res)
                 return res.json()
             }).then(res => {
+                console.log(res)
                 this.id = res.id;
                 this.shortName = res.shortName;
                 this.description = res.description;
@@ -38,27 +40,35 @@ export class CampaignView{
                 this.owner = res.owner;
                 this.status = res.status;
                 this.commentaries = res.commentaries;
+                this.render()
             })
     }
 
     render() {
         let $container = document.querySelector('#container')
         $container.innerHTML = `
-        <div class="campaignView">
-            <div class="viewHeader>
+        <div id="headerCampaign">
+        <h1> aJuDe </h1>
+        <div class="buttons">
+            <button>LOGIN</button>
+            <button>CADASTRO</button>
+        </div>
+        </div>
+        <div id="campaignView">
+            <div class="viewHeader">
                 <h2>${this.shortName}</h2>
                 <span>EXPIRA: ${this.date}</span>
             </div>
             
             <div class="viewDescription">
                 <h4>objetivo</h4>
-                <p>${this.description}</p>
+                <p class="description">${this.description}</p>
             </div>
 
+            <h4 class="goal">meta</h4>
             <div class="goalLikes">    
-
-                <div class="progress">
-                    <h4>meta</h4>
+                
+                <div class="progressView">                   
                     <div>${this.donated}/${this.goal}</div>
                 </div>
 
@@ -70,8 +80,8 @@ export class CampaignView{
                 </div>
             </div>
         </div>`
-        let $div = $container.querySelector(".campaignView")
-        $div.querySelector('.progress div').style.width=`${100*this.donated/this.goal}%`
+        let $div = $container.querySelector("#campaignView")
+        $div.querySelector('.progressView div').style.width=`${100*this.donated/this.goal}%`
         $div.querySelector('.likeButton').addEventListener('click', () =>{
             this.addLike()
         })
@@ -91,5 +101,69 @@ export class CampaignView{
         }).then((res) =>{
             this.updateCampaign(res).then(() => this.onUpdate())
         })          
+    }
+
+    localLike(){
+        if(this.wasLiked){
+            this.wasLiked = false;
+            this.likes--;
+        }else{
+            this.wasLiked = true;
+            this.likes++;
+        }
+        let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
+        let $likes = document.querySelector(`#c${this.id} .campaignFooter .likes`)
+        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? '' : outerShadow;
+        $likes.innerText = this.likes
+    }
+
+    localDeslike(){
+        if(this.wasDesliked){
+            this.wasDesliked = false;
+            this.deslikes--;
+        }else{
+            this.wasDesliked = true;
+            this.deslikes++;
+        }
+        let $deslikeButton = document.querySelector(`#c${this.id} .campaignFooter .deslikeButton`)
+        let $deslikes = document.querySelector(`#c${this.id} .campaignFooter .deslikes`)
+        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? '' : outerShadow;
+        $deslikes.innerText = this.deslikes
+    }
+
+    addDeslike(){
+        if(localStorage.getItem('token')){
+            this.localDeslike()
+            
+            fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
+                'method' : 'PUT',
+                'body' : `{"shortUrl": "${this.shortUrl}", "choice":"deslike"}`,
+                'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
+            }).then((res) =>{
+                return res.json()
+            }).then((res) =>{
+                this.updateCampaign(res).then(() => this.onUpdate())
+            })
+        }else{
+            alert('YOU HAVE TO BE LOGIN TO DO THAT')
+        }
+    }
+
+    
+    async updateCampaign(newCampaign){
+        this.id = newCampaign.id;
+        this.shortName = newCampaign.shortName;
+        this.shortUrl=newCampaign.shortUrl;
+        this.description= newCampaign.description;
+        this.date = newCampaign.date;
+        this.likes = newCampaign.likes;
+        this.deslikes = newCampaign.deslikes;
+        this.likedBy = newCampaign.pessoasLike;
+        this.deslikedBy = newCampaign.pessoasDeslike
+        this.goal = newCampaign.goal;
+        this.donated = newCampaign.donated;
+        let user = localStorage.getItem('loggedAs')
+        this.wasLiked = newCampaign.pessoasLike.includes(user)
+        this.wasDesliked = newCampaign.pessoasDeslike.includes(user)
     }
 }

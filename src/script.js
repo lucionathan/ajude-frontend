@@ -57,8 +57,7 @@ function viewRegister() {
 }
 
 function viewCampaign(shortUrl){
-    let view = new CampaignView(shortUrl)
-    view.render()
+    new CampaignView(shortUrl)
 }
 
 function viewCreateCampaign(){
