@@ -3,6 +3,7 @@ const BASE_URL = "http://localhost:8080";
 
 export class CampaignView{
     constructor(shortUrl){
+        console.log("aqui" + shortUrl)
         this.id;
         this.shortName;
         this.shortUrl = shortUrl;

@@ -1,6 +1,8 @@
+import {Router} from '../router.js'
 const BASE_URL = "http://localhost:8080";
 const outerShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)"
 const innerShadow = "inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
+const router = new Router()
 export class Campaign{
 
     constructor(id,shortName, shortUrl, description, date, likes, deslikes, likedBy, deslikedBy, goal, donated){
@@ -36,7 +38,7 @@ export class Campaign{
                             <button class="deslikeButton"><i class="material-icons">thumb_down</i></button>
                             <p class="deslikes">${this.deslikes}</p>
                             <div>
-                                <a href="${BASE_URL}/campaign/${this.shortUrl}">VISITAR</a>
+                                <button>VISITAR</button>
                             </div>
                         </div>                  
         `
@@ -49,20 +51,28 @@ export class Campaign{
         $div.querySelector('.deslikeButton').addEventListener('click', () =>{
             this.addDeslike()
         })
+
+        $div.querySelector('.campaignFooter div button').addEventListener('click', () =>{
+            router.navigateToCampaign(this.shortUrl)
+        })
         return $div
     }
 
     addLike(){
-        this.localLike()
-        fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
-            'method' : 'PUT',
-            'body' : `{"shortUrl": "${this.shortUrl}", "choice":"like"}`,
-            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
-        }).then((res) =>{
-            return res.json()
-        }).then((res) =>{
-            this.updateCampaign(res).then(() => this.onUpdate())
-        })          
+        if(localStorage.getItem('token')){
+            this.localLike()
+            fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
+                'method' : 'PUT',
+                'body' : `{"shortUrl": "${this.shortUrl}", "choice":"like"}`,
+                'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
+            }).then((res) =>{
+                return res.json()
+            }).then((res) =>{
+                this.updateCampaign(res).then(() => this.onUpdate())
+            })          
+        }else{
+            alert('YOU HAVE TO LOGIN TO DO THAT')
+        }
     }
 
     localLike(){
@@ -94,18 +104,21 @@ export class Campaign{
     }
 
     addDeslike(){
-        this.localDeslike()
-        
-        fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
-            'method' : 'PUT',
-            'body' : `{"shortUrl": "${this.shortUrl}", "choice":"deslike"}`,
-            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
-        }).then((res) =>{
-            return res.json()
-        }).then((res) =>{
-            this.updateCampaign(res).then(() => this.onUpdate())
-        })
-        
+        if(localStorage.getItem('token')){
+            this.localDeslike()
+            
+            fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
+                'method' : 'PUT',
+                'body' : `{"shortUrl": "${this.shortUrl}", "choice":"deslike"}`,
+                'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
+            }).then((res) =>{
+                return res.json()
+            }).then((res) =>{
+                this.updateCampaign(res).then(() => this.onUpdate())
+            })
+        }else{
+            alert('YOU HAVE TO BE LOGIN TO DO THAT')
+        }
     }
 
     

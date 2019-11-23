@@ -23,4 +23,9 @@ export class Router{
         location.replace(`${URL_BASE}/#/loading`)
         history.pushState({url:"#/loading"}, "", "#/loading")
     }
+
+    navigateToCampaign(shortUrl){
+        location.replace(`${URL_BASE}/#/campaign/${shortUrl}`)
+        history.pushState({url:`/#/campaign/${shortUrl}`}, "", `/#/campaign/${shortUrl}`)
+    }
 }

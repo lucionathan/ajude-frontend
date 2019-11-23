@@ -1,7 +1,7 @@
 import {Campaign} from './campaign.js'
 import {Router} from '../router.js'
-const URL_BACKEND = "http://localhost:8080";
 const URL_BASE = "http://localhost:8000";
+const URL_BACKEND = "http://localhost:8080";
 
 const router = new Router()
 export class Feed{

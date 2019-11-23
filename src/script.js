@@ -9,25 +9,36 @@ const URL_BASE = "http://localhost:8080";
 function routing(){
     $container = document.querySelector('#container')
     $container.innerHTML = ''
-    switch(location.hash){
-        case "":
-            viewLogado()
-            break
-        case "#/login":
-            viewLogin()
-            break
-        case "#/register":
-            viewRegister()
-            break
-        case "#/dash":
-            viewLogado()
-            break
-        case "#/campaign":
-            viewCreateCampaign()
-            break
-        case "#/loading":
-            viewLogging()
-            break
+    console.log(location.hash.split("/").length)
+    
+    if(location.hash.split("/").length > 2){
+        let data = location.hash.split("/")
+        if(data[1] == 'campaign'){
+            console.log(data)
+            viewCampaign(data[2])
+        }
+    }
+    else{
+        switch(location.hash){
+            case "":
+                viewLogado()
+                break
+            case "#/login":
+                viewLogin()
+                break
+            case "#/register":
+                viewRegister()
+                break
+            case "#/dash":
+                viewLogado()
+                break
+            case "#/campaign":
+                viewCreateCampaign()
+                break
+            case "#/loading":
+                viewLogging()
+                break
+        }
     }
 }
 
@@ -45,9 +56,9 @@ function viewRegister() {
     new Registry()
 }
 
-function viewCampaign(){
-    let shortUrl = location.hash.split('?')[1]
-    new CampaignView(shortUrl)
+function viewCampaign(shortUrl){
+    let view = new CampaignView(shortUrl)
+    view.render()
 }
 
 function viewCreateCampaign(){
