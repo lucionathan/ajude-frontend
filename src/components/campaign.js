@@ -3,7 +3,7 @@ const outerShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)"
 const innerShadow = "inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
 export class Campaign{
 
-    constructor(id,shortName, shortUrl, description, date, likes, deslikes, likedBy, deslikedBy, goal, donated){
+    constructor(id,shortName, shortUrl, description, date, likes, deslikes, likedBy, deslikedBy, goal, donated, owner){
         this.id = id;
         this.shortName = shortName;
         this.shortUrl=shortUrl;
@@ -18,9 +18,10 @@ export class Campaign{
         let user = localStorage.getItem('loggedAs')
         this.wasLiked = likedBy.includes(user)
         this.wasDesliked = deslikedBy.includes(user)
+        this.owner = owner
     }
 
-    render(entrada){
+    render(typeClass){
         let $div = document.createElement('div')
         $div.innerHTML = `<div class="campaignHeader">
                             <h2>${this.shortName}</h2>
@@ -41,13 +42,15 @@ export class Campaign{
                         </div>                  
         `
         $div.id=`c${this.id}`
-        if(entrada == "created") {
+
+        if(typeClass == "created") {
             $div.className="created"
-        } else if(entrada == "contributed") { 
+        } else if(typeClass == "contributed") { 
             $div.className="contributed"
         } else {
             $div.className="campaign"
         }
+
         $div.querySelector('.progress div').style.width=`${100*this.donated/this.goal}%`
         $div.querySelector('.likeButton').addEventListener('click', () =>{
             this.addLike()
@@ -131,6 +134,7 @@ export class Campaign{
         let user = localStorage.getItem('loggedAs')
         this.wasLiked = newCampaign.pessoasLike.includes(user)
         this.wasDesliked = newCampaign.pessoasDeslike.includes(user)
+        this.owner = newCampaign.owner
     }
 
     onUpdate(){
@@ -144,5 +148,9 @@ export class Campaign{
         $div.querySelector('.campaignFooter .deslikeButton i').style.textShadow = this.wasDesliked ? '' : outerShadow
         $div.querySelector('.campaignFooter .likeButton i').style.textShadow = this.wasLiked ? '' : outerShadow;
         
+    }
+
+    getOwner() {
+        return this.owner
     }
 }

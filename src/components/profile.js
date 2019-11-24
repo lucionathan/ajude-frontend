@@ -7,6 +7,7 @@ export class Profile {
     sortMethod
     userCampaigns
     constructor(email) {
+        let campaignsFeed = []
         this.email = email;
         let $container = document.querySelector('#container');
         this.userCampaigns = [];
@@ -19,25 +20,29 @@ export class Profile {
         }).then((res) =>{
             return res.clone().json()
         }).then((response) =>{
-            let campaignsTemp = [];
+
             this.render(response.firstName, response.lastName, email);
+            
             response.donations.forEach(element => {
-                if(this.checkArray(campaignsTemp, element.campaign.shortUrl)){
-                    campaignsTemp.push(element.campaign)
+                if(this.checkArray(campaignsFeed, element.campaign.shortUrl)){
+                    campaignsFeed.push(element.campaign)
                 }
             })
-            this.populateCampaigns(campaignsTemp, "created")
         })
 
-        console.log(this.userCampaigns)
 
         fetch(`${URL_BACKEND}/campaign/user/${email}`, {
             'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
         }).then((res) =>{return res.clone().json()
 
         }).then((response) =>{
-            console.log(response)        
-            this.populateCampaigns(response, "contributed");
+            response.forEach(element => {
+                if(this.checkArray(campaignsFeed, element.shortUrl)) {
+                    campaignsFeed.push(element)
+                }
+            });
+
+            this.populateCampaigns(campaignsFeed);
         })  
 
         let $template = document.querySelector('#profile')
@@ -45,15 +50,27 @@ export class Profile {
 
     }
     
-    populateCampaigns(campaigns, typeClass){
+    populateCampaigns(campaigns){
 
         let $userView = document.querySelector('#listCampaigns')
         campaigns.map(c => {
-            this.userCampaigns.push(new Campaign(c.id,c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated))
+            console.log(c)
+            this.userCampaigns.push(new Campaign(c.id,c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated, c.owner))
         })
 
+        console.log(this.userCampaigns.getOwner())
         this.userCampaigns.map(campaign =>{
+            
+            let typeClass;
+
+            if(campaign.getOwner() == this.email) {
+                typeClass = "created"
+            } else {
+                typeClass = "contributed"
+            }
+
             $userView.appendChild(campaign.render(typeClass))
+
         })
     }
 
