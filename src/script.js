@@ -1,4 +1,5 @@
 import {Feed} from './components/feed.js'
+import { Profile } from './components/profile.js';
 let $container
 const URL_BASE = "http://localhost:8080";
 
@@ -19,6 +20,9 @@ function routing(){
             break
         case "#/dash":
             viewLogado()
+            break
+        case "#/profile":
+            viewProfile()
             break
     }
 }
@@ -54,7 +58,7 @@ function viewRegister() {
     $container.appendChild($template.content.querySelector('form').cloneNode(true))
     let $button = $container.querySelector('form').querySelector('#registerBtn')
     $button.addEventListener('click', register)
-    location.hash = "#register"
+    location.hash = "#/register"
 }
 
 function viewCreateCampaign(){
@@ -66,6 +70,9 @@ function viewCreateCampaign(){
     location.hash = "#/campaign"
 }
 
+function viewProfile() {
+    new Profile("euae@gmail.com")
+}
 //REQUESTS LOGIC
 
 function login() {

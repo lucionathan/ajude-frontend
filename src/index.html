@@ -113,6 +113,25 @@
             <p>logando...</p>
         </div>
     </template>
+
+    <template id="profile"> 
+        <div id="listCampaigns">
+            <div id="name"></div>
+            <div id="email"></div>
+            <form>
+                <input type="text">
+                <select id="orderOption" name="orderMethod">
+                    <option value="orderByRemaining">por quanto falta pro objetivo</option>
+                    <option value="orderByLikes">por numero de likes</option>
+                    <option value="orderByDate">por data</option>
+                </select>
+                <button id="goSearch"><i class="material-icons">search</i></button>
+            </form>
+        </div>
+
+    </template>
+
+    
 </body>
 
 </html>
