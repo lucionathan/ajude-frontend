@@ -382,7 +382,7 @@ body{
 
 #campaignView {
     background: #F0F0F0;
-    width: 60%;
+    width: 50%;
     color: white;
 }
 
@@ -462,4 +462,19 @@ body{
     align-items: center;
     color: white;
     padding: 10px;
+}
+
+#campaignView .commentaryBox{
+    padding: 0 10px 10px 10px ;
+}
+
+#campaignView .comentaries{
+    background: #666666;
+    padding: 15px;
+}
+
+#commentary .textBox{
+    background: #E9E9E9;
+    color: black;
+    padding: 5px;
 }

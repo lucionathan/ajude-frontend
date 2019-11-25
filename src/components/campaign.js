@@ -1,5 +1,5 @@
 import {Router} from '../router.js'
-const BASE_URL = "http://localhost:8080";
+const BASE_URL = "https://ajude-psoft.herokuapp.com";
 const outerShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)"
 const innerShadow = "inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
 const router = new Router()

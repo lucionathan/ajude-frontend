@@ -1,23 +1,12 @@
-const BASE_URL = "http://localhost:8080";
+import { Commentary } from "./commentary.js";
+
+const BASE_URL = "https://ajude-psoft.herokuapp.com";
 
 
 export class CampaignView{
+
     constructor(shortUrl){
-        console.log("aqui" + shortUrl)
-        this.id;
-        this.shortName;
         this.shortUrl = shortUrl;
-        this.description;
-        this.date;
-        this.likes;
-        this.deslikes;
-        this.likedBy;
-        this.deslikedBy;
-        this.goal;
-        this.donated;
-        this.owner;
-        this.commentaries;
-        this.status;
         this.request();
     }
 
@@ -79,7 +68,23 @@ export class CampaignView{
                     <p class="deslikes">${this.deslikes}</p>
                 </div>
             </div>
+
+            <div class="commentaryBox">
+                <h4>comentários</h4>
+                <div class="comentaries">
+                    
+                </div>
+            </div>
         </div>`
+        
+        let $comentaryBox = $container.querySelector(".comentaries")
+        let coment;
+        this.commentaries.forEach(element => {
+            coment = new Commentary(element)
+            console.log(coment.render())
+            $comentaryBox.appendChild(coment.render())
+        });
+
         let $div = $container.querySelector("#campaignView")
         $div.querySelector('.progressView div').style.width=`${100*this.donated/this.goal}%`
         $div.querySelector('.likeButton').addEventListener('click', () =>{

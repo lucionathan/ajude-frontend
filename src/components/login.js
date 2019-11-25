@@ -1,7 +1,7 @@
 import {Router} from '../router.js'
 const router = new Router()
 
-const URL_BACK = "http://localhost:8080";
+const URL_BACK = "https://ajude-psoft.herokuapp.com";
 
 export class Login{
     constructor(){
