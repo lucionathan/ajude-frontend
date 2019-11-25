@@ -43,13 +43,8 @@ function routing(){
     }
 }
 
-window.onload = routing
-window.onhashchange = function r(){
-    console.log("aq" + window.location.search)
-    if(!window.location.search){
-        routing()
-    }
-}
+routing()
+window.onhashchange = routing
 function viewLogin(){
     new Login();
 }

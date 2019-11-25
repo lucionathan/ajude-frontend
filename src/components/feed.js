@@ -23,19 +23,21 @@ export class Feed{
         $container.appendChild($template.content.querySelector('div').cloneNode(true))
         let $button = document.querySelector('#logoutButton')
         let $addCampaignButton = document.querySelector('#addCampaignButton')
-        document.querySelector("#goSearch").addEventListener('click', () =>{           
-            console.log(document.querySelector("#orderOption").selectedOptions[0].value)
-            switch(document.querySelector("#orderOption").selectedOptions[0].value){
-                case 'orderByRemaining':
-                    this.sortMethod = this.orderByRemaining;
-                case 'orderByLikes':
-                    this.sortMethod=this.orderByLikes;
-                case 'orderByDate':
-                    this.sortMethod = this.orderByDate
-            }
+        document.querySelector("#orderByDate").addEventListener('click', () => {
+            this.sortMethod = this.orderByDate
             this.sort()
             this.updateFeed()
-            return false;
+        })
+        document.querySelector("#orderByLikes").addEventListener('click', () => {
+            this.sortMethod = this.orderByLikes
+            this.sort()
+            this.updateFeed()
+        })
+
+        document.querySelector("#orderByGoal").addEventListener('click', () => {
+            this.sortMethod = this.orderByRemaining
+            this.sort()
+            this.updateFeed()
         })
         
         $button.addEventListener('click', () =>{
@@ -59,7 +61,7 @@ export class Feed{
     }
 
     sort(){
-        this.feedCampaigns.sort(this.orderingMethod)
+        this.feedCampaigns.sort(this.sortMethod)
     }
 
     populateFeed(campaigns){
