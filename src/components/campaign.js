@@ -12,13 +12,13 @@ export class Campaign{
         this.likes = likes;
         this.deslikes = deslikes;
         this.likedBy = likedBy;
-        this.deslikedBy = deslikedBy
+        this.deslikedBy = deslikedBy;
         this.goal = goal;
         this.donated = donated;
-        let user = localStorage.getItem('loggedAs')
-        this.wasLiked = likedBy.includes(user)
-        this.wasDesliked = deslikedBy.includes(user)
-        this.owner = owner
+        let user = localStorage.getItem('loggedAs');
+        this.wasLiked = likedBy.includes(user);
+        this.wasDesliked = deslikedBy.includes(user);
+        this.owner = owner;
     }
 
     render(typeClass){
@@ -148,9 +148,5 @@ export class Campaign{
         $div.querySelector('.campaignFooter .deslikeButton i').style.textShadow = this.wasDesliked ? '' : outerShadow
         $div.querySelector('.campaignFooter .likeButton i').style.textShadow = this.wasLiked ? '' : outerShadow;
         
-    }
-
-    getOwner() {
-        return this.owner
     }
 }

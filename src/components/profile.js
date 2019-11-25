@@ -51,26 +51,16 @@ export class Profile {
     }
     
     populateCampaigns(campaigns){
-
+        console.log(campaigns)
         let $userView = document.querySelector('#listCampaigns')
-        campaigns.map(c => {
-            console.log(c)
-            this.userCampaigns.push(new Campaign(c.id,c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated, c.owner))
+        campaigns.forEach(c => {
+          console.log(c.owner)
+          const draftCampaing = new Campaign(c.id, c.shortName, c.shortUrl, c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated, c.owner)
+          this.userCampaigns.push(draftCampaing)
         })
-
-        console.log(this.userCampaigns.getOwner())
-        this.userCampaigns.map(campaign =>{
-            
-            let typeClass;
-
-            if(campaign.getOwner() == this.email) {
-                typeClass = "created"
-            } else {
-                typeClass = "contributed"
-            }
-
-            $userView.appendChild(campaign.render(typeClass))
-
+        this.userCampaigns.forEach(campaign =>{
+          const typeClass = campaign.owner === this.email ? "created" : "contributed"
+          $userView.appendChild(campaign.render(typeClass))
         })
     }
 
