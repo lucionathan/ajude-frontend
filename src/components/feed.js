@@ -7,6 +7,8 @@ const URL_BACKEND = config.URL_BACKEND;
 const router = new Router()
 export class Feed{
     
+
+
     constructor(){
         let $container = document.querySelector('#container')
         this.feedCampaigns = []
@@ -22,7 +24,11 @@ export class Feed{
         let $template = document.querySelector('#dashBoard')
         $container.appendChild($template.content.querySelector('div').cloneNode(true))
         let $button = document.querySelector('#logoutButton')
-        let $addCampaignButton = document.querySelector('#addCampaignButton')
+        let $inputFilter = document.querySelector('#feedFilter')
+        $inputFilter.addEventListener("input", () =>{
+            this.showByFilter($inputFilter.value)
+        })
+
         document.querySelector("#orderByDate").addEventListener('click', () => {
             this.sortMethod = this.orderByDate
             this.sort()
@@ -66,11 +72,12 @@ export class Feed{
 
     populateFeed(campaigns){
         let $feed = document.querySelector('#campaignFeedList')
-        campaigns.map(c => {
+        campaigns.forEach(c => {
             this.feedCampaigns.push(new Campaign(c.id,c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated))
         })
-        //this.sort()
-        this.feedCampaigns.map(campaign =>{
+        this.shown = this.feedCampaigns
+        this.sort()
+        this.shown.forEach(campaign =>{
             $feed.appendChild(campaign.render())
         })
     }
@@ -78,8 +85,18 @@ export class Feed{
     updateFeed(){
         let $feed = document.querySelector('#campaignFeedList')
         $feed.innerHTML = ''
-        this.feedCampaigns.map(campaign =>{
+        this.shown.forEach(campaign =>{
             $feed.appendChild(campaign.render())
         })
+    }
+
+    showByFilter(text){
+        if(text){           
+            this.shown = this.feedCampaigns.filter(campaign => campaign.description.includes(text) || campaign.shortName.includes(text))
+            this.updateFeed()
+        }else{
+            this.shown = this.feedCampaigns
+            this.updateFeed()
+        }
     }
 }
