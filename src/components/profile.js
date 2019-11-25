@@ -19,7 +19,7 @@ export class Profile {
         fetch(`${URL_BACKEND}/user/${email}`, {
             'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
         }).then((res) =>{
-            return res.clone().json()
+            return res.json()
         }).then((response) =>{
 
             this.render(response.firstName, response.lastName, email);
@@ -29,24 +29,26 @@ export class Profile {
                     campaignsFeed.push(element.campaign)
                 }
             })
+
+            fetch(`${URL_BACKEND}/campaign/user/${email}`, {
+                'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
+            }).then((res) =>{return res.json()
+                
+            }).then((response) =>{
+                response.forEach(element => {
+                    if(this.checkArray(campaignsFeed, element.shortUrl)) {
+                        campaignsFeed.push(element)
+                    }
+                });
+                console.log(this.userCampaigns)
+                console.log(this.campaignsFeed)
+    
+                this.populateCampaigns(campaignsFeed);
+            })  
         })
 
 
-        fetch(`${URL_BACKEND}/campaign/user/${email}`, {
-            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
-        }).then((res) =>{return res.clone().json()
-            
-        }).then((response) =>{
-            response.forEach(element => {
-                if(this.checkArray(campaignsFeed, element.shortUrl)) {
-                    campaignsFeed.push(element)
-                }
-            });
-            console.log(this.userCampaigns)
-            console.log(this.campaignsFeed)
 
-            this.populateCampaigns(campaignsFeed);
-        })  
 
         let $template = document.querySelector('#profile')
         $container.appendChild($template.content.querySelector('div').cloneNode(true))
@@ -60,8 +62,11 @@ export class Profile {
           this.userCampaigns.push(draftCampaing)
           console.log(this.userCampaigns)
         })
+        
         this.userCampaigns.forEach(campaign =>{
-          const typeClass = campaign.owner === this.email ? "created" : "contributed"
+          console.log(campaign.owner)
+          let typeClass = campaign.owner === this.email ? "created" : "contributed"
+          console.log(typeClass)
           $userView.appendChild(campaign.render(typeClass))
         })
     }
