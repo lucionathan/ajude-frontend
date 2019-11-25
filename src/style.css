@@ -470,11 +470,61 @@ body{
 
 #campaignView .comentaries{
     background: #666666;
-    padding: 15px;
+    padding: 0 10px 10px 10px;
 }
 
-#commentary .textBox{
+#campaignView .owner{
+    color: black;
+}
+
+.commentary .textBox{
     background: #E9E9E9;
     color: black;
     padding: 5px;
+}
+
+.commentary{
+    display: flex;
+    flex-direction: column;
+}
+
+.commentary .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    
+}
+
+.commentary .buttons button{
+    background: #3B839A;
+    padding: 8px;
+    color: white;
+}
+
+.commentary h5{
+    padding: 5px 0;
+}
+
+.newComment {
+    display: none;
+    flex-direction: column;
+}
+
+.newComment textarea{
+    border: none;
+    padding: 10px;
+}
+
+
+.newComment .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+    margin-top: 5px;
+}
+
+.newComment button{
+    background: #3B839A;
+    padding: 8px;
+    color: white;
 }

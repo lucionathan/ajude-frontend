@@ -29,6 +29,7 @@ export class CampaignView{
                 this.owner = res.owner;
                 this.status = res.status;
                 this.commentaries = res.commentaries;
+                console.log(this.owner)
                 this.render()
             })
     }
@@ -46,6 +47,7 @@ export class CampaignView{
         <div id="campaignView">
             <div class="viewHeader">
                 <h2>${this.shortName}</h2>
+                <span>STATUS: ${this.status}</span>
                 <span>EXPIRA: ${this.date}</span>
             </div>
             
@@ -60,7 +62,9 @@ export class CampaignView{
                 <div class="progressView">                   
                     <div>${this.donated}/${this.goal}</div>
                 </div>
-
+                <div class="owner">
+                    <p>criador: ${this.owner}</p>
+                </div>
                 <div class="likesDeslikes">
                     <button class="likeButton"><i class="material-icons">thumb_up</i></button>
                     <p class="likes">${this.likes}</p>
