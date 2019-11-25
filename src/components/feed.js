@@ -45,6 +45,10 @@ export class Feed{
             this.sort()
             this.updateFeed()
         })
+
+        document.querySelector("#backendQuery").addEventListener('click', () =>{
+            this.backSearch()
+        })
         
         $button.addEventListener('click', () =>{
             localStorage.removeItem("token")
@@ -52,6 +56,16 @@ export class Feed{
             router.navigateToLogin()
         })
 
+    }
+
+    backSearch(){
+        let subString = document.querySelector("#stringQuery").value
+        let active = document.querySelector("#activeQuery").checked
+        console.log(active)
+        fetch(`${URL_BACKEND}campaign/substring?substring=${subString}&status=${active}`).then(res => console.log(res)).then(res => res.json()).then((res) =>{
+            console.log(res)
+            this.populateFeed(res)
+        })
     }
 
     orderByRemaining(c1,c2){
@@ -72,9 +86,8 @@ export class Feed{
 
     populateFeed(campaigns){
         let $feed = document.querySelector('#campaignFeedList')
-        campaigns.forEach(c => {
-            this.feedCampaigns.push(new Campaign(c.id,c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated))
-        })
+        for(let i = 0; i < 5; i++) 
+            this.feedCampaigns.push(new Campaign(campaigns[i].id,campaigns[i].shortName, campaigns[i].shortUrl,campaigns[i].description, campaigns[i].date, campaigns[i].likes, campaigns[i].deslikes, campaigns[i].pessoasLike, campaigns[i].pessoasDeslike, campaigns[i].goal, campaigns[i].donated));
         this.shown = this.feedCampaigns
         this.sort()
         this.shown.forEach(campaign =>{

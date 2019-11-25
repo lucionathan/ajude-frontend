@@ -72,13 +72,18 @@
             <main>
                 <div class="content">
                     <div id="menu">
-                        <form>
+                        <div>
+                            <input id="stringQuery" type="text">
+                            <input id="activeQuery" type="checkbox" checked>
+                            <button id="backendQuery">Search</button>
+                        </div>
+                        <div>
                             <input type="text" id="feedFilter">
-                        </form>
-                        <div class="localQueryButtons">
-                            <button id="orderByLikes">Nº de likes</button>
-                            <button id="orderByDate">Data</button>
-                            <button id="orderByGoal">Meta</button>
+                            <div class="localQueryButtons">
+                                <button id="orderByLikes">Nº de likes</button>
+                                <button id="orderByDate">Data</button>
+                                <button id="orderByGoal">Meta</button>
+                            </div>
                         </div>
                     </div>
                     <div id="feed">
