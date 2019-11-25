@@ -9,7 +9,7 @@ const URL_BASE = config.URL_BASE;
 const URL_BACKEND = config.URL_BACKEND;
 //SINGLE PAGE LOGIC
 function routing(){
-    console.log(window.location.search);
+    console.log("eai "+ window.location.search);
     $container = document.querySelector('#container')
     $container.innerHTML = ''    
     if(location.hash.split("/").length > 2){
@@ -43,8 +43,13 @@ function routing(){
     }
 }
 
-routing()
-window.onhashchange = routing;
+window.onload = routing
+window.onhashchange = function r(){
+    console.log("aq" + window.location.search)
+    if(!window.location.search){
+        routing()
+    }
+}
 function viewLogin(){
     new Login();
 }
