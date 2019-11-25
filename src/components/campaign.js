@@ -1,5 +1,5 @@
 import {Router} from '../router.js'
-const BASE_URL = "http://localhost:8080";
+const BACK_URL = "https://ajude-psoft.herokuapp.com/";
 const outerShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)"
 const innerShadow = "inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
 const router = new Router()
@@ -61,7 +61,7 @@ export class Campaign{
     addLike(){
         if(localStorage.getItem('token')){
             this.localLike()
-            fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
+            fetch(`${BACK_URL}/campaign/updateLikeDeslike`, {
                 'method' : 'PUT',
                 'body' : `{"shortUrl": "${this.shortUrl}", "choice":"like"}`,
                 'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
@@ -107,7 +107,7 @@ export class Campaign{
         if(localStorage.getItem('token')){
             this.localDeslike()
             
-            fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
+            fetch(`${BACK_URL}/campaign/updateLikeDeslike`, {
                 'method' : 'PUT',
                 'body' : `{"shortUrl": "${this.shortUrl}", "choice":"deslike"}`,
                 'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
