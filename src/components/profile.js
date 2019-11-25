@@ -1,4 +1,4 @@
-const URL_BACKEND = "http://localhost:8080";
+const URL_BACKEND = "https://ajude-psoft.herokuapp.com";
 import {Campaign} from './campaign.js'
 
 
@@ -6,6 +6,7 @@ export class Profile {
 
     sortMethod
     userCampaigns
+
     constructor(email) {
         let campaignsFeed = []
         this.email = email;
@@ -34,13 +35,15 @@ export class Profile {
         fetch(`${URL_BACKEND}/campaign/user/${email}`, {
             'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
         }).then((res) =>{return res.clone().json()
-
+            
         }).then((response) =>{
             response.forEach(element => {
                 if(this.checkArray(campaignsFeed, element.shortUrl)) {
                     campaignsFeed.push(element)
                 }
             });
+            console.log(this.userCampaigns)
+            console.log(this.campaignsFeed)
 
             this.populateCampaigns(campaignsFeed);
         })  
@@ -51,12 +54,11 @@ export class Profile {
     }
     
     populateCampaigns(campaigns){
-        console.log(campaigns)
         let $userView = document.querySelector('#listCampaigns')
         campaigns.forEach(c => {
-          console.log(c.owner)
           const draftCampaing = new Campaign(c.id, c.shortName, c.shortUrl, c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated, c.owner)
           this.userCampaigns.push(draftCampaing)
+          console.log(this.userCampaigns)
         })
         this.userCampaigns.forEach(campaign =>{
           const typeClass = campaign.owner === this.email ? "created" : "contributed"

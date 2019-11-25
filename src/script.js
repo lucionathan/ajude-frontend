@@ -1,7 +1,7 @@
 import {Feed} from './components/feed.js'
 import { Profile } from './components/profile.js';
 let $container
-const URL_BASE = "http://localhost:8080";
+const URL_BASE = "https://ajude-psoft.herokuapp.com";
 
 //SINGLE PAGE LOGIC
 function routing(){

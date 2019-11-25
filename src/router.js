@@ -1,4 +1,4 @@
-const URL_BASE = "http://localhost:8000";
+const URL_BASE = "https://ajude-psoft.herokuapp.com";
 export class Router{
 
     constructor(){
