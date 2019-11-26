@@ -12,7 +12,6 @@ export class CampaignView{
 
     request(){
             fetch(BASE_URL+`/campaign/${this.shortUrl}`).then(res => {
-                console.log(res)
                 return res.json()
             }).then(res => {
                 console.log(res)
@@ -29,7 +28,6 @@ export class CampaignView{
                 this.owner = res.owner;
                 this.status = res.status;
                 this.commentaries = res.commentaries;
-                console.log(this.owner)
                 this.render()
             })
     }
@@ -83,9 +81,9 @@ export class CampaignView{
         
         let $comentaryBox = $container.querySelector(".comentaries")
         let coment;
+        console.log(this.commentaries)
         this.commentaries.forEach(element => {
             coment = new Commentary(element)
-            console.log(coment.render())
             $comentaryBox.appendChild(coment.render())
         });
 

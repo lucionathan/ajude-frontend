@@ -491,8 +491,7 @@ body{
 .commentary .buttons{
     display: flex;
     flex-direction: row;
-    justify-content: end;
-    
+    justify-content: flex-end;
 }
 
 .commentary .buttons button{
@@ -519,7 +518,7 @@ body{
 .newComment .buttons{
     display: flex;
     flex-direction: row;
-    justify-content: end;
+    justify-content: flex-end;
     margin-top: 5px;
 }
 
