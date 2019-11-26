@@ -22,7 +22,7 @@ export class Campaign{
         this.wasDesliked = deslikedBy.includes(user)
     }
 
-    render(){
+    render(typeClass){
         let $div = document.createElement('div')
         $div.innerHTML = `<div class="campaignHeader">
                             <h2>${this.shortName}</h2>
@@ -43,7 +43,15 @@ export class Campaign{
                         </div>                  
         `
         $div.id=`c${this.id}`
-        $div.className="campaign"
+        
+        if(typeClass == "created") {
+            $div.className="created"
+        } else if(typeClass == "contributed") { 
+            $div.className="contributed"
+        } else {
+            $div.className="campaign"
+        }
+        
         $div.querySelector('.progress div').style.width=`${100*this.donated/this.goal}%`
         $div.querySelector('.likeButton').addEventListener('click', () =>{
             this.addLike()

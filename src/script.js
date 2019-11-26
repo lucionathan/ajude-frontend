@@ -2,6 +2,7 @@ import {Feed} from './components/feed.js'
 import {Login} from './components/login.js'
 import {Registry} from './components/registry.js'
 import { CampaignView } from './components/campaignView.js';
+import { Profile } from './components/profile.js';
 let $container
 import * as c from '../config/env.js'
 const config = c.config()
@@ -39,6 +40,9 @@ function routing(){
             case "#/loading":
                 viewLogging()
                 break
+            case "#/profile":
+                viewProfile()
+                break
         }
     }
 }
@@ -59,6 +63,10 @@ function viewRegister() {
 
 function viewCampaign(shortUrl){
     new CampaignView(shortUrl)
+}
+
+function viewProfile(email) {
+    new Profile(email);
 }
 
 function viewCreateCampaign(){

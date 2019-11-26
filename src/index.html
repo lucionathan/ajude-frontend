@@ -78,7 +78,7 @@
                             <button id="backendQuery">Search</button>
                         </div>
                         <div>
-                            <input type="text" id="feedFilter">
+                            <input type="text" id="feedFilterProfile">
                             <div class="localQueryButtons">
                                 <button id="orderByLikes">Nº de likes</button>
                                 <button id="orderByDate">Data</button>
@@ -115,6 +115,43 @@
     <template id="logging">
         <div>
             <p>logando...</p>
+        </div>
+    </template>
+
+    <template id="profile">
+        <div class="profile">
+            <header>
+                <div>
+
+                </div>
+                <div class="headerContentProfile">
+                    <h2>aJuDe</h2>
+                </div>
+                <button id="logoutButtonProfile">
+                    <i class="material-icons">exit_to_app</i>
+                </button>
+            </header>
+            <main>
+                <div class="contentProfile">
+                    <div id="name"></div>
+                    <div id="email"></div>
+                    <div id="menuProfile">
+                        <div>
+                            <input type="text" id="feedFilterProfile">
+                            <div class="localQueryButtons">
+                                <button id="orderByLikesProfile">Nº de likes</button>
+                                <button id="orderByDateProfile">Data</button>
+                                <button id="orderByGoalProfile">Meta</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="list">
+                        <div id="listCampaigns">
+
+                        </div>
+                    </div>
+                </div>
+            </main>
         </div>
     </template>
 </body>
