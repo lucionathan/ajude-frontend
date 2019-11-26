@@ -9,13 +9,11 @@ const URL_BASE = config.URL_BASE;
 const URL_BACKEND = config.URL_BACKEND;
 //SINGLE PAGE LOGIC
 function routing(){
-    console.log("eai "+ window.location.search);
     $container = document.querySelector('#container')
     $container.innerHTML = ''    
     if(location.hash.split("/").length > 2){
         let data = location.hash.split("/")
         if(data[1] == 'campaign'){
-            console.log(data)
             viewCampaign(data[2])
         }
     }

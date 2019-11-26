@@ -61,11 +61,19 @@ export class Feed{
     backSearch(){
         let subString = document.querySelector("#stringQuery").value
         let active = document.querySelector("#activeQuery").checked
-        console.log(active)
-        fetch(`${URL_BACKEND}campaign/substring?substring=${subString}&status=${active}`).then(res => console.log(res)).then(res => res.json()).then((res) =>{
-            console.log(res)
-            this.populateFeed(res)
+        if(subString){
+            fetch(`${URL_BACKEND}campaign/substring?substring=${subString}&status=${active}`)
+            .then(res => res.json())
+            .then((res) =>{
+                this.populateFeed(res)
+            })
+        }else{
+            fetch(`${URL_BACKEND}/campaign`)
+            .then(res => {return res.json()})
+            .then(res => {
+                this.populateFeed(res);
         })
+        }
     }
 
     orderByRemaining(c1,c2){
@@ -86,7 +94,9 @@ export class Feed{
 
     populateFeed(campaigns){
         let $feed = document.querySelector('#campaignFeedList')
-        for(let i = 0; i < 5; i++) 
+        this.feedCampaigns = []
+        $feed.innerHTML =''
+        for(let i = 0; i < min(5, campaigns.length); i++) 
             this.feedCampaigns.push(new Campaign(campaigns[i].id,campaigns[i].shortName, campaigns[i].shortUrl,campaigns[i].description, campaigns[i].date, campaigns[i].likes, campaigns[i].deslikes, campaigns[i].pessoasLike, campaigns[i].pessoasDeslike, campaigns[i].goal, campaigns[i].donated));
         this.shown = this.feedCampaigns
         this.sort()
@@ -94,6 +104,7 @@ export class Feed{
             $feed.appendChild(campaign.render())
         })
     }
+
 
     updateFeed(){
         let $feed = document.querySelector('#campaignFeedList')
@@ -111,5 +122,13 @@ export class Feed{
             this.shown = this.feedCampaigns
             this.updateFeed()
         }
+    }
+}
+
+function min(a,b){
+    if(a > b){
+        return b
+    }else{
+        return a
     }
 }
