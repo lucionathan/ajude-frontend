@@ -16,7 +16,10 @@ button:hover{
 
 body{
     background: rgb(250, 250, 250);
+}
 
+html{
+    height: 100%;
 }
 /*  CONTAINER ONDE FICA TUDO */
 #container{
@@ -24,7 +27,8 @@ body{
     margin: 0 auto;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-flow: nowrap;
+    padding: 15px;
 }
 
 /*  PAGINA DE LOGIN */
@@ -453,9 +457,6 @@ body{
 
 #headerCampaign{
     background: #30B4BA;
-    width: 100%;
-    position: fixed;
-    top: 0px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
@@ -477,6 +478,9 @@ body{
     color: black;
 }
 
+/*                            VIEW CAMPAIGN END                                       */
+
+/*                            COMMENTARY BEGGIN                                       */
 .commentary .textBox{
     background: #E9E9E9;
     color: black;
@@ -496,6 +500,12 @@ body{
 
 .commentary .buttons button{
     background: #3B839A;
+    padding: 8px;
+    color: white;
+}
+
+.commentary .buttons button:hover{
+    background: #30B4BA;
     padding: 8px;
     color: white;
 }

@@ -15,7 +15,7 @@ export class Commentary{
             <p>${this.comment.text}</p>
             <div class="buttons">
                 <button id="newComment">comentar</button>
-                <button>comentarios(${this.comment.answer.length})</button>
+                <button id="showAnswers">comentarios(<span id="answerCount">${this.comment.answer.length}</span>)</button>
             </div>
         </div>
 
@@ -26,9 +26,17 @@ export class Commentary{
                 <button class="sendComentary">comentar</button>
             </div>
         </div>
+
+        <div class="answers" style="display: none;">
+            
+        </div>
         `
         $comment.querySelector("#newComment").addEventListener('click', () =>{
             this.open()
+        })
+
+        $comment.querySelector("#showAnswers").addEventListener('click', () =>{
+            this.showAnswers()
         })
 
         $comment.querySelector(".newComment .sendComentary").addEventListener('click', () =>{
@@ -49,21 +57,20 @@ export class Commentary{
     createComent(text){
         console.log(text, localStorage.getItem('loggedAs'), this.comment.id, this.comment.shortUrl)
         fetch(BASE_URL+`/campaign/commentary/answer`, {
-            "method" : "POST",
-            "headers" : {
-                "Authorization" : `Bearer ${localStorage.getItem('token')}`,
-                "Content-type" : "application/json"
-            },
-            "body" : {
-                "text" : text,
-                "email" : localStorage.getItem('loggedAs'),
-                "father" : this.comment.id,
-                "shortUrl" : this.comment.shortUrl
-            }
+            'method' : 'POST',
+            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'},
+            'body' : `{
+                "text" : ${JSON.stringify(text)},
+                "email" : ${JSON.stringify(localStorage.getItem('loggedAs'))},
+                "father" : ${this.comment.id},
+                "shortUrl" : ${JSON.stringify(this.comment.shortUrl)}
+            }`
         }).then((res) =>{
             return res.json()
         }).then(res => {
-            console.log(res)
+            this.open()
+            this.comment.answer.push(res)
+            document.querySelector("#answerCount").innerHTML = parseInt(document.querySelector("#answerCount").innerHTML) + 1
         }) 
     }
 

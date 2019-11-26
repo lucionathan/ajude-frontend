@@ -14,7 +14,6 @@ export class CampaignView{
             fetch(BASE_URL+`/campaign/${this.shortUrl}`).then(res => {
                 return res.json()
             }).then(res => {
-                console.log(res)
                 this.id = res.id;
                 this.shortName = res.shortName;
                 this.description = res.description;
@@ -33,15 +32,18 @@ export class CampaignView{
     }
 
     render() {
-        let $container = document.querySelector('#container')
-        $container.innerHTML = `
-        <div id="headerCampaign">
-        <h1> aJuDe </h1>
+        let $top = document.createElement("div")
+        $top.id = "headerCampaign"
+        $top.innerHTML = `<h1> aJuDe </h1>
         <div class="buttons">
             <button>LOGIN</button>
             <button>CADASTRO</button>
-        </div>
-        </div>
+        </div>`
+        document.querySelector("body").after($top)
+        let $container = document.querySelector('#container')
+        $top.after($container)
+        $container.innerHTML = `
+
         <div id="campaignView">
             <div class="viewHeader">
                 <h2>${this.shortName}</h2>
@@ -81,7 +83,6 @@ export class CampaignView{
         
         let $comentaryBox = $container.querySelector(".comentaries")
         let coment;
-        console.log(this.commentaries)
         this.commentaries.forEach(element => {
             coment = new Commentary(element)
             $comentaryBox.appendChild(coment.render())
