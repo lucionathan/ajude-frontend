@@ -1,4 +1,7 @@
-const URL_BASE = "http://localhost:8000";
+import * as c from '../config/env.js'
+const config = c.config()
+const URL_BASE = config.URL_BASE;
+const URL_BACKEND = config.URL_BACKEND;
 export class Router{
 
     constructor(){

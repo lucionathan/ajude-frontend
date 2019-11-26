@@ -1,7 +1,10 @@
 import {Router} from '../router.js'
 const router = new Router()
+import * as c from '../config/env.js'
+const config = c.config()
+const URL_BASE = config.URL_BASE;
+const URL_BACKEND = config.URL_BACKEND;
 
-const URL_BACK = "https://ajude-psoft.herokuapp.com";
 
 export class Login{
     constructor(){
@@ -34,7 +37,7 @@ export class Login{
         router.navigateToLoggin()
 
         //make login request to the api
-        fetch(URL_BACK+"/login", {
+        fetch(URL_BACKEND+"/login", {
             'method' : 'POST',
             'body' : `{"email": "${$email}", "password": "${$password}", "savePassword": "${$check}"}`,
             'headers' : {'Content-Type' : 'application/json'}

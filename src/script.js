@@ -3,14 +3,17 @@ import {Login} from './components/login.js'
 import {Registry} from './components/registry.js'
 import { CampaignView } from './components/campaignView.js';
 let $container
-const URL_BASE = "https://ajude-psoft.herokuapp.com";
+
+import * as c from '../config/env.js'
+const config = c.config()
+const URL_BASE = config.URL_BASE;
+const URL_BACKEND = config.URL_BACKEND;
 
 //SINGLE PAGE LOGIC
 function routing(){
+    console.log("eai "+ window.location.search);
     $container = document.querySelector('#container')
-    $container.innerHTML = ''
-    console.log(location.hash.split("/").length)
-    
+    $container.innerHTML = ''    
     if(location.hash.split("/").length > 2){
         let data = location.hash.split("/")
         if(data[1] == 'campaign'){
@@ -42,8 +45,13 @@ function routing(){
     }
 }
 
-routing()
-window.onhashchange = routing;
+window.onload = routing
+window.onhashchange = function r(){
+    console.log("aq" + window.location.search)
+    if(!window.location.search){
+        routing()
+    }
+}
 function viewLogin(){
     new Login();
 }
@@ -79,7 +87,7 @@ function postCampaign(){
     let goal = document.querySelector("#goal").value
 
     //make a register request to the api
-    fetch(URL_BASE+"/campaign", {
+    fetch(BACK_URL+"/campaign", {
         'method' : 'POST',
         'body' : `{"shortName": "${shortName}","description": "${description}", "date": "${date}", "goal": ${goal}, "shortUrl":"${getShortUrl(shortName)}"}`,
         'headers' : {'Content-Type' : 'application/json', 'Authorization':`Bearer ${localStorage.getItem('token')}`}

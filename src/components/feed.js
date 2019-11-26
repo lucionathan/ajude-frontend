@@ -1,8 +1,9 @@
 import {Campaign} from './campaign.js'
 import {Router} from '../router.js'
-const URL_BASE = "http://localhost:8000";
-const URL_BACKEND = "https://ajude-psoft.herokuapp.com";
-
+import * as c from '../config/env.js'
+const config = c.config()
+const URL_BASE = config.URL_BASE;
+const URL_BACKEND = config.URL_BACKEND;
 const router = new Router()
 export class Feed{
     
@@ -17,6 +18,7 @@ export class Feed{
         .then(res => {
             this.populateFeed(res);
         })
+        
         let $template = document.querySelector('#dashBoard')
         $container.appendChild($template.content.querySelector('div').cloneNode(true))
         let $button = document.querySelector('#logoutButton')
@@ -61,7 +63,6 @@ export class Feed{
     }
 
     populateFeed(campaigns){
-    
         let $feed = document.querySelector('#campaignFeedList')
         campaigns.map(c => {
             this.feedCampaigns.push(new Campaign(c.id,c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated))

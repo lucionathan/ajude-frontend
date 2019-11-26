@@ -1,7 +1,10 @@
 import {Router} from '../router.js'
-
 const router = new Router()
-const URL_BACK = "https://ajude-psoft.herokuapp.com";
+import * as c from '../config/env.js'
+const config = c.config()
+const URL_BASE = config.URL_BASE;
+const URL_BACKEND = config.URL_BACKEND;
+
 
 export class Registry{
 
@@ -28,7 +31,7 @@ export class Registry{
         //show logging page
         router.navigateToLoggin()
         //make a register request to the api
-        fetch(URL_BACK+"/user/register", {
+        fetch(URL_BACKEND+"/user/register", {
             'method' : 'POST',
             'body' : `{"firstName": "${firstname}","lastName": "${lastname}", "email": "${email}", "password": "${password}"}`,
             'headers' : {'Content-Type' : 'application/json'}
@@ -37,7 +40,6 @@ export class Registry{
             console.log("\n\n[DEBUG script.js register]" + err)
             Router.navigateToRegister()
         }).then(res =>{
-            console.log(res + "yo my nigga" + res.ok)
             if(res.ok){
                 return res.json()
             }else{
@@ -58,7 +60,7 @@ export class Registry{
         router.navigateToLoggin()
 
         //make login request to the api
-        fetch(URL_BACK+"/login", {
+        fetch(URL_BACKEND+"/login", {
             'method' : 'POST',
             'body' : `{"email": "${email}", "password": "${password}", "savePassword": "${true}"}`,
             'headers' : {'Content-Type' : 'application/json'}
