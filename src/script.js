@@ -3,10 +3,12 @@ import {Login} from './components/login.js'
 import {Registry} from './components/registry.js'
 import { CampaignView } from './components/campaignView.js';
 let $container
+
 import * as c from '../config/env.js'
 const config = c.config()
 const URL_BASE = config.URL_BASE;
 const URL_BACKEND = config.URL_BACKEND;
+
 //SINGLE PAGE LOGIC
 function routing(){
     console.log("eai "+ window.location.search);
