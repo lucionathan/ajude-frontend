@@ -107,7 +107,7 @@ export class Campaign{
         if(localStorage.getItem('token')){
             this.localDeslike()
             
-            fetch(`${BACK_URL}/campaign/updateLikeDeslike`, {
+            fetch(`${BACK_URL}campaign/updateLikeDeslike`, {
                 'method' : 'PUT',
                 'body' : `{"shortUrl": "${this.shortUrl}", "choice":"deslike"}`,
                 'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
