@@ -114,21 +114,47 @@
         </div>
     </template>
 
-    <template id="profile"> 
-        <div id="listCampaigns">
-            <div id="name"></div>
-            <div id="email"></div>
-            <form>
-                <input type="text">
-                <select id="orderOption" name="orderMethod">
-                    <option value="orderByRemaining">por quanto falta pro objetivo</option>
-                    <option value="orderByLikes">por numero de likes</option>
-                    <option value="orderByDate">por data</option>
-                </select>
-                <button id="goSearch"><i class="material-icons">search</i></button>
-            </form>
-        </div>
+    <template id="profile">
+        <div class="profile">
+            <header>
+                <div>
 
+                </div>
+                <div class="headerContent">
+                    <h2>aJuDe</h2>
+                </div>
+                <button id="logoutButton">
+                    <i class="material-icons">exit_to_app</i>
+                </button>
+            </header>
+            <main>
+                <div class="content">
+                    <div id="name"></div>
+                    <div id="email"></div>
+                    <div id="menuProfile">
+                        
+                        <div>
+                            <input id="stringQuery" type="text">
+                            <input id="activeQuery" type="checkbox" checked>
+                            <button id="backendQuery">Search</button>
+                        </div>
+                        <div>
+                            <input type="text" id="feedFilter">
+                            <div class="localQueryButtons">
+                                <button id="orderByLikesProfile">Nº de likes</button>
+                                <button id="orderByDateProfile">Data</button>
+                                <button id="orderByGoalProfile">Meta</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="list">
+                        <div id="listCampaigns">
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
     </template>
 
     
