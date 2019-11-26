@@ -28,7 +28,6 @@ html{
     justify-content: center;
     align-items: center;
     flex-flow: nowrap;
-    padding: 15px;
 }
 
 /*  PAGINA DE LOGIN */
@@ -388,6 +387,7 @@ html{
     background: #F0F0F0;
     width: 50%;
     color: white;
+    margin-top: 20px;
 }
 
 #campaignView .viewHeader{
@@ -474,16 +474,66 @@ html{
     padding: 0 10px 10px 10px;
 }
 
+#campaignView .newCommentBTN{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+#campaignView .newCommentBTN button{
+    padding: 5px;
+    font-size: 15px;
+    background: #3B839A;
+    color: white;
+}
+
+#campaignView .newCommentMAIN{
+    display: none;
+    flex-direction: column;
+}
+
+#campaignView .newCommentMAIN span{
+    color: black;
+    font-size: 15px;
+}
+
+#campaignView .newCommentMAIN textarea{
+    border: 1px solid #666666;
+    font-size: 15px;
+    border: none;
+    padding: 10px;
+}
+
+#campaignView .newCommentMAIN .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5px;
+    background: none;
+}
+
+#campaignView .newCommentMAIN button{
+    background: #3B839A;
+    padding: 8px;
+    color: white;
+}
+
 #campaignView .owner{
     color: black;
 }
 
 /*                            VIEW CAMPAIGN END                                       */
 
-/*                            COMMENTARY BEGGIN                                       */
+/*                            CREATE COMMENTARY BEGGIN                                       */
 .commentary .textBox{
     background: #E9E9E9;
     color: black;
+    padding: 5px;
+}
+
+.commentary .textBox p{
+    background: white;
     padding: 5px;
 }
 
@@ -496,6 +546,7 @@ html{
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
+    background: white;
 }
 
 .commentary .buttons button{
@@ -508,6 +559,10 @@ html{
     background: #30B4BA;
     padding: 8px;
     color: white;
+}
+
+.commentary .buttons #delComment{
+    display: none;
 }
 
 .commentary h5{
@@ -530,10 +585,54 @@ html{
     flex-direction: row;
     justify-content: flex-end;
     margin-top: 5px;
+    background: none;
 }
 
 .newComment button{
     background: #3B839A;
     padding: 8px;
     color: white;
+}
+
+/*                            CREATE COMMENTARY END                                       */
+
+/*                            SHOW ANSWERS BEGGIN                                       */
+
+.answers{
+    flex-direction: column;
+    background: #d9d9d9;
+    padding: 7px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.answers h5{
+    color: black;
+}
+
+.answers p {
+    background: #666666;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.answers .delAnswer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.answers .delAnswer button{
+    padding: 3px;
+    color: black;
+    background: #C58282;
+    border: 1px solid #860101;
+    margin: 2px;
+    border-radius: 2px;
+}
+
+.answers .delAnswer button:hover{
+    background: rgb(255, 72, 72);
+    border: 1px solid #c20101;
 }

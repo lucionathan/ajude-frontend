@@ -78,15 +78,32 @@ export class CampaignView{
                 <div class="comentaries">
                     
                 </div>
+                
+                <div class="newCommentBTN">
+                    <button>COMENTAR</button>
+                </div>
+
+                <div class="newCommentMAIN" style="display: none;">
+                    <span>escreva seu novo comentário abaixo</span>
+                    <textarea name="text" rows="5" cols="8" wrap="soft" id="textComent"> </textarea>
+                    <div class="buttons">
+                        <button class="sendComentaryMAIN">enviar</button>
+                    </div>
+                </div>
             </div>
         </div>`
         
-        let $comentaryBox = $container.querySelector(".comentaries")
-        let coment;
-        this.commentaries.forEach(element => {
-            coment = new Commentary(element)
-            $comentaryBox.appendChild(coment.render())
-        });
+        this.populateCommentaries()
+
+        let $newCommentBTN = $container.querySelector('.newCommentBTN')
+        $newCommentBTN.addEventListener('click', () => {
+            this.openNewComment()
+        })
+
+        let $sendBTN = $container.querySelector('.sendComentaryMAIN')
+        $sendBTN.addEventListener('click', () => {
+            this.sendComment($container.querySelector(".newCommentMAIN #textComent").value)
+        })
 
         let $div = $container.querySelector("#campaignView")
         $div.querySelector('.progressView div').style.width=`${100*this.donated/this.goal}%`
@@ -96,6 +113,58 @@ export class CampaignView{
         $div.querySelector('.deslikeButton').addEventListener('click', () =>{
             this.addDeslike()
         })
+    }
+
+    sendComment(text){
+        fetch(BASE_URL+`/campaign/commentary/`, {
+            'method' : 'POST',
+            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'},
+            'body' : `{
+                "text" : ${JSON.stringify(text)},
+                "email" : ${JSON.stringify(localStorage.getItem('loggedAs'))},
+                "father" : ${-666},
+                "shortUrl" : ${JSON.stringify(this.shortUrl)}
+            }`
+        }).then((res) =>{
+            return res.json()
+        }).then(res => {
+            console.log(res)
+            this.openNewComment()
+            this.commentaries.push(res)
+            this.populateCommentaries()
+        })
+    }
+
+    openNewComment(){
+        let $btn = document.querySelector("#campaignView .newCommentBTN")
+        
+        if($btn.style.display === "none"){
+            $btn.style.display = "flex"
+        }else{
+            $btn.style.display = "none"
+        }
+        let $div = document.querySelector(`#campaignView .newCommentMAIN`)
+        if($div.style.display === "none"){
+            $div.style.display = "flex"
+        }else{
+            $div.style.display = "none"
+        }
+    }
+
+    populateCommentaries(){
+        let $comentaryBox = document.querySelector(".comentaries")
+        let coment;
+        $comentaryBox.innerHTML = ""
+        this.commentaries.forEach(element => {
+            if(element.active){
+                coment = new Commentary(element)
+                $comentaryBox.appendChild(coment.render())
+            }
+        });
+        if($comentaryBox.childElementCount < 1){
+            $comentaryBox.innerHTML = "Ainda não tem nenhum comentário nessa campanha ainda, seja o primeiro :)"
+            $comentaryBox.style.padding = "10px"
+        }
     }
 
     addLike(){
