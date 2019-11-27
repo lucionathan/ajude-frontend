@@ -2,6 +2,8 @@ import {Feed} from './components/feed.js'
 import {Login} from './components/login.js'
 import {Registry} from './components/registry.js'
 import { CampaignView } from './components/campaignView.js';
+import { CampaignRegistry } from './components/CampaignRegistry.js';
+
 let $container
 
 import * as c from '../config/env.js'
@@ -16,7 +18,6 @@ function routing(){
     if(location.hash.split("/").length > 2){
         let data = location.hash.split("/")
         if(data[1] == 'campaign'){
-            console.log(data)
             viewCampaign(data[2])
         }
     }
@@ -44,12 +45,10 @@ function routing(){
     }
 }
 
-window.onload = routing
-window.onhashchange = function r(){
-    if(!window.location.search){
-        routing()
-    }
-}
+
+routing()
+window.onhashchange = routing
+
 function viewLogin(){
     new Login();
 }
@@ -67,12 +66,7 @@ function viewCampaign(shortUrl){
 }
 
 function viewCreateCampaign(){
-    $container.innerHTML = ''
-    let $template = document.querySelector("#registerCampaign")
-    $container.appendChild($template.content.querySelector('form').cloneNode(true))
-    let $button = $container.querySelector('#postCampaign')
-    $button.addEventListener('click', postCampaign)
-    location.hash = "#/campaign"
+    new CampaignRegistry()
 }
 
 //REQUESTS LOGIC

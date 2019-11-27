@@ -230,7 +230,7 @@ html{
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 80px 90vh;
     grid-template-areas: "h h h"
-                         ". m .";
+                         "m m .";
 
 }
 
@@ -243,9 +243,12 @@ html{
 
 .dashBoard main{
     grid-area:m;
+    display:flex;
+    flex-direction: row;
 }
 
 .dashBoard .content{
+    width: 100%;
     display:flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -291,6 +294,10 @@ html{
 
 
 /*MENU*/
+#menu{
+   width: 300px; 
+}
+
 /*                      FEED                        */
 #feed{
     display:flex;
@@ -308,8 +315,7 @@ html{
     border-color:#30b4ba;
     margin-bottom: 20px;
     background-color: #f0f0f0;
-    width: 450px;
-    height: 200px;
+    height: 250px;
     justify-content: space-between;
 }
 
@@ -385,7 +391,7 @@ html{
 
 #campaignView {
     background: #F0F0F0;
-    width: 50%;
+    width: 60%;
     color: white;
     margin-top: 20px;
 }
@@ -415,7 +421,7 @@ html{
     padding: 10px;
 }
 
-#campaignView .goalLikes{
+#campaignView .goalLikes, .goalCreate{
     padding: 0 10px 10px 10px;
     display: flex;
     flex-direction: row;
@@ -428,7 +434,7 @@ html{
     padding: 15px;
 }
 
-#campaignView .progressView{
+#campaignView .progressView, .metaCreate{
     width: 35%;
     background-color: #30b4ba;
 }
@@ -465,6 +471,7 @@ html{
     color: white;
     padding: 10px;
 }
+
 
 #campaignView .commentaryBox{
     padding: 0 10px 10px 10px ;
@@ -649,10 +656,18 @@ html{
     background: white;
 }
 
-.commentary .buttons button{
-    background: #3B839A;
-    padding: 8px;
-    color: white;
+/*CREATE CAMPAIGN STUFF*/
+
+#displayError p{
+    color:red;
+    text-align: center;
+}
+
+
+
+.metaCreate p{
+    text-align: center;
+    width: 100%;
 }
 
 .commentary .buttons button:hover{
@@ -667,12 +682,17 @@ html{
 
 .commentary h5{
     padding: 5px 0;
+
+.goalCreate{
+    align-items: initial;
+
+}
+.metaCreate{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.newComment {
-    display: none;
-    flex-direction: column;
-}
 
 .newComment textarea{
     border: none;
@@ -735,4 +755,13 @@ html{
 .answers .delAnswer button:hover{
     background: rgb(255, 72, 72);
     border: 1px solid #c20101;
+
+#submitCampanha i{
+    font-size: 50px;
+    color:#3B839A;
+}
+
+#createDescription{
+    width: 80%;
+
 }
