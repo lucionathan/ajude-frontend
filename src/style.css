@@ -382,7 +382,7 @@ body{
 
 #campaignView {
     background: #F0F0F0;
-    width: 50%;
+    width: 60%;
     color: white;
 }
 
@@ -411,7 +411,7 @@ body{
     padding: 10px;
 }
 
-#campaignView .goalLikes{
+#campaignView .goalLikes, .goalCreate{
     padding: 0 10px 10px 10px;
     display: flex;
     flex-direction: row;
@@ -424,7 +424,7 @@ body{
     padding: 15px;
 }
 
-#campaignView .progressView{
+#campaignView .progressView, .metaCreate{
     width: 35%;
     background-color: #30b4ba;
 }
@@ -464,66 +464,33 @@ body{
     padding: 10px;
 }
 
-#campaignView .commentaryBox{
-    padding: 0 10px 10px 10px ;
+/*CREATE CAMPAIGN STUFF*/
+
+#displayError p{
+    color:red;
+    text-align: center;
 }
 
-#campaignView .comentaries{
-    background: #666666;
-    padding: 0 10px 10px 10px;
+
+.metaCreate p{
+    text-align: center;
+    width: 100%;
 }
 
-#campaignView .owner{
-    color: black;
+.goalCreate{
+    align-items: initial;
 }
-
-.commentary .textBox{
-    background: #E9E9E9;
-    color: black;
-    padding: 5px;
-}
-
-.commentary{
-    display: flex;
+.metaCreate{
+    display:flex;
     flex-direction: column;
+    align-items: center;
 }
 
-.commentary .buttons{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
+#submitCampanha i{
+    font-size: 50px;
+    color:#3B839A;
 }
 
-.commentary .buttons button{
-    background: #3B839A;
-    padding: 8px;
-    color: white;
-}
-
-.commentary h5{
-    padding: 5px 0;
-}
-
-.newComment {
-    display: none;
-    flex-direction: column;
-}
-
-.newComment textarea{
-    border: none;
-    padding: 10px;
-}
-
-
-.newComment .buttons{
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-end;
-    margin-top: 5px;
-}
-
-.newComment button{
-    background: #3B839A;
-    padding: 8px;
-    color: white;
+#createDescription{
+    width: 80%;
 }
