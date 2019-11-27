@@ -13,41 +13,48 @@ export class Recover {
         let $template = document.querySelector("#recover")
         $container.appendChild($template.content.querySelector('form').cloneNode(true))
         let $button = $container.querySelector('form').querySelector('#recoverBtn')
-        
+        // location.hash = "#/recover"
+
 
         $button.addEventListener('click', () =>{
-            let email = $container.querySelector('form').querySelector('#emailRecover').value
-            this.recover(email)
+            let $email = $container.querySelector('form').querySelector('#emailRecover')
+            this.recover($email.value)
+            $email.value = "";
         })
 
 
-        location.hash = "#/recover"
     }
 
     recover(email) {
         console.log(email)
         fetch(`${URL_BACKEND}user/forgot`, {
             'method' : 'POST',
-            'body': `{"email":"${email}"}`
+            'body': `{"email":"${email}"}`,
+            'headers' : {'Content-Type' : 'application/json'}
             }).catch(err => {
             
-                console.log("\n\n[DEBUG script.js register]" + err)
-                Router.navigateToRegister()
+                // console.log("\n\n[DEBUG script.js register]" + err)
+                // Router.navigateToRecover()
             }).then(res => {
                 if(res.ok) {
                     return res.json()
                 } else {
-                    router.navigateToRecover()
+                    let $container = document.querySelector('#container')
+
+                    $container.querySelector('form').querySelector('#message').innerHTML = "Usuario não existe."          
                 }
-            }).then(res => {
+            }).then(res => {  
+                console.log(res);
                 if(res) {
-                    console.log(res);
-                    $recover.appendChild(this.render());                
+                    let $container = document.querySelector('#container')
+                    
+                    $container.querySelector('form').querySelector('#message').innerHTML = "Email enviado."
                 }
             })
     }
 
     render() {
+        console.log("mimde")
         let $div = document.querySelector('div');
         $div.innerHTML = `<div>Email enviado!</div>`;
         $div.id = "message";
