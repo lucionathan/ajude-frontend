@@ -18,6 +18,8 @@ function routing(){
         if(data[1] == 'campaign'){
             console.log(data)
             viewCampaign(data[2])
+        }else if(data[1] == 'profile'){
+            viewProfile(data[2])
         }
     }
     else{
