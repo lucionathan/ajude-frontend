@@ -1,5 +1,9 @@
-
-
+import {Router} from '../router.js'
+const router = new Router()
+import * as c from '../config/env.js'
+const config = c.config()
+const URL_BASE = config.URL_BASE;
+const URL_BACKEND = config.URL_BACKEND;
 export class CampaignRegistry
 {
     constructor(){
@@ -18,90 +22,112 @@ export class CampaignRegistry
         </div>
         <div id="campaignView">
             <div class="viewHeader">
-                <input type="text" placeholder="Nome da campanha">
-                <span>EXPIRA: <input type="date"></span>
+                <input id="createShortName" type="text" placeholder="Nome da campanha">
+                <span>EXPIRA: <input id="createExpireDate" type="date"></span>
             </div>
             
             <div class="viewDescription">
                 <h4>objetivo</h4>
                 <div class="description">
-                    <input type="textarea" placeholder="Objetivo da campanha">
-
+                    <input id="createDescription" type="textarea" placeholder="Objetivo da campanha">
                 </div>
                 
             </div>
 
             <h4 class="goal">meta</h4>
-            <div class="goalLikes">    
+            <div class="goalCreate">    
                 
-                <div class="progressView">                   
+                <div class="metaCreate">                   
                     <p>Quanto deseja arrecadar?</p>
-                    <input type="number">
+                    <input min=0 id="createGoal" type="number">
                 </div>
 
-                <div class="likesDeslikes">
-                    <button class="likeButton"><i class="material-icons">thumb_up</i></button>
-                    <p class="likes">0</p>
-                    <button class="deslikeButton"><i class="material-icons">thumb_down</i></button>
-                    <p class="deslikes">0</p>
-                </div>
+                <button id="submitCampanha">
+                    <i class="material-icons">add_box</i>
+                </button>
+            </div>
+            <div id="displayError">
             </div>
         </div>`
         let $div = $container.querySelector("#campaignView")
-        $div.querySelector('.progressView div').style.width=`${100*this.donated/this.goal}%`
-        $div.querySelector('.likeButton').addEventListener('click', () =>{
-            this.addLike()
+
+        $container.querySelector("#submitCampanha").addEventListener('click', () => {
+            let shortName = $container.querySelector('#createShortName').value
+            let expireDate = $container.querySelector('#createExpireDate').value
+            let description = $container.querySelector('#createDescription').value
+            let goal = $container.querySelector('#createGoal').value
+            this.postCampaign(shortName, expireDate, description, goal)
         })
-        $div.querySelector('.deslikeButton').addEventListener('click', () =>{
-            this.addDeslike()
-        })
+
     }
 
 
     
-    postCampaign(){
-    
-        let shortName = document.querySelector("#shortname").value
-        let description = document.querySelector("#description").value
-        let date = document.querySelector("#date").value
-        let goal = document.querySelector("#goal").value
-
+    postCampaign(shortName, expireDate, description, goal){
         //make a register request to the api
-        fetch(URL_BASE+"/campaign", {
+        let date = this.getRightDate(expireDate)
+        fetch(URL_BACKEND+"campaign", {
             'method' : 'POST',
-            'body' : `{"shortName": "${shortName}","description": "${description}", "date": "${date}", "goal": ${goal}, "shortUrl":"${getShortUrl(shortName)}"}`,
+            'body' : `{"shortName": "${shortName}","description": "${description}", "date": "${date}", "goal": ${goal}, "shortUrl":"${this.getShortUrl(shortName)}"}`,
             'headers' : {'Content-Type' : 'application/json', 'Authorization':`Bearer ${localStorage.getItem('token')}`}
         }).catch(err => {
             console.log("\n\n[DEBUG script.js register]", err)
-            viewCreateCampaign()
         }).then(res =>{
-            return res.json()
-        }).then(res => {
             console.log(res)
-            //if the request was ok, show the next page; else, go back to the login page with a warning message
-            if(res.ok){
-                viewLogado()
-            }else{
-                viewCreateCampaign()
+            if(res.status == 400){
+                this.displayAlreadyExists(shortName)
+            }else if(res.status==500){
+                this.displayAuthentication()
             }
-            
+            else{
+                return res.json()
+            }
+        }).then(res => {
+            if(res){
+                router.navigateToCampaign(res.shortUrl)
+            }
         })
-
     }
 
-//UTIL
+    getRightDate(formdate){
+        let data = formdate.split('-')
+        return `${data[2]}/${data[1]}/${data[0]}`
+    }
+
 
     getShortUrl(shortName){
-    shortName = shortName.replace(/\s\s+/g, ' ')
-    shortName = shortName.normalize("NFD").toLowerCase()
-    shortName = shortName.split("").map(e =>{
-        if(e in [".",":","?","!",",","/","|"]){
-            return " "
-        }else{
-            return e
-        }
-    }).join("")
-    shortName = shortName.split(" ").join("-")
-    return shortName
-}
+        shortName = shortName.replace(/\s\s+/g, ' ')
+        shortName = shortName.normalize("NFD").toLowerCase()
+        shortName = shortName.split("").map(e =>{
+            if(e in [".",":","?","!",",","/","|"]){
+                return " "
+            }else{
+                return e
+            }
+        }).join("")
+        shortName = shortName.split(" ").join("-")
+        return shortName
+    }
+
+    displayAlreadyExists(shortName){
+        let $p = document.createElement('p')
+        $p.innerText = `Já existe uma campanha chamada ${shortName}, por favor escolha outro nome`
+
+        let $div = document.querySelector('#displayError')
+        $div.appendChild($p)
+        setTimeout(() => {
+            $div.innerHTML = ''
+        }, 2000);
+    }
+
+    displayAuthentication(){        
+        let $p = document.createElement('p')
+        $p.innerText = `Por favor, logue para criar campanhas.`
+
+        let $div = document.querySelector('#displayError')
+        $div.appendChild($p)
+        setTimeout(() => {
+            $div.innerHTML = ''
+        }, 2000);
+    }
 }
