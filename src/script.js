@@ -2,6 +2,8 @@ import {Feed} from './components/feed.js'
 import {Login} from './components/login.js'
 import {Registry} from './components/registry.js'
 import { CampaignView } from './components/campaignView.js';
+import { CampaignRegistry } from './components/CampaignRegistry.js';
+
 let $container
 
 import * as c from '../config/env.js'
@@ -69,12 +71,7 @@ function viewCampaign(shortUrl){
 }
 
 function viewCreateCampaign(){
-    $container.innerHTML = ''
-    let $template = document.querySelector("#registerCampaign")
-    $container.appendChild($template.content.querySelector('form').cloneNode(true))
-    let $button = $container.querySelector('#postCampaign')
-    $button.addEventListener('click', postCampaign)
-    location.hash = "#/campaign"
+    new CampaignRegistry()
 }
 
 //REQUESTS LOGIC
