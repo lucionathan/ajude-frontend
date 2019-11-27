@@ -13,13 +13,11 @@ const URL_BACKEND = config.URL_BACKEND;
 
 //SINGLE PAGE LOGIC
 function routing(){
-    console.log("eai "+ window.location.search);
     $container = document.querySelector('#container')
     $container.innerHTML = ''    
     if(location.hash.split("/").length > 2){
         let data = location.hash.split("/")
         if(data[1] == 'campaign'){
-            console.log(data)
             viewCampaign(data[2])
         }
     }
@@ -47,13 +45,8 @@ function routing(){
     }
 }
 
-window.onload = routing
-window.onhashchange = function r(){
-    console.log("aq" + window.location.search)
-    if(!window.location.search){
-        routing()
-    }
-}
+routing()
+window.onhashchange = routing
 function viewLogin(){
     new Login();
 }
