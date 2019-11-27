@@ -45,8 +45,10 @@ function routing(){
     }
 }
 
+
 routing()
 window.onhashchange = routing
+
 function viewLogin(){
     new Login();
 }

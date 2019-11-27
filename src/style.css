@@ -16,7 +16,10 @@ button:hover{
 
 body{
     background: rgb(250, 250, 250);
+}
 
+html{
+    height: 100%;
 }
 /*  CONTAINER ONDE FICA TUDO */
 #container{
@@ -24,7 +27,7 @@ body{
     margin: 0 auto;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-flow: nowrap;
 }
 
 /*  PAGINA DE LOGIN */
@@ -390,6 +393,7 @@ body{
     background: #F0F0F0;
     width: 60%;
     color: white;
+    margin-top: 20px;
 }
 
 #campaignView .viewHeader{
@@ -439,6 +443,7 @@ body{
     background-color:#3B839A;
     text-align: center;
     padding: 5px;
+    max-width: 100%;
 }
 
 #campaignView .goal{
@@ -459,15 +464,196 @@ body{
 
 #headerCampaign{
     background: #30B4BA;
-    width: 100%;
-    position: fixed;
-    top: 0px;
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
     color: white;
     padding: 10px;
+}
+
+
+#campaignView .commentaryBox{
+    padding: 0 10px 10px 10px ;
+}
+
+#campaignView .comentaries{
+    background: #666666;
+    padding: 0 10px 10px 10px;
+}
+
+#campaignView .newCommentBTN{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+#campaignView .newCommentBTN button{
+    padding: 5px;
+    font-size: 15px;
+    background: #3B839A;
+    color: white;
+}
+
+#campaignView .newCommentMAIN{
+    display: none;
+    flex-direction: column;
+}
+
+#campaignView .newCommentMAIN span{
+    color: black;
+    font-size: 15px;
+}
+
+#campaignView .newCommentMAIN textarea{
+    border: 1px solid #666666;
+    font-size: 15px;
+    border: none;
+    padding: 10px;
+}
+
+#campaignView .newCommentMAIN .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5px;
+    background: none;
+}
+
+#campaignView .newCommentMAIN button{
+    background: #3B839A;
+    padding: 8px;
+    color: white;
+}
+
+#campaignView .owner{
+    color: black;
+}
+
+#campaignView .campaignBTNs{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+#campaignView .campaignBTNs button{
+    background: #3B839A;
+    padding: 15px;
+    color: white;
+}
+
+#campaignView .campaignBTNs button:hover{
+    background: #30B4BA;
+    padding: 15px;
+    color: white;
+}
+
+
+#campaignView .modal-container{
+    background: rgba(0,0,0,.5);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#campaignView .modal-container.show{
+    display: flex;
+}
+
+@keyframes modal{
+    form {
+        opacity: 0;
+        transform: translate3d(0, -60px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.show .modal{
+    animation: modal .4s;
+}
+
+#campaignView .modal{
+    background: #3B839A;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 2px solid white;
+}
+
+#campaignView .modal h3{
+    padding: 5px;
+    font-weight: normal;
+}
+
+#campaignView .modal .closeModal{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    padding: 5px;
+    background: #30B4BA;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    font-size: 1.2em;
+}
+
+#campaignView .modal .closeModal:hover{
+    background: rgb(102, 167, 189);
+}
+
+#campaignView .modal .button{
+    padding: 5px;
+    color: white;
+    background: #30B4BA;
+    margin-top: 5px;
+}
+
+#campaignView .modal input{
+    padding: 5px;
+}
+
+#ownerEmail{
+    cursor: pointer;
+}
+
+/*                            VIEW CAMPAIGN END                                       */
+
+/*                            CREATE COMMENTARY BEGGIN                                       */
+.commentary .textBox{
+    background: #E9E9E9;
+    color: black;
+    padding: 5px;
+}
+
+.commentary .textBox p{
+    background: white;
+    padding: 5px;
+}
+
+.commentary{
+    display: flex;
+    flex-direction: column;
+}
+
+.commentary .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background: white;
 }
 
 /*CREATE CAMPAIGN STUFF*/
@@ -478,19 +664,97 @@ body{
 }
 
 
+
 .metaCreate p{
     text-align: center;
     width: 100%;
 }
 
+.commentary .buttons button:hover{
+    background: #30B4BA;
+    padding: 8px;
+    color: white;
+}
+
+.commentary .buttons #delComment{
+    display: none;
+}
+
+.commentary h5{
+    padding: 5px 0;
+
 .goalCreate{
     align-items: initial;
+
 }
 .metaCreate{
     display:flex;
     flex-direction: column;
     align-items: center;
 }
+
+
+.newComment textarea{
+    border: none;
+    padding: 10px;
+}
+
+
+.newComment .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5px;
+    background: none;
+}
+
+.newComment button{
+    background: #3B839A;
+    padding: 8px;
+    color: white;
+}
+
+/*                            CREATE COMMENTARY END                                       */
+
+/*                            SHOW ANSWERS BEGGIN                                       */
+
+.answers{
+    flex-direction: column;
+    background: #d9d9d9;
+    padding: 7px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.answers h5{
+    color: black;
+}
+
+.answers p {
+    background: #666666;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.answers .delAnswer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.answers .delAnswer button{
+    padding: 3px;
+    color: black;
+    background: #C58282;
+    border: 1px solid #860101;
+    margin: 2px;
+    border-radius: 2px;
+}
+
+.answers .delAnswer button:hover{
+    background: rgb(255, 72, 72);
+    border: 1px solid #c20101;
 
 #submitCampanha i{
     font-size: 50px;
@@ -499,4 +763,5 @@ body{
 
 #createDescription{
     width: 80%;
+
 }
