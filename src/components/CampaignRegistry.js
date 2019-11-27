@@ -6,7 +6,11 @@ const URL_BASE = config.URL_BASE;
 const URL_BACKEND = config.URL_BACKEND;
 export class CampaignRegistry
 {
-    constructor(){
+    constructor(name = "", data = "", description = "", goal = 0){
+        this.name = name
+        this.data = data
+        this.description = description
+        this.goal = goal
         this.render()
     }
 
@@ -22,14 +26,14 @@ export class CampaignRegistry
         </div>
         <div id="campaignView">
             <div class="viewHeader">
-                <input id="createShortName" type="text" placeholder="Nome da campanha">
-                <span>EXPIRA: <input id="createExpireDate" type="date"></span>
+                <input id="createShortName" type="text" placeholder="Nome da campanha" value="${this.name}">
+                <span>EXPIRA: <input id="createExpireDate" type="date" value="${this.data}"></span>
             </div>
             
             <div class="viewDescription">
                 <h4>objetivo</h4>
                 <div class="description">
-                    <input id="createDescription" type="textarea" placeholder="Objetivo da campanha">
+                    <input id="createDescription" type="textarea" placeholder="Objetivo da campanha" value="${this.description}">
                 </div>
                 
             </div>
@@ -39,7 +43,7 @@ export class CampaignRegistry
                 
                 <div class="metaCreate">                   
                     <p>Quanto deseja arrecadar?</p>
-                    <input min=0 id="createGoal" type="number">
+                    <input min=0 id="createGoal" type="number" value="${this.goal}">
                 </div>
 
                 <button id="submitCampanha">
