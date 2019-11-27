@@ -5,6 +5,7 @@ import { CampaignView } from './components/campaignView.js';
 import { Profile } from './components/profile.js';
 let $container
 import * as c from '../config/env.js'
+import { Recover } from './components/recover.js';
 const config = c.config()
 const URL_BASE = config.URL_BASE;
 const URL_BACKEND = config.URL_BACKEND;
@@ -45,6 +46,9 @@ function routing(){
             case "#/profile":
                 viewProfile()
                 break
+            case "#/recover":
+                viewRecover()
+                break 
         }
     }
 }
@@ -69,6 +73,10 @@ function viewCampaign(shortUrl){
 
 function viewProfile(email) {
     new Profile(email);
+}
+
+function viewRecover() {
+    new Recover();
 }
 
 function viewCreateCampaign(){

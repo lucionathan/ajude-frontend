@@ -37,4 +37,9 @@ export class Router{
         history.pushState({url:`/#/profile/${email}`}, "",  `/#/campaign/${shortUrl}`)
     }
 
+    navigateToRecover() {
+        location.replace(`${URL_BASE}/#/recover`)
+        history.pushState({url:"#/recover"}, "", "#/recover")
+    }
+
 }
