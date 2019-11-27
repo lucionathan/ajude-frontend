@@ -295,7 +295,7 @@ html{
 
 /*MENU*/
 #menu{
-   width: 300px; 
+    width: 300px; 
 }
 
 /*                      FEED                        */
@@ -656,6 +656,12 @@ html{
     background: white;
 }
 
+.commentary .buttons button{
+    background: #3B839A;
+    padding: 8px;
+    color: white;
+}
+
 /*CREATE CAMPAIGN STUFF*/
 
 #displayError p{
@@ -682,17 +688,23 @@ html{
 
 .commentary h5{
     padding: 5px 0;
+}
 
 .goalCreate{
     align-items: initial;
-
 }
+
+
 .metaCreate{
     display:flex;
     flex-direction: column;
     align-items: center;
 }
 
+.newComment {
+    display: none;
+    flex-direction: column;
+}
 
 .newComment textarea{
     border: none;
@@ -755,6 +767,7 @@ html{
 .answers .delAnswer button:hover{
     background: rgb(255, 72, 72);
     border: 1px solid #c20101;
+}
 
 #submitCampanha i{
     font-size: 50px;
