@@ -1,6 +1,7 @@
 import { Commentary } from "./commentary.js";
-
-const BASE_URL = "https://ajude-psoft.herokuapp.com";
+import * as c from '../config/env.js'
+const config = c.config()
+const BASE_URL = config.URL_BACKEND;
 
 
 export class CampaignView{
@@ -47,7 +48,7 @@ export class CampaignView{
         <div id="campaignView">
             <div class="viewHeader">
                 <h2>${this.shortName}</h2>
-                <span>STATUS: ${this.status}</span>
+                <span id="campaignStatus">STATUS: ${this.status}</span>
                 <span>EXPIRA: ${this.date}</span>
             </div>
             
@@ -60,7 +61,7 @@ export class CampaignView{
             <div class="goalLikes">    
                 
                 <div class="progressView">                   
-                    <div>${this.donated}/${this.goal}</div>
+                    <div><span id="donated">${this.donated}</span>/<span id="goal">${this.goal}</span></div>
                 </div>
                 <div class="owner">
                     <p>criador: ${this.owner}</p>
@@ -91,13 +92,60 @@ export class CampaignView{
                     </div>
                 </div>
             </div>
+
+            <div class="campaignBTNs">
+                <button class="donateBTN">FAZER DOAÇÃO</button>
+            </div>
+
+            <div id="modal-donate" class="modal-container">
+                <div class="modal">
+                    <button class="closeModal">x</button>
+                    <h3>Faça uma doação para esta campanha</h3>
+                    <input type="number" id="donationValue" placeholder="digite o valor que gostaria de doar">
+                    <button type="button" class="button" id="sendDonate">DOAR</button>
+                </div>
+            </div>
         </div>`
         
+        let $donateBTN = $container.querySelector(".campaignBTNs .donateBTN")
+        $donateBTN.addEventListener('click', () => {
+            if(this.checkLogin()){
+                this.openModal()
+            }
+            
+        })
+
+        let $closeModal = $container.querySelector(".modal .closeModal")
+        $closeModal.addEventListener('click', () => {
+            this.closeModal()
+        })
+
+        let $sendDonation = $container.querySelector(".modal #sendDonate")
+        $sendDonation.addEventListener('click', () => {
+            let $donationValue = $container.querySelector(".modal #donationValue").value
+            this.sendDonation($donationValue)
+        })
+
         this.populateCommentaries()
+
+        if(this.owner === localStorage.getItem('loggedAs')){
+            let $editBTN = document.createElement('button')
+            let $shutBTN = document.createElement('button')
+            $editBTN.innerHTML = "EDITAR"
+            $shutBTN.innerHTML = "ENCERRAR"
+            $shutBTN.addEventListener('click', () =>{
+                this.shutCampaign()
+            })
+            let $container = document.querySelector("#campaignView .campaignBTNs")
+            $container.appendChild($shutBTN)
+            $container.appendChild($editBTN)
+        }
 
         let $newCommentBTN = $container.querySelector('.newCommentBTN')
         $newCommentBTN.addEventListener('click', () => {
-            this.openNewComment()
+            if(this.checkLogin()){
+                this.openNewComment()
+            }
         })
 
         let $sendBTN = $container.querySelector('.sendComentaryMAIN')
@@ -113,6 +161,69 @@ export class CampaignView{
         $div.querySelector('.deslikeButton').addEventListener('click', () =>{
             this.addDeslike()
         })
+    }
+
+    checkLogin(){
+        if(!localStorage.getItem('token')){
+            alert('Você precisa estar logado para isso!');
+            return false;
+        }
+        return true;
+    }
+
+    shutCampaign(){
+        fetch(BASE_URL+`/campaign/${this.shortUrl}/end`, {
+            'method' : 'PUT',
+            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'},
+        }).then(res => {
+            return res.json()
+        }).then(res => {
+            this.status = res.status
+            document.querySelector("#campaignStatus").innerHTML = this.status
+        })
+    }
+
+    sendDonation(value){
+        fetch(BASE_URL+`/campaign/${this.shortUrl}/donation`, {
+            'method' : 'POST',
+            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'},
+            'body' : `{
+                "donatedValue": ${value}
+            }`
+        }).then(res => {
+            return res.json()
+        }).then(res => {
+            this.donated = res.donated
+            this.goal = res.goal
+            document.querySelector("#donated").innerHTML = this.donated
+            document.querySelector("#goal").innerHTML = this.goal
+            const $modal = document.querySelector("#modal-donate")
+            $modal.classList.remove('show')
+            let $div = document.querySelector("#campaignView")
+            $div.querySelector('.progressView div').style.width=`${100*this.donated/this.goal}%`
+            if(this.donated == this.goal){
+                alert("Obrigado, graças a você atingimos a meta. :)")
+            }else if(this.donated < this.goal){
+                alert(`Obrigado, graças a você estamos só a ${this.goal - this.donated} da nossa meta :)`)
+            }else{
+                alert(`Obrigado, atingimos nossa meta.`)
+            }
+        })
+    }
+
+    openModal(){
+        const $modal = document.querySelector("#modal-donate")
+        $modal.classList.add('show')
+        $modal.addEventListener('click', (e) => {
+            if(e.target.id === "modal-donate"){
+                $modal.classList.remove('show')
+            }
+        })
+    }
+
+    closeModal(){
+        const $modal = document.querySelector("#modal-donate")
+        $modal.classList.remove('show')
     }
 
     sendComment(text){

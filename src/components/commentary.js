@@ -40,7 +40,9 @@ export class Commentary{
         }
 
         $comment.querySelector("#newComment").addEventListener('click', () =>{
-            this.open()
+            if(this.checkLogin()){
+                this.open()
+            }     
         })
 
         $comment.querySelector("#showAnswers").addEventListener('click', () =>{
@@ -51,6 +53,14 @@ export class Commentary{
             this.createComent($comment.querySelector(".newComment #textComent").value)
         })
         return $comment
+    }
+
+    checkLogin(){
+        if(!localStorage.getItem('token')){
+            alert('Você precisa estar logado para isso!');
+            return false;
+        }
+        return true;
     }
 
     delComment(father, id, divID){

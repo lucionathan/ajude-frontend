@@ -437,6 +437,7 @@ html{
     background-color:#3B839A;
     text-align: center;
     padding: 5px;
+    max-width: 100%;
 }
 
 #campaignView .goal{
@@ -521,6 +522,101 @@ html{
 
 #campaignView .owner{
     color: black;
+}
+
+#campaignView .campaignBTNs{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+#campaignView .campaignBTNs button{
+    background: #3B839A;
+    padding: 15px;
+    color: white;
+}
+
+#campaignView .campaignBTNs button:hover{
+    background: #30B4BA;
+    padding: 15px;
+    color: white;
+}
+
+
+#campaignView .modal-container{
+    background: rgba(0,0,0,.5);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#campaignView .modal-container.show{
+    display: flex;
+}
+
+@keyframes modal{
+    form {
+        opacity: 0;
+        transform: translate3d(0, -60px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.show .modal{
+    animation: modal .4s;
+}
+
+#campaignView .modal{
+    background: #3B839A;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 2px solid white;
+}
+
+#campaignView .modal h3{
+    padding: 5px;
+    font-weight: normal;
+}
+
+#campaignView .modal .closeModal{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    padding: 5px;
+    background: #30B4BA;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    font-size: 1.2em;
+}
+
+#campaignView .modal .closeModal:hover{
+    background: rgb(102, 167, 189);
+}
+
+#campaignView .modal .button{
+    padding: 5px;
+    color: white;
+    background: #30B4BA;
+    margin-top: 5px;
+}
+
+#campaignView .modal input{
+    padding: 5px;
 }
 
 /*                            VIEW CAMPAIGN END                                       */
