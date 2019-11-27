@@ -22,7 +22,7 @@ export class Campaign{
         this.wasDesliked = deslikedBy.includes(user)
     }
 
-    render(){
+    render(typeClass){
         let $div = document.createElement('div')
         $div.innerHTML = `<div class="campaignHeader">
                             <h2>${this.shortName}</h2>
@@ -43,7 +43,15 @@ export class Campaign{
                         </div>                  
         `
         $div.id=`c${this.id}`
-        $div.className="campaign"
+        
+        if(typeClass == "created") {
+            $div.className="created"
+        } else if(typeClass == "contributed") { 
+            $div.className="contributed"
+        } else {
+            $div.className="campaign"
+        }
+        
         $div.querySelector('.progress div').style.width=`${100*this.donated/this.goal}%`
         $div.querySelector('.likeButton').addEventListener('click', () =>{
             this.addLike()
@@ -68,7 +76,13 @@ export class Campaign{
             }).then((res) =>{
                 return res.json()
             }).then((res) =>{
-                this.updateCampaign(res).then(() => this.onUpdate())
+                if(res.status == 500){
+                    alert('YOUR TOKEN HAS EXPIRED, PLEASE LOGIN AGAIN TO TRY AGAIN')
+                    localStorage.removeItem('loggedAs')
+                    localStorage.removeItem('token')
+                }else{
+                    this.updateCampaign(res).then(() => this.onUpdate())
+                }
             })          
         }else{
             alert('YOU HAVE TO LOGIN TO DO THAT')
@@ -107,14 +121,20 @@ export class Campaign{
         if(localStorage.getItem('token')){
             this.localDeslike()
             
-            fetch(`${BACK_URL}campaign/updateLikeDeslike`, {
+            fetch(`${BACK_URL}/campaign/updateLikeDeslike`, {
                 'method' : 'PUT',
                 'body' : `{"shortUrl": "${this.shortUrl}", "choice":"deslike"}`,
                 'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
             }).then((res) =>{
                 return res.json()
             }).then((res) =>{
-                this.updateCampaign(res).then(() => this.onUpdate())
+                if(res.status == 500){
+                    alert('YOUR TOKEN HAS EXPIRED, PLEASE LOGIN AGAIN TO TRY AGAIN')
+                    localStorage.removeItem('loggedAs')
+                    localStorage.removeItem('token')
+                }else{
+                    this.updateCampaign(res).then(() => this.onUpdate())
+                }
             })
         }else{
             alert('YOU HAVE TO BE LOGIN TO DO THAT')

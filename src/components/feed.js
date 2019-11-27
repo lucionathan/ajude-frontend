@@ -96,9 +96,17 @@ export class Feed{
         let $feed = document.querySelector('#campaignFeedList')
         this.feedCampaigns = []
         $feed.innerHTML =''
+
         for(let i = 0; i < min(5, campaigns.length); i++) 
             this.feedCampaigns.push(new Campaign(campaigns[i].id,campaigns[i].shortName, campaigns[i].shortUrl,campaigns[i].description, campaigns[i].date, campaigns[i].likes, campaigns[i].deslikes, campaigns[i].pessoasLike, campaigns[i].pessoasDeslike, campaigns[i].goal, campaigns[i].donated));
         this.shown = this.feedCampaigns
+        if(this.feedCampaigns.length == 0){
+            let $p = document.createElement('p')
+            $p.innerText = 'Aparentemente nenhuma campanha foi achada.'
+            $p.style.width = "100%;"
+            $p.style.textAlign = 'center'
+            $feed.appendChild($p)
+        }
         this.sort()
         this.shown.forEach(campaign =>{
             $feed.appendChild(campaign.render())
