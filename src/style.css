@@ -619,6 +619,10 @@ html{
     padding: 5px;
 }
 
+#ownerEmail{
+    cursor: pointer;
+}
+
 /*                            VIEW CAMPAIGN END                                       */
 
 /*                            CREATE COMMENTARY BEGGIN                                       */

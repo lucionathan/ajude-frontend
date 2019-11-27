@@ -2,6 +2,10 @@ import { Commentary } from "./commentary.js";
 import * as c from '../config/env.js'
 const config = c.config()
 const BASE_URL = config.URL_BACKEND;
+import {Router} from '../router.js'
+const router = new Router()
+const outerShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)"
+const innerShadow = "inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
 
 
 export class CampaignView{
@@ -21,13 +25,16 @@ export class CampaignView{
                 this.date = res.date;
                 this.likes = res.likes;
                 this.deslikes = res.deslikes;
-                this.likedBy = res.likedBy;
-                this.deslikedBy = res.deslikedBy;
+                this.likedBy = res.pessoasLike;
+                this.deslikedBy = res.pessoasDeslike;
                 this.goal = res.goal;
                 this.donated = res.donated;
                 this.owner = res.owner;
                 this.status = res.status;
                 this.commentaries = res.commentaries;
+                let user = localStorage.getItem('loggedAs')
+                this.wasLiked = this.likedBy.includes(user)
+                this.wasDesliked = this.deslikedBy.includes(user)
                 this.render()
             })
     }
@@ -64,7 +71,7 @@ export class CampaignView{
                     <div><span id="donated">${this.donated}</span>/<span id="goal">${this.goal}</span></div>
                 </div>
                 <div class="owner">
-                    <p>criador: ${this.owner}</p>
+                    <p >criador: <span id="ownerEmail">${this.owner}</span></p>
                 </div>
                 <div class="likesDeslikes">
                     <button class="likeButton"><i class="material-icons">thumb_up</i></button>
@@ -106,6 +113,12 @@ export class CampaignView{
                 </div>
             </div>
         </div>`
+
+        let $campaignOwner = $container.querySelector("#ownerEmail")
+        $campaignOwner.addEventListener('click', () => {
+            router.navigateToProfile(this.owner)
+        })
+
         
         let $donateBTN = $container.querySelector(".campaignBTNs .donateBTN")
         $donateBTN.addEventListener('click', () => {
@@ -155,12 +168,20 @@ export class CampaignView{
 
         let $div = $container.querySelector("#campaignView")
         $div.querySelector('.progressView div').style.width=`${100*this.donated/this.goal}%`
+
+
         $div.querySelector('.likeButton').addEventListener('click', () =>{
             this.addLike()
         })
         $div.querySelector('.deslikeButton').addEventListener('click', () =>{
             this.addDeslike()
         })
+
+        let $likeBTN = $container.querySelector(`#campaignView .likesDeslikes .likeButton`)
+        $likeBTN.querySelector('i').style.textShadow = this.wasLiked ? outerShadow : "";
+
+        let $deslikeBTN = $container.querySelector(`#campaignView .likesDeslikes .deslikeButton`)
+        $deslikeBTN.querySelector('i').style.textShadow = this.wasLiked ? outerShadow : "";
     }
 
     checkLogin(){
@@ -266,29 +287,42 @@ export class CampaignView{
         let $comentaryBox = document.querySelector(".comentaries")
         let coment;
         $comentaryBox.innerHTML = ""
-        this.commentaries.forEach(element => {
-            if(element.active){
-                coment = new Commentary(element)
-                $comentaryBox.appendChild(coment.render())
+        try{
+            this.commentaries.forEach(element => {
+                if(element.active){
+                    coment = new Commentary(element)
+                    $comentaryBox.appendChild(coment.render())
+                }
+            });
+        }catch (e) {
+            if($comentaryBox.childElementCount < 1){
+                $comentaryBox.innerHTML = "Ainda não tem nenhum comentário nessa campanha ainda, seja o primeiro :)"
+                $comentaryBox.style.padding = "10px"
             }
-        });
-        if($comentaryBox.childElementCount < 1){
-            $comentaryBox.innerHTML = "Ainda não tem nenhum comentário nessa campanha ainda, seja o primeiro :)"
-            $comentaryBox.style.padding = "10px"
         }
     }
 
     addLike(){
-        this.localLike()
-        fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
-            'method' : 'PUT',
-            'body' : `{"shortUrl": "${this.shortUrl}", "choice":"like"}`,
-            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
-        }).then((res) =>{
-            return res.json()
-        }).then((res) =>{
-            this.updateCampaign(res).then(() => this.onUpdate())
-        })          
+        if(localStorage.getItem('token')){
+            this.localLike()
+            fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
+                'method' : 'PUT',
+                'body' : `{"shortUrl": "${this.shortUrl}", "choice":"like"}`,
+                'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
+            }).then((res) =>{
+                return res.json()
+            }).then((res) =>{
+                if(res.status == 500){
+                    alert('YOUR TOKEN HAS EXPIRED, PLEASE LOGIN AGAIN TO TRY AGAIN')
+                    localStorage.removeItem('loggedAs')
+                    localStorage.removeItem('token')
+                }else{
+                    this.updateCampaign(res)
+                }
+            })          
+        }else{
+            alert('YOU HAVE TO LOGIN TO DO THAT')
+        }
     }
 
     localLike(){
@@ -298,25 +332,20 @@ export class CampaignView{
         }else{
             this.wasLiked = true;
             this.likes++;
+            if(this.wasDesliked){
+                this.wasDesliked = false;
+                this.deslikes--;
+            }
         }
-        let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
-        let $likes = document.querySelector(`#c${this.id} .campaignFooter .likes`)
-        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? '' : outerShadow;
-        $likes.innerText = this.likes
-    }
-
-    localDeslike(){
-        if(this.wasDesliked){
-            this.wasDesliked = false;
-            this.deslikes--;
-        }else{
-            this.wasDesliked = true;
-            this.deslikes++;
-        }
-        let $deslikeButton = document.querySelector(`#c${this.id} .campaignFooter .deslikeButton`)
-        let $deslikes = document.querySelector(`#c${this.id} .campaignFooter .deslikes`)
-        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? '' : outerShadow;
+        let $deslikeButton = document.querySelector(`#campaignView .likesDeslikes .deslikeButton`)
+        let $deslikes = document.querySelector(`#campaignView .likesDeslikes .deslikes`)
+        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? outerShadow : "";
         $deslikes.innerText = this.deslikes
+
+        let $likeButton = document.querySelector(`#campaignView .likesDeslikes .likeButton`)
+        let $likes = document.querySelector(`#campaignView .likesDeslikes .likes`)
+        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? outerShadow : "";
+        $likes.innerText = this.likes
     }
 
     addDeslike(){
@@ -330,11 +359,40 @@ export class CampaignView{
             }).then((res) =>{
                 return res.json()
             }).then((res) =>{
-                this.updateCampaign(res).then(() => this.onUpdate())
+                if(res.status == 500){
+                    alert('YOUR TOKEN HAS EXPIRED, PLEASE LOGIN AGAIN TO TRY AGAIN')
+                    localStorage.removeItem('loggedAs')
+                    localStorage.removeItem('token')
+                }else{
+                    this.updateCampaign(res)
+                }
             })
         }else{
             alert('YOU HAVE TO BE LOGIN TO DO THAT')
         }
+    }
+
+    localDeslike(){
+        if(this.wasDesliked){
+            this.wasDesliked = false;
+            this.deslikes--;
+        }else{
+            this.wasDesliked = true;
+            this.deslikes++;
+            if(this.wasLiked){
+                this.wasLiked = false;
+                this.likes--;
+            }
+        }
+        let $deslikeButton = document.querySelector(`#campaignView .likesDeslikes .deslikeButton`)
+        let $deslikes = document.querySelector(`#campaignView .likesDeslikes .deslikes`)
+        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? outerShadow : "";
+        $deslikes.innerText = this.deslikes
+
+        let $likeButton = document.querySelector(`#campaignView .likesDeslikes .likeButton`)
+        let $likes = document.querySelector(`#campaignView .likesDeslikes .likes`)
+        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? outerShadow : "";
+        $likes.innerText = this.likes
     }
 
     

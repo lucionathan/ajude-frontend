@@ -1,4 +1,6 @@
 const BASE_URL = "https://ajude-psoft.herokuapp.com";
+import {Router} from '../router.js'
+const router = new Router()
 export class Commentary{
     constructor(comment){
         this.comment = comment;
@@ -9,7 +11,7 @@ export class Commentary{
         $comment.id = `co${this.comment.id}`
         $comment.className = "commentary"
         $comment.innerHTML = `
-        <h5>${this.comment.email}</h5>
+        <h5 id="ownerEmail">${this.comment.email}</h5>
         <div class="textBox">
             <p>${this.comment.text}</p>
             <div class="buttons">
@@ -38,6 +40,10 @@ export class Commentary{
                 this.delComment(this.comment.father, this.comment.id, `#co${this.comment.id}`)
             })
         }
+
+        $comment.querySelector("#ownerEmail").addEventListener('click', () => {
+            router.navigateToProfile(this.comment.email)
+        })
 
         $comment.querySelector("#newComment").addEventListener('click', () =>{
             if(this.checkLogin()){
@@ -107,10 +113,13 @@ export class Commentary{
                     $answer.id = `ans${element.id}`
                     $answer.innerHTML = `
                     <div class="answerBox">
-                        <h5>${element.email}</h5>
+                        <h5 id="ownerEmail">${element.email}</h5>
                         <p>${element.text}</p>
                     </div>
                     `
+                    $answer.querySelector("#ownerEmail").addEventListener('click', () => {
+                        router.navigateToProfile(element.email)
+                    })
                     if(localStorage.getItem('loggedAs') == element.email){
                         let $btn = document.createElement('div')
                         $btn.innerHTML = "<button>deletar comentario</button>"
