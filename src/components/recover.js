@@ -13,15 +13,19 @@ export class Recover {
         let $template = document.querySelector("#recover")
         $container.appendChild($template.content.querySelector('form').cloneNode(true))
         let $button = $container.querySelector('form').querySelector('#recoverBtn')
-        let email = $container.querySelector('form').querySelector('#emailRecover').value
+        
 
-        $button.addEventListener('click', this.recover(email))
+        $button.addEventListener('click', () =>{
+            let email = $container.querySelector('form').querySelector('#emailRecover').value
+            this.recover(email)
+        })
 
 
         location.hash = "#/recover"
     }
 
     recover(email) {
+        console.log(email)
         fetch(`${URL_BACKEND}user/forgot`, {
             'method' : 'POST',
             'body': `{"email":"${email}"}`
