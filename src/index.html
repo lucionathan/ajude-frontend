@@ -70,13 +70,14 @@
                 </button>
             </header>
             <main>
+                <div id="menu">
+                    <input id="stringQuery" type="text">
+                    <button id="backendQuery"><i class="material-icons">search</i></button>
+                    <p>Deseja apenas pesquisas ativas?</p>
+                    <input id="activeQuery" type="checkbox" checked>
+                </div>
                 <div class="content">
-                    <div id="menu">
-                        <div>
-                            <input id="stringQuery" type="text">
-                            <input id="activeQuery" type="checkbox" checked>
-                            <button id="backendQuery">Search</button>
-                        </div>
+                    <div id="feed">
                         <div>
                             <input type="text" id="feedFilter">
                             <div class="localQueryButtons">
@@ -84,9 +85,7 @@
                                 <button id="orderByDate">Data</button>
                                 <button id="orderByGoal">Meta</button>
                             </div>
-                        </div>
-                    </div>
-                    <div id="feed">
+                        </div>    
                         <div id="campaignFeedList">
 
                         </div>

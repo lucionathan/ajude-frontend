@@ -227,7 +227,7 @@ body{
     grid-template-columns: 1fr 2fr 1fr;
     grid-template-rows: 80px 90vh;
     grid-template-areas: "h h h"
-                         ". m .";
+                         "m m .";
 
 }
 
@@ -240,9 +240,12 @@ body{
 
 .dashBoard main{
     grid-area:m;
+    display:flex;
+    flex-direction: row;
 }
 
 .dashBoard .content{
+    width: 100%;
     display:flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -288,6 +291,10 @@ body{
 
 
 /*MENU*/
+#menu{
+   width: 300px; 
+}
+
 /*                      FEED                        */
 #feed{
     display:flex;
