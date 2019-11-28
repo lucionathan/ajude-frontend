@@ -21,24 +21,23 @@ export class Reset {
             let $newPassword = $container.querySelector('form').querySelector('#newResetPassword');
             let $newPassword2 = $container.querySelector('form').querySelector('#newResetPassword2');
             let $passwordMessage = $container.querySelector('form').querySelector('#passwordResetMessage');
-            if($newPassword.value === $newPassword2.value & $newPassword.length > 6) {
+            if($newPassword.value === $newPassword2.value) {
+
+                this.reset($newPassword.value, tokenHeader[1])
                 $passwordMessage.innerHTML = "";
                 $newPassword.value = "";
                 $newPassword2.value = "";
 
-                this.reset($newPassword.value, tokenHeader[1])
             } else {
                 $passwordMessage.innerHTML = "As senhas são diferentes.";
             }
             
-            $password.value = "";
         })
 
 
     }
 
     reset(newPassword, token) {
-        console.log(email)
         fetch(`${URL_BACKEND}user/reset?token=${token}`, {
             'method' : 'POST',
             'body': `{"password":"${newPassword}"}`,
@@ -46,7 +45,7 @@ export class Reset {
         }).catch(err => {
             
                 console.log("\n\n[DEBUG script.js register]" + err)
-                Router.navigateToRecover()
+                // Router.navigateToRecover()
             }).then(res => {
                 if(res.ok) {
                     return res.json()

@@ -3,6 +3,8 @@ import {Login} from './components/login.js'
 import {Registry} from './components/registry.js'
 import { CampaignView } from './components/campaignView.js';
 import { Profile } from './components/profile.js';
+import { Reset } from './components/reset.js';
+
 let $container
 import * as c from '../config/env.js'
 import { Recover } from './components/recover.js';
@@ -22,6 +24,8 @@ function routing(){
             viewCampaign(data[2])
         }else if(data[1] == 'profile'){
             viewProfile(data[2])
+        }else if(data[1] == 'reset'){
+            viewReset(data[2])
         }
     }
     else{
@@ -54,6 +58,7 @@ function routing(){
                 viewChangePassword()
                 break 
             case "#/reset":
+                console.log("oii")
                 viewReset()
                 break 
        }
@@ -87,6 +92,7 @@ function viewRecover() {
 }
 
 function viewReset(token) {
+    console.log("to aq em")
     new Reset(token);
 }
 

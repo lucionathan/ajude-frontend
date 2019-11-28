@@ -42,14 +42,14 @@ export class Router{
         history.pushState({url:"#/recover"}, "", "#/recover")
     }
 
-    navigateToChangePassword(token){
-        location.replace(`/#/changePassword`)
+    navigateToChangePassword(){
+        location.replace(`${URL_BASE}/#/changePassword`)
         history.pushState({url:`/#/changePassword`}, "",  `/#/changePassword`)
     }
 
     navigateToReset(token){
-        location.replace(`/#/reset${token}`)
-        history.pushState({url:`/#/reset${token}`}, "",  `/#/reset${token}`)
+        location.replace(`${URL_BASE}/#/reset/${token}`)
+        history.pushState({url:`/#/reset/${token}`}, "",  `/#/reset/${token}`)
     }
 
 }
