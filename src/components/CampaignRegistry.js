@@ -97,27 +97,16 @@ export class CampaignRegistry
     }
 
     updateCampaign(shortName, expireDate, description, goal){
+        let date = this.getRightDate(expireDate)
         console.log(shortName, expireDate, description, goal, this.shortUrl, this)
         fetch(URL_BACKEND+`campaign/${this.shortUrl}`, {
             'method' : 'PUT',
-            'json' : `${true}`,
             'body' : `{
-                "shortName": "${shortName}",
-                "description": "${description}",
-                "date" : "${expireDate}",
+                "shortName" : "${shortName}",
+                "description" : "${description}",
+                "date" : "${date}",
                 "goal" : ${goal},
-                "shortUrl" : "${this.shortUrl}",
-                "commentaries" : ${JSON.parse(JSON.stringify(this.commentaries))},
-                "deslikes" : ${this.deslikes},
-                "donated" : ${this.donated},
-                "donations" : ${this.donations},
-                "pessoasDeslike" : ${this.deslikedBy},
-                "id" : ${this.id},
-                "likes" : ${this.likes},
-                "pessoasLike":${this.likedBy},
-                "over" : ${this.over},
-                "owner" : "${this.owner}",
-                "status" : "${this.status}"
+                "shortUrl" : "${this.shortUrl}"
             }`,
             'headers' : {'Content-Type' : 'application/json', 'Authorization':`Bearer ${localStorage.getItem('token')}`}
         }).then(res => {

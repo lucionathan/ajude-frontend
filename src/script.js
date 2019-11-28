@@ -64,9 +64,10 @@ function routing(){
                 viewChangePassword()
                 break 
             case "#/reset":
-                console.log("oii")
                 viewReset()
-                break     
+                break    
+            case "#/forgot":
+                viewForgot()
         }
     }
 }
@@ -130,7 +131,7 @@ function viewProfile(email) {
     new Profile(email);
 }
 
-function viewRecover() {
+function viewForgot() {
     new Recover();
 }
 

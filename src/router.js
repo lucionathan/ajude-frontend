@@ -68,4 +68,9 @@ export class Router{
         location.replace(`${URL_BASE}/#/reset/${token}`)
         history.pushState({url:`/#/reset/${token}`}, "",  `/#/reset/${token}`)
     }
+
+    navigateToForgot(){
+        location.replace(`${URL_BASE}/#/forgot`)
+        history.pushState({url:`/#/forgot`}, "",  `/#/forgot`)
+    }
 }

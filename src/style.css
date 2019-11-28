@@ -70,11 +70,13 @@ html{
     font-weight: lighter;
 }
 
-#loginForm a{
+#loginForm span{
     text-align: end;
     margin: 5px;
     color: black;
     font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 #loginForm button {

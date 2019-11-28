@@ -17,10 +17,15 @@ export class Login{
         $button.addEventListener('click', () =>{
             this.login();
         })
-        let $buttonRegister =$container.querySelector('form').querySelector('#registerBtn')
+        let $buttonRegister = $container.querySelector('form').querySelector('#registerBtn')
         $buttonRegister.addEventListener('click', () =>{
             router.navigateToRegister()
         });
+
+        let $buttonReset = $container.querySelector('form span')
+        $buttonReset.addEventListener('click', () => {
+            router.navigateToForgot()
+        })
         location.hash = "#/login"
     }
 
