@@ -23,12 +23,15 @@ function routing(){
     $container.innerHTML = ''    
     if(location.hash.split("/").length > 2){
         let data = location.hash.split("/")
-        if(data[1] == 'campaign'){
+        if(data[1] == 'campaign' && data[2] != "edit"){
             viewCampaign(data[2])
         }else if(data[1] == 'profile'){
             viewProfile(data[2])
         }else if(data[1] == 'reset'){
             viewReset(data[2])
+        }
+        if(data[1] == 'campaign' && data[2] == 'edit'){
+            viewEditCampaign(data[3])
         }
     }
     else{
@@ -122,6 +125,7 @@ function viewCreateCampaign(){
     new CampaignRegistry()
 }
 
+
 function viewProfile(email) {
     new Profile(email);
 }
@@ -138,6 +142,12 @@ function viewReset(token) {
 
 function viewChangePassword() {
     new ChangePassword();
+}
+
+function viewEditCampaign(shortUrl){
+    includeHeader(localStorage.getItem('loggedAs'))
+    new CampaignRegistry(shortUrl)
+
 }
 
 function includeHeader(email){

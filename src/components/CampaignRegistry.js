@@ -6,12 +6,40 @@ const URL_BASE = config.URL_BASE;
 const URL_BACKEND = config.URL_BACKEND;
 export class CampaignRegistry
 {
-    constructor(name = "", data = "", description = "", goal = 0){
-        this.name = name
-        this.data = data
-        this.description = description
-        this.goal = goal
-        this.render()
+    constructor(shortUrl = "", name = "", data = "", description = "", goal = 0){
+        this.shortUrl = shortUrl;
+        if(this.shortUrl != ""){
+            fetch(URL_BACKEND+`/campaign/${this.shortUrl}`).then(res => {
+                return res.json()
+            }).then(res => {
+                console.log(res)
+                this.name = res.shortName;
+                this.description = res.description;
+                this.data = res.date;
+                this.goal = res.goal;
+                this.likes = res.likes;
+                this.deslikes = res.deslikes;
+                this.likedBy = res.pessoasLike;
+                this.deslikedBy = res.pessoasDeslike;
+                this.goal = res.goal;
+                this.donated = res.donated;
+                this.donations = res.donations;
+                this.owner = res.owner;
+                this.status = res.status;
+                this.commentaries = res.commentaries;
+                this.id = res.id;
+                this.over = res.over;
+                this.render()
+            })
+        }else{
+            this.name = name
+            this.data = data
+            this.description = description
+            this.goal = goal
+            this.render()
+        }
+        
+        
     }
 
     render() {
@@ -36,7 +64,7 @@ export class CampaignRegistry
                 
                 <div class="metaCreate">                   
                     <p>Quanto deseja arrecadar?</p>
-                    <input min=0 id="createGoal" type="number" value="${this.goal}">
+                    <input min=0 id="createGoal" type="number" value="${parseInt(this.goal)}">
                 </div>
 
                 <button id="submitCampanha">
@@ -46,18 +74,59 @@ export class CampaignRegistry
             <div id="displayError">
             </div>
         </div>`
-        let $div = $container.querySelector("#campaignView")
+        if(this.shortUrl != ""){
+            $container.querySelector("#submitCampanha i").innerHTML = "check_box"
+        }
 
         $container.querySelector("#submitCampanha").addEventListener('click', () => {
-            let shortName = $container.querySelector('#createShortName').value
-            let expireDate = $container.querySelector('#createExpireDate').value
-            let description = $container.querySelector('#createDescription').value
-            let goal = $container.querySelector('#createGoal').value
-            this.postCampaign(shortName, expireDate, description, goal)
+            if(this.shortUrl == ""){
+                let shortName = $container.querySelector('#createShortName').value
+                let expireDate = $container.querySelector('#createExpireDate').value
+                let description = $container.querySelector('#createDescription').value
+                let goal = $container.querySelector('#createGoal').value
+                this.postCampaign(shortName, expireDate, description, goal)
+            }else{
+                let shortName = $container.querySelector('#createShortName').value
+                let expireDate = $container.querySelector('#createExpireDate').value
+                let description = $container.querySelector('#createDescription').value
+                let goal = $container.querySelector('#createGoal').value
+                this.updateCampaign(shortName, expireDate, description, goal)
+            }
         })
 
     }
 
+    updateCampaign(shortName, expireDate, description, goal){
+        console.log(shortName, expireDate, description, goal, this.shortUrl, this)
+        fetch(URL_BACKEND+`campaign/${this.shortUrl}`, {
+            'method' : 'PUT',
+            'json' : `${true}`,
+            'body' : `{
+                "shortName": "${shortName}",
+                "description": "${description}",
+                "date" : "${expireDate}",
+                "goal" : ${goal},
+                "shortUrl" : "${this.shortUrl}",
+                "commentaries" : ${JSON.parse(JSON.stringify(this.commentaries))},
+                "deslikes" : ${this.deslikes},
+                "donated" : ${this.donated},
+                "donations" : ${this.donations},
+                "pessoasDeslike" : ${this.deslikedBy},
+                "id" : ${this.id},
+                "likes" : ${this.likes},
+                "pessoasLike":${this.likedBy},
+                "over" : ${this.over},
+                "owner" : "${this.owner}",
+                "status" : "${this.status}"
+            }`,
+            'headers' : {'Content-Type' : 'application/json', 'Authorization':`Bearer ${localStorage.getItem('token')}`}
+        }).then(res => {
+            return res.json()
+        }).then(res => {
+            console.log(res)
+            router.navigateToCampaign(this.shortUrl)
+        })
+    }
 
     
     postCampaign(shortName, expireDate, description, goal){

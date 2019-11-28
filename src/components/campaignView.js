@@ -141,6 +141,9 @@ export class CampaignView{
             $shutBTN.addEventListener('click', () =>{
                 this.shutCampaign()
             })
+            $editBTN.addEventListener('click', () => {
+                router.navigateToEdit(this.shortUrl)
+            })
             let $container = document.querySelector("#campaignView .campaignBTNs")
             $container.appendChild($shutBTN)
             $container.appendChild($editBTN)
@@ -279,19 +282,21 @@ export class CampaignView{
         let $comentaryBox = document.querySelector(".comentaries")
         let coment;
         $comentaryBox.innerHTML = ""
-        try{
+        if(this.commentaries != undefined && this.commentaries.length > 0){
             this.commentaries.forEach(element => {
                 if(element.active){
                     coment = new Commentary(element)
                     $comentaryBox.appendChild(coment.render())
                 }
             });
-        }catch (e) {
+        }else {
             if($comentaryBox.childElementCount < 1){
                 $comentaryBox.innerHTML = "Ainda não tem nenhum comentário nessa campanha ainda, seja o primeiro :)"
                 $comentaryBox.style.padding = "10px"
             }
         }
+
+
     }
 
     addLike(){
