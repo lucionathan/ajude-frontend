@@ -31,7 +31,9 @@ html{
 }
 
 /*  PAGINA DE LOGIN */
+
 #loginForm{
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
     background-color:rgb(255, 255, 255);
@@ -142,6 +144,7 @@ html{
     flex: 0;
     padding: 20px 20px 30px 20px;
     border: 1px solid #3B839A;
+    margin-top: 25px;
 }
 
 #registerForm .buttons{
@@ -150,6 +153,20 @@ html{
     flex-direction: row;
     justify-content: space-between;
     margin: 15px 5px;
+    
+}
+
+#registerForm .buttons button{
+    background-color: #DDFCCE;
+    border: 1px solid #3B839A;
+    color: #3B839A;
+    transition: background-color 0.3s ease;
+}
+
+#registerForm .buttons button:hover{
+    border: 1px solid #DDFCCE;
+    background: #3B839A;
+    color: #DDFCCE;
 }
 
 #registerForm .fields input{
@@ -254,13 +271,12 @@ html{
 }
 /*      Header      */
 #guestHeader, #loggedInHeader{
-    width: 100%;
     min-width: 100px;
-    display:flex;
+    display:none;
     flex-direction: row;
     color: white;
     background-color:#30b4ba;
-    height: 50px;
+    padding: 5px;
 }
 .ajude{
     margin: auto;
@@ -271,12 +287,6 @@ html{
 .headerButtons{
     display:flex;
     flex-direction: row-reverse;
-    margin-left: auto;
-    width: 20%;
-}
-.headerButtons button{
-    margin: 5px;
-
 }
 
 .headerButtons button i{
@@ -1013,10 +1023,6 @@ html{
 
 /*                           RECOVER PASSWORD END                                       */
 
-.hidden{
-    visibility: hidden;
-    height: 0 !important;
-}
 
 /*Profile*/
 
@@ -1067,4 +1073,20 @@ html{
 
 #recover .buttons{
     justify-content: center;
+}
+
+#guestHeader .headerButtons button p{
+    padding: 10px;
+    color: white;
+    border-bottom: 2px solid white;
+}
+
+#guestHeader .headerButtons button p:hover{
+    padding: 10px;
+    color: white;
+    border-bottom: 2px solid #3B839A;
+}
+
+#guestHeader .headerButtons{
+    width: 10%;
 }

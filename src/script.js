@@ -70,6 +70,14 @@ function routing(){
                 viewForgot()
         }
     }
+
+    if(localStorage.getItem('token')){
+        $loggedHeader.style.display = "flex"
+        $guestHeader.style.display = "none"
+    }else{
+        $loggedHeader.style.display = "none"
+        $guestHeader.style.display = "flex"
+    }
 }
 
 let $loggedHeader = document.querySelector('#loggedInHeader')
@@ -97,8 +105,16 @@ document.querySelector("#loggedInHeader .ajude").addEventListener('click', () =>
     router.navigateToDashBoard()
 })
 
-$guestHeader.className= 'hidden'
-$loggedHeader.className = 'hidden'
+if(localStorage.getItem('token')){
+    $loggedHeader.style.display = "flex"
+    $guestHeader.style.display = "none"
+}else{
+    $loggedHeader.style.display = "none"
+    $guestHeader.style.display = "flex"
+}
+
+
+
 routing()
 window.onhashchange = routing
 function viewLogin(){
