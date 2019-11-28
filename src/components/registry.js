@@ -15,8 +15,6 @@ export class Registry{
         let $template = document.querySelector("#register")
         $container.appendChild($template.content.querySelector('form').cloneNode(true))
         let $button = $container.querySelector('form').querySelector('#registerBtn')
-        let $email = $container.querySelector('form').querySelector('#emailRecover')
-
         $button.addEventListener('click', () =>{
             this.register()
         })

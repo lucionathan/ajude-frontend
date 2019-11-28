@@ -157,19 +157,54 @@
 
 
     <template id="recover">
-            <form id="recover">
-                <h2>Recuperar senha</h2>
-                <div class="fieldsRecover">
-                    <input id="emailRecover" placeholder="email">
+        <form id="recover">
+            <h2>Email de recuperação</h2>
+            <div class="fieldsRecover">
+                <input id="emailRecover" placeholder="email">
+            </div>
+            
+            <div class="buttons">
+                <button id="recoverBtn">Recuperar</button>
+            </div>
+
+            <div id="message"></div>
+        </form>
+    </template>
+
+    <template id="changePassword">
+            <form id="changePassword">
+                <h2>Mudar senha</h2>
+                <div class="fieldsChangePassword">
+                    <input id="currentPassword" placeholder="Senha atual.">
+                    <input id="newPassword" placeholder="Nova senha.">
+                    <input id="newPassword2" placeholder="Confirmação de nova senha.">
+                    <div id="passwordMessage"></div>
                 </div>
                 
                 <div class="buttons">
-                    <button id="recoverBtn">Recuperar</button>
+                    <button id="changePasswordBtn">Enviar</button>
                 </div>
-
-                <div id="message"></div>
+    
+                <div id="messageChange"></div>
             </form>
-        </template>
+    </template>
+
+    <template id="resetPassword">
+            <form id="resetPassword">
+                <h2>Recuperar senha</h2>
+                <div class="fieldsChangePassword">
+                    <input id="newResetPassword" placeholder="Nova senha.">
+                    <input id="newResetPassword2" placeholder="Confirmação de nova senha.">
+                    <div id="passwordResetMessage"></div>
+                </div>
+                
+                <div class="buttons">
+                    <button id="resetPasswordBtn">Enviar</button>
+                </div>
+    
+                <div id="messageReset"></div>
+            </form>
+    </template>
 </body>
 
 </html>

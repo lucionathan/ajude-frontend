@@ -6,6 +6,7 @@ import { Profile } from './components/profile.js';
 let $container
 import * as c from '../config/env.js'
 import { Recover } from './components/recover.js';
+import { ChangePassword } from './components/changePassword.js';
 const config = c.config()
 const URL_BASE = config.URL_BASE;
 const URL_BACKEND = config.URL_BACKEND;
@@ -21,6 +22,10 @@ function routing(){
             viewCampaign(data[2])
         }else if(data[1] == 'profile'){
             viewProfile(data[2])
+        }else if(data[1] == 'changePassword') {
+            viewChangePassword(data[2])
+        }else if(data[1] == 'reset') {
+            viewReset(data[2])
         }
     }
     else{
@@ -49,7 +54,13 @@ function routing(){
             case "#/recover":
                 viewRecover()
                 break 
-        }
+            case "#/changePassword":
+                viewChangePassword()
+                break 
+            case "#/changePassword":
+                viewChangePassword()
+                break 
+       }
     }
 }
 
@@ -77,6 +88,15 @@ function viewProfile(email) {
 
 function viewRecover() {
     new Recover();
+}
+
+function viewReset(token) {
+    new Reset(token)
+}
+
+
+function viewChangePassword(token) {
+    new ChangePassword(token);
 }
 
 function viewCreateCampaign(){
