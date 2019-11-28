@@ -70,13 +70,17 @@ function routing(){
                 viewForgot()
         }
     }
-
-    if(localStorage.getItem('token')){
-        $loggedHeader.style.display = "flex"
-        $guestHeader.style.display = "none"
+    if(location.hash != "#/login" && location.hash != "#/register"){
+        if(localStorage.getItem('token')){
+            $loggedHeader.style.display = "flex"
+            $guestHeader.style.display = "none"
+        }else{
+            $loggedHeader.style.display = "none"
+            $guestHeader.style.display = "flex"
+        }
     }else{
         $loggedHeader.style.display = "none"
-        $guestHeader.style.display = "flex"
+        $guestHeader.style.display = "none"
     }
 }
 
