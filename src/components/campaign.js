@@ -48,9 +48,9 @@ export class Campaign{
         $div.id=`c${this.id}`
         
         if(typeClass == "created") {
-            $div.className="created"
+            $div.className="campaign created"
         } else if(typeClass == "contributed") { 
-            $div.className="contributed"
+            $div.className="campaign contributed"
         } else {
             $div.className="campaign"
         }

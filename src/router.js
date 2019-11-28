@@ -2,75 +2,75 @@ import * as c from '../config/env.js'
 const config = c.config()
 const URL_BASE = config.URL_BASE;
 const URL_BACKEND = config.URL_BACKEND;
+
 export class Router{
 
     constructor(){
 
     }
     navigateToLogin(){
-        location.replace(`${URL_BASE}/#/login`)
         history.pushState({url:"#/login"}, "", "#/login")
+        window.onhashchange()
     }
 
     navigateToRegister(){
-        location.replace(`${URL_BASE}/#/register`)
         history.pushState({url:"#/register"}, "", "#/register")
+        window.onhashchange()
     }
 
     navigateToDashBoard(){
-        location.replace(`${URL_BASE}/#/dash`)
         history.pushState({url:"#/dash"}, "", "#/dash")
+        window.onhashchange()
     }
 
     navigateToLoggin(){
-        location.replace(`${URL_BASE}/#/loading`)
         history.pushState({url:"#/loading"}, "", "#/loading")
+        window.onhashchange()
     }
 
     navigateToCampaign(shortUrl){
-        location.replace(`${URL_BASE}/#/campaign/${shortUrl}`)
         history.pushState({url:`/#/campaign/${shortUrl}`}, "", `/#/campaign/${shortUrl}`)
+        window.onhashchange()
     }
 
     navigateToProfile(email){
-        location.replace(`${URL_BASE}/#/profile/${email}`)
         history.pushState({url:`/#/profile/${email}`}, "",  `/#/profile/${email}`)
+        window.onhashchange()
     }
 
 
     navigateToEdit(shortUrl){
-        location.replace(`${URL_BASE}/#/campaign/edit/${shortUrl}`)
         history.pushState({url:`/#/campaign/edit/${shortUrl}`}, "",  `/#/campaign/edit/${shortUrl}`)
+        window.onhashchange()
     }
   
     navigateToCampaignCreation(){  
-        location.replace(`${URL_BASE}/#/campaign`)
         history.pushState({url:`/#/campaign`}, "",  `/#/campaign`)
-
+        window.onhashchange()
     }
 
     navigateToProfile(email){
-        location.replace(`${URL_BASE}/#/profile/${email}`)
         history.pushState({url:`/#/profile/${email}`}, "",  `/#/profile/${email}`)
+        window.onhashchange()
     }
 
     navigateToRecover() {
-        location.replace(`${URL_BASE}/#/recover`)
         history.pushState({url:"#/recover"}, "", "#/recover")
+        window.onhashchange()
     }
 
     navigateToChangePassword(){
-        location.replace(`${URL_BASE}/#/changePassword`)
         history.pushState({url:`/#/changePassword`}, "",  `/#/changePassword`)
+        window.onhashchange()
     }
 
     navigateToReset(token){
-        location.replace(`${URL_BASE}/#/reset/${token}`)
         history.pushState({url:`/#/reset/${token}`}, "",  `/#/reset/${token}`)
+        window.onhashchange()
     }
 
     navigateToForgot(){
-        location.replace(`${URL_BASE}/#/forgot`)
         history.pushState({url:`/#/forgot`}, "",  `/#/forgot`)
+        window.onhashchange()
     }
 }
