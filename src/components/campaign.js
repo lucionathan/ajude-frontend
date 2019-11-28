@@ -1,7 +1,7 @@
 import {Router} from '../router.js'
 const BACK_URL = "https://ajude-psoft.herokuapp.com/";
-const outerShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)"
-const innerShadow = "inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
+const dark = "#3B839A"
+const light = "#30b4ba"
 const router = new Router()
 export class Campaign{
 
@@ -37,9 +37,11 @@ export class Campaign{
                             <p class="likes">${this.likes}</p>
                             <button class="deslikeButton"><i class="material-icons">thumb_down</i></button>
                             <p class="deslikes">${this.deslikes}</p>
-                            <div>
-                                <button>VISITAR</button>
-                            </div>
+                            <button class="visitCampaignButton">
+                                <div>
+                                    <p>Visitar</p>
+                                </div>
+                            </button>
                         </div>                  
         `
         $div.id=`c${this.id}`
@@ -52,7 +54,7 @@ export class Campaign{
             $div.className="campaign"
         }
         
-        $div.querySelector('.progress div').style.width=`${100*this.donated/this.goal}%`
+        $div.querySelector('.progress div').style.width=`${100*min(this.donated,this.goal)/this.goal}%`
         $div.querySelector('.likeButton').addEventListener('click', () =>{
             this.addLike()
         })
@@ -60,9 +62,12 @@ export class Campaign{
             this.addDeslike()
         })
 
-        $div.querySelector('.campaignFooter div button').addEventListener('click', () =>{
+        $div.querySelector('.visitCampaignButton').addEventListener('click', () =>{
             router.navigateToCampaign(this.shortUrl)
         })
+
+        $div.querySelector('.deslikeButton i').style.color = this.wasDesliked ? dark : light
+        $div.querySelector('.likeButton i').style.color = this.wasLiked ? dark : light;
         return $div
     }
 
@@ -97,9 +102,12 @@ export class Campaign{
             this.wasLiked = true;
             this.likes++;
         }
+        let $deslikeButton = document.querySelector(`#c${this.id} .campaignFooter .deslikeButton`)
         let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
         let $likes = document.querySelector(`#c${this.id} .campaignFooter .likes`)
-        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? '' : outerShadow;
+        $likeButton.querySelector('i').style.color = this.wasLiked ? dark : light;
+        $deslikeButton.querySelector('i').style.color = this.wasDesliked ? dark : light;
+
         $likes.innerText = this.likes
     }
 
@@ -111,9 +119,12 @@ export class Campaign{
             this.wasDesliked = true;
             this.deslikes++;
         }
+        let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
         let $deslikeButton = document.querySelector(`#c${this.id} .campaignFooter .deslikeButton`)
         let $deslikes = document.querySelector(`#c${this.id} .campaignFooter .deslikes`)
-        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? '' : outerShadow;
+        $deslikeButton.querySelector('i').style.color = this.wasDesliked ? dark : light;
+        $likeButton.querySelector('i').style.color = this.wasLiked ? dark : light;
+
         $deslikes.innerText = this.deslikes
     }
 
@@ -167,8 +178,16 @@ export class Campaign{
         $div.querySelector('.progress div').innerText = `${this.donated}/${this.goal}`
         $div.querySelector('.campaignFooter .likes').innerText = this.likes;
         $div.querySelector('.campaignFooter .deslikes').innerText = this.deslikes;
-        $div.querySelector('.campaignFooter .deslikeButton i').style.textShadow = this.wasDesliked ? '' : outerShadow
-        $div.querySelector('.campaignFooter .likeButton i').style.textShadow = this.wasLiked ? '' : outerShadow;
+        $div.querySelector('.campaignFooter .deslikeButton i').style.color = this.wasDesliked ? dark : light
+        $div.querySelector('.campaignFooter .likeButton i').style.color = this.wasLiked ? dark : light;
         
+    }
+}
+
+function min(a,b){
+    if(a > b){
+        return b;
+    }else{
+        return a;
     }
 }
