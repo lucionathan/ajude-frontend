@@ -37,9 +37,15 @@ export class Router{
         history.pushState({url:`/#/profile/${email}`}, "",  `/#/profile/${email}`)
     }
 
-    navigateToCampaignCreation(){
-        
+
+    navigateToEdit(shortUrl){
+        location.replace(`${URL_BASE}/#/campaign/edit/${shortUrl}`)
+        history.pushState({url:`/#/campaign/edit/${shortUrl}`}, "",  `/#/campaign/edit/${shortUrl}`)
+    }
+  
+    navigateToCampaignCreation(){  
         location.replace(`${URL_BASE}/#/campaign`)
         history.pushState({url:`/#/campaign`}, "",  `/#/campaign`)
+
     }
 }
