@@ -128,20 +128,23 @@ function viewCreateCampaign(){
 
 
 function viewProfile(email) {
+    includeHeader(localStorage.getItem('loggedAs'))
     new Profile(email);
 }
 
 function viewForgot() {
+    dontIncludeHeader()
     new Recover();
 }
 
 function viewReset(token) {
-    console.log("to aq em")
+    dontIncludeHeader()
     new Reset(token);
 }
 
 
 function viewChangePassword() {
+    includeHeader(localStorage.getItem('loggedAs'))
     new ChangePassword();
 }
 

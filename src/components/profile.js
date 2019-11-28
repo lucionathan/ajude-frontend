@@ -114,6 +114,11 @@ export class Profile {
         $name.innerHTML = `<div id="nameContent">${firstName} ${lastName}</div>`
         let $email = document.querySelector('#email')
         $email.innerHTML = `<div id="emailContent">${email}</div>`
+        if(localStorage.getItem('loggedAs') === email) {
+        let $change = document.querySelector('#changePasswordProfile')
+            $change.innerHTML = "Alterar senha"
+            $change.href = "#/changePassword"
+        }
     }
 
     checkArray(campaigns, url) {
