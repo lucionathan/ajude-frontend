@@ -3,7 +3,8 @@ import {Login} from './components/login.js'
 import {Registry} from './components/registry.js'
 import { CampaignView } from './components/campaignView.js';
 import { CampaignRegistry } from './components/CampaignRegistry.js';
-
+import {Router} from '../router.js'
+const router = new Router()
 let $container
 
 import * as c from '../config/env.js'
@@ -45,82 +46,73 @@ function routing(){
     }
 }
 
+let $loggedHeader = document.querySelector('#loggedInHeader')
+$loggedHeader.querySelector("#logoutButton").addEventListener('click', ()=>{
+        localStorage.removeItem('token')
+        localStorage.removeItem('loggedAs')
+        routing()
+})
+$loggedHeader.querySelector("#goToProfileButton").addEventListener('click', ()=>{
+    router.navigateToProfile(localStorage.getItem('loggedAs'))
+})
+let $guestHeader = document.querySelector('#guestHeader')
+$guestHeader.querySelector("#loginButton").addEventListener('click', ()=>{
+    router.navigateToLogin()
+})
+$guestHeader.querySelector("#registerButton").addEventListener('click', ()=>{
+    router.navigateToRegister()
+})
+
+document.querySelector("#guestHeader .ajude").addEventListener('click', () =>{
+    router.navigateToDashBoard()
+})
+
+document.querySelector("#loggedInHeader .ajude").addEventListener('click', () =>{
+    router.navigateToDashBoard()
+})
 
 routing()
 window.onhashchange = routing
 
 function viewLogin(){
+    dontIncludeHeader()
     new Login();
 }
 
 function viewLogado(){
+    includeHeader(localStorage.getItem('loggedAs'))
     new Feed()
 }
 
 function viewRegister() {
+    dontIncludeHeader()
     new Registry()
 }
 
 function viewCampaign(shortUrl){
+    includeHeader(localStorage.getItem('loggedAs'))
     new CampaignView(shortUrl)
 }
 
 function viewCreateCampaign(){
+    includeHeader(localStorage.getItem('loggedAs'))
     new CampaignRegistry()
 }
 
-//REQUESTS LOGIC
-function postCampaign(){
-    console.log("testing")
-    //recover data from form
-    let shortName = document.querySelector("#shortname").value
-    let description = document.querySelector("#description").value
-    let date = document.querySelector("#date").value
-    let goal = document.querySelector("#goal").value
-
-    //make a register request to the api
-    fetch(BACK_URL+"/campaign", {
-        'method' : 'POST',
-        'body' : `{"shortName": "${shortName}","description": "${description}", "date": "${date}", "goal": ${goal}, "shortUrl":"${getShortUrl(shortName)}"}`,
-        'headers' : {'Content-Type' : 'application/json', 'Authorization':`Bearer ${localStorage.getItem('token')}`}
-    }).catch(err => {
-        console.log("\n\n[DEBUG script.js register]", err)
-        viewCreateCampaign()
-    }).then(res =>{
-        return res.json()
-    }).then(res => {
-        console.log(res)
-        //if the request was ok, show the next page; else, go back to the login page with a warning message
-        if(res.ok){
-            viewLogado()
-        }else{
-            viewCreateCampaign()
-        }
-        
-    })
-
+function includeHeader(email){
+    if(email){
+        $guestHeader.className= 'hidden'
+        $loggedHeader.className = ''
+    }else{
+        $loggedHeader.className = 'hidden'
+        $guestHeader.className = ''
+    }
 }
 
-//UTIL
-
-function getShortUrl(shortName){
-    shortName = shortName.replace(/\s\s+/g, ' ')
-    shortName = shortName.normalize("NFD").toLowerCase()
-    shortName = shortName.split("").map(e =>{
-        if(e in [".",":","?","!",",","/","|"]){
-            return " "
-        }else{
-            return e
-        }
-    }).join("")
-    shortName = shortName.split(" ").join("-")
-    return shortName
+function dontIncludeHeader(){
+    $guestHeader.className= 'hidden'
+    $loggedHeader.className = 'hidden'
 }
-
-function disableUpdate(){
-    return false
-}
-
 
 function viewLogging(){
     let $container = document.querySelector("#container")

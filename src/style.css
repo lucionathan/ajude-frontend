@@ -4,6 +4,7 @@
     font-family: 'Roboto', sans-serif;
 }
 
+
 button{
     border:none;
     
@@ -225,12 +226,11 @@ html{
 /* VIEW LOGADO */
 
 .dashBoard{
+    margin-top:10px;
     display:grid;
     width: 100%;
     grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 80px 90vh;
-    grid-template-areas: "h h h"
-                         "m m .";
+    grid-template-areas: "m m .";
 
 }
 
@@ -258,38 +258,41 @@ html{
     background: none;
     border-width: 0;
 }
-
-.headerContent{
+/*      Header      */
+#guestHeader, #loggedInHeader{
+    width: 100%;
     min-width: 100px;
     display:flex;
     flex-direction: row;
     color: white;
-    width: 50%;
-    justify-content: space-between;
+    background-color:#30b4ba;
+    height: 50px;
 }
-
-.headerContent h2{
+.ajude{
     margin: auto;
-    font-size: 1.9em;
-}
-
-.headerContent form{
-    width: 80%;
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.headerContent form input{
-    width: 85%;
-}
-
-.headerContent form button{
+    font-size:30px;
     color:white;
-    background: #3B839A;
-    border-radius:5px;
 }
 
+.headerButtons{
+    display:flex;
+    flex-direction: row-reverse;
+    margin-left: auto;
+    width: 20%;
+}
+.headerButtons button{
+    margin: 5px;
+
+}
+
+.headerButtons button i{
+    font-size: 40px;
+    color:white;
+}
+
+.headerButtons button{
+    font-size:20px;
+}
 /*MAIN CONTENT*/
 
 
@@ -777,4 +780,9 @@ html{
 #createDescription{
     width: 80%;
 
+}
+
+.hidden{
+    visibility: hidden;
+    height: 0 !important;
 }

@@ -34,6 +34,6 @@ export class Router{
 
     navigateToProfile(email){
         location.replace(`${URL_BASE}/#/profile/${email}`)
-        history.pushState({url:`/#/profile/${email}`}, "",  `/#/campaign/${shortUrl}`)
+        history.pushState({url:`/#/profile/${email}`}, "",  `/#/profile/${email}`)
     }
 }

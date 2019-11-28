@@ -40,16 +40,8 @@ export class CampaignView{
     }
 
     render() {
-        let $top = document.createElement("div")
-        $top.id = "headerCampaign"
-        $top.innerHTML = `<h1> aJuDe </h1>
-        <div class="buttons">
-            <button>LOGIN</button>
-            <button>CADASTRO</button>
-        </div>`
-        document.querySelector("body").after($top)
+
         let $container = document.querySelector('#container')
-        $top.after($container)
         $container.innerHTML = `
 
         <div id="campaignView">

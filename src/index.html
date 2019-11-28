@@ -13,8 +13,28 @@
 </head>
 
 <body>
-    <div id="container">
-
+    <div>
+        <div class="headerContent">
+            <div id="guestHeader">
+                <div style="margin-right: auto; width: 20%;"></div>
+                <button class="ajude">aJuDe</button>
+                <div class="headerButtons">
+                    <button id="loginButton"><div><p>Login</p></div></button>
+                    <button id="registerButton"><div><p>Cadastrar</p></div></button>
+                </div>
+            </div>
+            <div id="loggedInHeader">
+                <div style="margin-right: auto; width: 20%;"></div>
+                <button class="ajude">aJuDe</button>
+                <div class="headerButtons">
+                    <button id="logoutButton"><i class="material-icons">exit_to_app</i></button>
+                    <button id="goToProfileButton"><i class="material-icons">account_box</i></button>
+                </div>
+            </div>
+        </div>
+        <div id="container">
+    
+        </div>
     </div>
     <template id="login">
         <form id="loginForm">
@@ -58,17 +78,6 @@
 
     <template id="dashBoard">
         <div class="dashBoard">
-            <header>
-                <div>
-
-                </div>
-                <div class="headerContent">
-                    <h2>aJuDe</h2>
-                </div>
-                <button id="logoutButton">
-                    <i class="material-icons">exit_to_app</i>
-                </button>
-            </header>
             <main>
                 <div id="menu">
                     <input id="stringQuery" type="text">

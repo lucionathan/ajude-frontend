@@ -23,7 +23,6 @@ export class Feed{
         
         let $template = document.querySelector('#dashBoard')
         $container.appendChild($template.content.querySelector('div').cloneNode(true))
-        let $button = document.querySelector('#logoutButton')
         let $inputFilter = document.querySelector('#feedFilter')
         $inputFilter.addEventListener("input", () =>{
             this.showByFilter($inputFilter.value)
@@ -48,12 +47,6 @@ export class Feed{
 
         document.querySelector("#backendQuery").addEventListener('click', () =>{
             this.backSearch()
-        })
-        
-        $button.addEventListener('click', () =>{
-            localStorage.removeItem("token")
-            localStorage.removeItem("loggedAs")
-            router.navigateToLogin()
         })
 
     }
