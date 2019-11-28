@@ -137,6 +137,95 @@
             <p>logando...</p>
         </div>
     </template>
+
+
+    <template id="profile">
+        <div class="profile">
+            <header>
+                <div>
+
+                </div>
+                <div class="headerContentProfile">
+                    <h2>aJuDe</h2>
+                </div>
+                <button id="logoutButtonProfile">
+                    <i class="material-icons">exit_to_app</i>
+                </button>
+            </header>
+            <main>
+                <div class="contentProfile">
+                    <div id="name"></div>
+                    <div id="email"></div>
+                    <div id="menuProfile">
+                        <div>
+                            <input type="text" id="feedFilterProfile">
+                            <div class="localQueryButtons">
+                                <button id="orderByLikesProfile">Nº de likes</button>
+                                <button id="orderByDateProfile">Data</button>
+                                <button id="orderByGoalProfile">Meta</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="list">
+                        <div id="listCampaigns">
+
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </template>
+
+
+    <template id="recover">
+        <form id="recover">
+            <h2>Email de recuperação</h2>
+            <div class="fieldsRecover">
+                <input id="emailRecover" placeholder="email">
+            </div>
+            
+            <div class="buttons">
+                <button id="recoverBtn">Recuperar</button>
+            </div>
+
+            <div id="message"></div>
+        </form>
+    </template>
+
+    <template id="changePassword">
+            <form id="changePassword">
+                <h2>Mudar senha</h2>
+                <div class="fieldsChangePassword">
+                    <input id="currentPassword" placeholder="Senha atual." type="password">
+                    <input id="newPassword" placeholder="Nova senha." type="password">
+                    <input id="newPassword2" placeholder="Confirmação de nova senha." type="password">
+                    <div id="passwordMessage"></div>
+                </div>
+                
+                <div class="buttons">
+                    <button id="changePasswordBtn">Enviar</button>
+                </div>
+    
+                <div id="messageChange"></div>
+            </form>
+    </template>
+
+    <template id="resetPassword">
+            <form id="resetPassword">
+                <h2>Recuperar senha</h2>
+                <div class="fieldsChangePassword">
+                    <input id="newResetPassword" placeholder="Nova senha." type="password">
+                    <input id="newResetPassword2" placeholder="Confirmação de nova senha." type="password">
+                    <div id="passwordResetMessage"></div>
+                </div>
+                
+                <div class="buttons">
+                    <button id="resetPasswordBtn">Enviar</button>
+                </div>
+    
+                <div id="messageReset"></div>
+            </form>
+    </template>
 </body>
 
 </html>
