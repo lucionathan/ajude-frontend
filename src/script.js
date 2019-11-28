@@ -1,110 +1,189 @@
 import {Feed} from './components/feed.js'
 import {Login} from './components/login.js'
 import {Registry} from './components/registry.js'
+import { CampaignView } from './components/campaignView.js';
+import { CampaignRegistry } from './components/CampaignRegistry.js';
+import {Router} from '../router.js'
+import { Profile } from './components/profile.js';
+import { Reset } from './components/reset.js';
+import { ChangePassword } from './components/changePassword.js';
+import { Recover } from './components/recover.js';
+
+const router = new Router()
 let $container
-const URL_BASE = "http://localhost:8080";
+
+import * as c from '../config/env.js'
+const config = c.config()
+const URL_BASE = config.URL_BASE;
+const URL_BACKEND = config.URL_BACKEND;
 
 //SINGLE PAGE LOGIC
 function routing(){
     $container = document.querySelector('#container')
-    $container.innerHTML = ''
-    switch(location.hash){
-        case "":
-            viewLogado()
-            break
-        case "#/login":
-            viewLogin()
-            break
-        case "#/register":
-            viewRegister()
-            break
-        case "#/dash":
-            viewLogado()
-            break
-        case "#/campaign":
-            viewCreateCampaign()
-            break
-        case "#/loading":
-            viewLogging()
-            break
+    $container.innerHTML = ''    
+    if(location.hash.split("/").length > 2){
+        let data = location.hash.split("/")
+        if(data[1] == 'campaign' && data[2] != "edit"){
+            viewCampaign(data[2])
+        }else if(data[1] == 'profile'){
+            viewProfile(data[2])
+        }else if(data[1] == 'reset'){
+            viewReset(data[2])
+        }
+        if(data[1] == 'campaign' && data[2] == 'edit'){
+            viewEditCampaign(data[3])
+        }
+    }
+    else{
+        switch(location.hash){
+            case "":
+                viewLogado()
+                break
+            case "#/login":
+                viewLogin()
+                break
+            case "#/register":
+                viewRegister()
+                break
+            case "#/dash":
+                viewLogado()
+                break
+            case "#/campaign":
+                viewCreateCampaign()
+                break
+            case "#/loading":
+                viewLogging()
+                break
+            case "#/profile":
+                viewProfile()
+                break
+            case "#/recover":
+                viewRecover()
+                break 
+            case "#/changePassword":
+                viewChangePassword()
+                break 
+            case "#/reset":
+                viewReset()
+                break    
+            case "#/forgot":
+                viewForgot()
+        }
+    }
+
+    if(localStorage.getItem('token')){
+        $loggedHeader.style.display = "flex"
+        $guestHeader.style.display = "none"
+    }else{
+        $loggedHeader.style.display = "none"
+        $guestHeader.style.display = "flex"
     }
 }
 
+let $loggedHeader = document.querySelector('#loggedInHeader')
+$loggedHeader.querySelector("#logoutButton").addEventListener('click', ()=>{
+        localStorage.removeItem('token')
+        localStorage.removeItem('loggedAs')
+        routing()
+})
+$loggedHeader.querySelector("#goToProfileButton").addEventListener('click', ()=>{
+    router.navigateToProfile(localStorage.getItem('loggedAs'))
+})
+let $guestHeader = document.querySelector('#guestHeader')
+$guestHeader.querySelector("#loginButton").addEventListener('click', ()=>{
+    router.navigateToLogin()
+})
+$guestHeader.querySelector("#registerButton").addEventListener('click', ()=>{
+    router.navigateToRegister()
+})
+
+document.querySelector("#guestHeader .ajude").addEventListener('click', () =>{
+    router.navigateToDashBoard()
+})
+
+document.querySelector("#loggedInHeader .ajude").addEventListener('click', () =>{
+    router.navigateToDashBoard()
+})
+
+if(localStorage.getItem('token')){
+    $loggedHeader.style.display = "flex"
+    $guestHeader.style.display = "none"
+}else{
+    $loggedHeader.style.display = "none"
+    $guestHeader.style.display = "flex"
+}
+
+
+
 routing()
-window.onhashchange = routing;
+window.onhashchange = routing
 function viewLogin(){
+    dontIncludeHeader()
     new Login();
 }
 
 function viewLogado(){
+    includeHeader(localStorage.getItem('loggedAs'))
     new Feed()
 }
 
 function viewRegister() {
+    dontIncludeHeader()
     new Registry()
 }
 
+function viewCampaign(shortUrl){
+    includeHeader(localStorage.getItem('loggedAs'))
+    new CampaignView(shortUrl)
+}
+
 function viewCreateCampaign(){
-    $container.innerHTML = ''
-    let $template = document.querySelector("#registerCampaign")
-    $container.appendChild($template.content.querySelector('form').cloneNode(true))
-    let $button = $container.querySelector('#postCampaign')
-    $button.addEventListener('click', postCampaign)
-    location.hash = "#/campaign"
+    includeHeader(localStorage.getItem('loggedAs'))
+    new CampaignRegistry()
 }
 
-//REQUESTS LOGIC
-function postCampaign(){
-    console.log("testing")
-    //recover data from form
-    let shortName = document.querySelector("#shortname").value
-    let description = document.querySelector("#description").value
-    let date = document.querySelector("#date").value
-    let goal = document.querySelector("#goal").value
 
-    //make a register request to the api
-    fetch(URL_BASE+"/campaign", {
-        'method' : 'POST',
-        'body' : `{"shortName": "${shortName}","description": "${description}", "date": "${date}", "goal": ${goal}, "shortUrl":"${getShortUrl(shortName)}"}`,
-        'headers' : {'Content-Type' : 'application/json', 'Authorization':`Bearer ${localStorage.getItem('token')}`}
-    }).catch(err => {
-        console.log("\n\n[DEBUG script.js register]", err)
-        viewCreateCampaign()
-    }).then(res =>{
-        return res.json()
-    }).then(res => {
-        console.log(res)
-        //if the request was ok, show the next page; else, go back to the login page with a warning message
-        if(res.ok){
-            viewLogado()
-        }else{
-            viewCreateCampaign()
-        }
-        
-    })
+function viewProfile(email) {
+    includeHeader(localStorage.getItem('loggedAs'))
+    new Profile(email);
+}
+
+function viewForgot() {
+    dontIncludeHeader()
+    new Recover();
+}
+
+function viewReset(token) {
+    dontIncludeHeader()
+    new Reset(token);
+}
+
+
+function viewChangePassword() {
+    includeHeader(localStorage.getItem('loggedAs'))
+    new ChangePassword();
+}
+
+function viewEditCampaign(shortUrl){
+    includeHeader(localStorage.getItem('loggedAs'))
+    new CampaignRegistry(shortUrl)
 
 }
 
-//UTIL
-
-function getShortUrl(shortName){
-    shortName = shortName.replace(/\s\s+/g, ' ')
-    shortName = shortName.normalize("NFD").toLowerCase()
-    shortName = shortName.split("").map(e =>{
-        if(e in [".",":","?","!",",","/","|"]){
-            return " "
-        }else{
-            return e
-        }
-    }).join("")
-    shortName = shortName.split(" ").join("-")
-    return shortName
+function includeHeader(email){
+    if(email){
+        $guestHeader.className= 'hidden'
+        $loggedHeader.className = ''
+    }else{
+        $loggedHeader.className = 'hidden'
+        $guestHeader.className = ''
+    }
 }
 
-function disableUpdate(){
-    return false
+function dontIncludeHeader(){
+    $guestHeader.className= 'hidden'
+    $loggedHeader.className = 'hidden'
 }
-
 
 function viewLogging(){
     let $container = document.querySelector("#container")

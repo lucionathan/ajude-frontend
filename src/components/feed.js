@@ -1,13 +1,14 @@
 import {Campaign} from './campaign.js'
 import {Router} from '../router.js'
-const URL_BACKEND = "http://localhost:8080";
-const URL_BASE = "http://localhost:8000";
-
+import * as c from '../config/env.js'
+const config = c.config()
+const URL_BASE = config.URL_BASE;
+const URL_BACKEND = config.URL_BACKEND;
 const router = new Router()
 export class Feed{
     
-    sortMethod
-    feedCampaigns
+
+
     constructor(){
         let $container = document.querySelector('#container')
         this.feedCampaigns = []
@@ -19,31 +20,70 @@ export class Feed{
         .then(res => {
             this.populateFeed(res);
         })
+        
         let $template = document.querySelector('#dashBoard')
         $container.appendChild($template.content.querySelector('div').cloneNode(true))
-        let $button = document.querySelector('#logoutButton')
-        let $addCampaignButton = document.querySelector('#addCampaignButton')
-        document.querySelector("#goSearch").addEventListener('click', () =>{           
-            console.log(document.querySelector("#orderOption").selectedOptions[0].value)
-            switch(document.querySelector("#orderOption").selectedOptions[0].value){
-                case 'orderByRemaining':
-                    this.sortMethod = this.orderByRemaining;
-                case 'orderByLikes':
-                    this.sortMethod=this.orderByLikes;
-                case 'orderByDate':
-                    this.sortMethod = this.orderByDate
-            }
+        let $inputFilter = document.querySelector('#feedFilter')
+        $inputFilter.addEventListener("input", () =>{
+            this.showByFilter($inputFilter.value)
+        })
+        let $byLikes =  document.querySelector("#orderByLikes");
+        let $byDate =  document.querySelector("#orderByDate");
+        let $byGoal =  document.querySelector("#orderByGoal");
+
+        $byGoal.className='activeOption'
+        $byDate.addEventListener('click', () => {
+            this.sortMethod = this.orderByDate
+            $byLikes.className=''
+            $byGoal.className=''
+            $byDate.className='activeOption'
             this.sort()
             this.updateFeed()
-            return false;
         })
-        
-        $button.addEventListener('click', () =>{
-            localStorage.removeItem("token")
-            localStorage.removeItem("loggedAs")
-            router.navigateToLogin()
+        $byLikes.addEventListener('click', () => {
+            this.sortMethod = this.orderByLikes
+            $byLikes.className='activeOption'
+            $byGoal.className=''
+            $byDate.className=''
+            this.sort()
+            this.updateFeed()
         })
 
+        $byGoal.addEventListener('click', () => {
+            this.sortMethod = this.orderByRemaining
+            $byLikes.className=''
+            $byGoal.className='activeOption'
+            $byDate.className=''
+            this.sort()
+            this.updateFeed()
+        })
+
+        document.querySelector("#backendQuery").addEventListener('click', () =>{
+            this.backSearch()
+        })
+
+        document.querySelector('#feedGoToCreateCampaign').addEventListener('click', () =>{
+            router.navigateToCampaignCreation()
+        })
+
+    }
+
+    backSearch(){
+        let subString = document.querySelector("#stringQuery").value
+        let active = document.querySelector("#activeQuery").checked
+        if(subString){
+            fetch(`${URL_BACKEND}campaign/substring?substring=${subString}&status=${active}`)
+            .then(res => res.json())
+            .then((res) =>{
+                this.populateFeed(res)
+            })
+        }else{
+            fetch(`${URL_BACKEND}/campaign`)
+            .then(res => {return res.json()})
+            .then(res => {
+                this.populateFeed(res);
+        })
+        }
     }
 
     orderByRemaining(c1,c2){
@@ -59,26 +99,54 @@ export class Feed{
     }
 
     sort(){
-        this.feedCampaigns.sort(this.orderingMethod)
+        this.feedCampaigns.sort(this.sortMethod)
     }
 
     populateFeed(campaigns){
-    
         let $feed = document.querySelector('#campaignFeedList')
-        campaigns.map(c => {
-            this.feedCampaigns.push(new Campaign(c.id,c.shortName, c.shortUrl,c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated))
-        })
-        //this.sort()
-        this.feedCampaigns.map(campaign =>{
+        this.feedCampaigns = []
+        $feed.innerHTML =''
+
+        for(let i = 0; i < min(5, campaigns.length); i++) 
+            this.feedCampaigns.push(new Campaign(campaigns[i].id,campaigns[i].shortName, campaigns[i].shortUrl,campaigns[i].description, campaigns[i].date, campaigns[i].likes, campaigns[i].deslikes, campaigns[i].pessoasLike, campaigns[i].pessoasDeslike, campaigns[i].goal, campaigns[i].donated, campaigns[i].owner));
+        this.shown = this.feedCampaigns
+        if(this.feedCampaigns.length == 0){
+            let $p = document.createElement('p')
+            $p.innerText = 'Aparentemente nenhuma campanha foi achada.'
+            $p.style.width = "100%;"
+            $p.style.textAlign = 'center'
+            $feed.appendChild($p)
+        }
+        this.sort()
+        this.shown.forEach(campaign =>{
             $feed.appendChild(campaign.render())
         })
     }
+
 
     updateFeed(){
         let $feed = document.querySelector('#campaignFeedList')
         $feed.innerHTML = ''
-        this.feedCampaigns.map(campaign =>{
+        this.shown.forEach(campaign =>{
             $feed.appendChild(campaign.render())
         })
+    }
+
+    showByFilter(text){
+        if(text){           
+            this.shown = this.feedCampaigns.filter(campaign => campaign.description.includes(text) || campaign.shortName.includes(text))
+            this.updateFeed()
+        }else{
+            this.shown = this.feedCampaigns
+            this.updateFeed()
+        }
+    }
+}
+
+function min(a,b){
+    if(a > b){
+        return b
+    }else{
+        return a
     }
 }

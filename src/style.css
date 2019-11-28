@@ -4,9 +4,9 @@
     font-family: 'Roboto', sans-serif;
 }
 
+
 button{
     border:none;
-    
     background-color:transparent;
 }
 
@@ -16,7 +16,10 @@ button:hover{
 
 body{
     background: rgb(250, 250, 250);
+}
 
+html{
+    height: 100%;
 }
 /*  CONTAINER ONDE FICA TUDO */
 #container{
@@ -24,11 +27,13 @@ body{
     margin: 0 auto;
     justify-content: center;
     align-items: center;
-    height: 100vh;
+    flex-flow: nowrap;
 }
 
 /*  PAGINA DE LOGIN */
+
 #loginForm{
+    margin-top: 25px;
     display: flex;
     flex-direction: column;
     background-color:rgb(255, 255, 255);
@@ -66,11 +71,13 @@ body{
     font-weight: lighter;
 }
 
-#loginForm a{
+#loginForm span{
     text-align: end;
     margin: 5px;
     color: black;
     font-size: 13px;
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 #loginForm button {
@@ -137,6 +144,7 @@ body{
     flex: 0;
     padding: 20px 20px 30px 20px;
     border: 1px solid #3B839A;
+    margin-top: 25px;
 }
 
 #registerForm .buttons{
@@ -145,6 +153,20 @@ body{
     flex-direction: row;
     justify-content: space-between;
     margin: 15px 5px;
+    
+}
+
+#registerForm .buttons button{
+    background-color: #DDFCCE;
+    border: 1px solid #3B839A;
+    color: #3B839A;
+    transition: background-color 0.3s ease;
+}
+
+#registerForm .buttons button:hover{
+    border: 1px solid #DDFCCE;
+    background: #3B839A;
+    color: #DDFCCE;
 }
 
 #registerForm .fields input{
@@ -206,14 +228,14 @@ body{
     visibility: hidden;
 }
 
-#registerForm #registerBtn{
+#registerForm #changePasswordBtn{
     background-color: #DDFCCE;
     border: 1px solid white;
     color: #3B839A;
     transition: background-color 0.3s ease;
 }
 
-#registerForm #registerBtn:hover{
+#registerForm #changePasswordBtn:hover{
     background-color: #3B839A;
     border: 1px solid #DDFCCE;
     color: #DDFCCE;
@@ -222,27 +244,22 @@ body{
 /* VIEW LOGADO */
 
 .dashBoard{
+    margin-top:10px;
     display:grid;
     width: 100%;
     grid-template-columns: 1fr 2fr 1fr;
-    grid-template-rows: 80px 90vh;
-    grid-template-areas: "h h h"
-                         ". m .";
+    grid-template-areas: "m m .";
 
-}
-
-.dashBoard header{
-    grid-area:h;
-    display:flex;
-    justify-content: space-between;
-    background: #30b4ba;
 }
 
 .dashBoard main{
     grid-area:m;
+    display:flex;
+    flex-direction: row;
 }
 
 .dashBoard .content{
+    width: 100%;
     display:flex;
     flex-direction: column;
     flex-wrap: wrap;
@@ -252,47 +269,119 @@ body{
     background: none;
     border-width: 0;
 }
-
-.headerContent{
+/*      Header      */
+#guestHeader, #loggedInHeader{
     min-width: 100px;
-    display:flex;
+    display:none;
     flex-direction: row;
     color: white;
-    width: 50%;
-    justify-content: space-between;
+    background-color:#30b4ba;
+    padding: 5px;
 }
-
-.headerContent h2{
+.ajude{
     margin: auto;
-    font-size: 1.9em;
-}
-
-.headerContent form{
-    width: 80%;
-    display:flex;
-    flex-direction: row;
-    align-items: center;
-}
-
-.headerContent form input{
-    width: 85%;
-}
-
-.headerContent form button{
+    font-size:30px;
     color:white;
-    background: #3B839A;
-    border-radius:5px;
 }
 
+.headerButtons{
+    display:flex;
+    flex-direction: row-reverse;
+}
+
+.headerButtons button i{
+    font-size: 40px;
+    color:white;
+}
+
+.headerButtons button{
+    font-size:20px;
+}
 /*MAIN CONTENT*/
 
 
 /*MENU*/
+#menu{
+    width: 250px;
+    margin: 0 10px;
+    padding:4px;
+    border-radius: 10px;
+    height: min-content;
+    display: flex; 
+    flex-direction: column;
+    background-color: #3B839A;
+}
+
+#menu div{
+    display: flex;
+    flex-direction: row;
+    justify-items: center;
+    color:white;
+}
+#backendQuery{
+    height: 24px;
+}
+
 /*                      FEED                        */
 #feed{
     display:flex;
     flex-direction: column;
     justify-content: center;
+}
+#feedGoToCreateCampaign{
+    margin:10px 0;
+}
+
+#feedGoToCreateCampaign div{
+    height: 30px;
+    background-color: #3B839A;
+    display:flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+}
+
+#feedGoToCreateCampaign div p{
+    color:white;
+    font-size:20px;
+}
+
+.localFilters{
+    display:flex;
+    flex-direction: row;
+    background-color: #30b4ba;
+    align-items: center;
+    justify-items: center;
+    justify-content: space-between;
+    height:50px;
+}
+
+.localFilters input{
+    margin-left: 10px;
+    width: 40%;
+}
+
+.localQueryButtons{
+    color:white;
+    width: 350px;
+    display:flex;
+    flex-direction: row;
+    align-items: center;
+}
+.localQueryButtons div{
+    margin-left:10px;
+}
+.localQueryButtons button{
+    background-color: white;
+    border-radius: 4px;
+    padding: 4px;
+}
+
+.activeOption{
+    border-width: 0 0 4px 0;
+    border-style: solid;
+    border-color: indigo;
+    padding-bottom: 0 !important;
 }
 
 /*CAMPAIGN IN LISTING*/
@@ -305,8 +394,7 @@ body{
     border-color:#30b4ba;
     margin-bottom: 20px;
     background-color: #f0f0f0;
-    width: 450px;
-    height: 200px;
+    height: 250px;
     justify-content: space-between;
 }
 
@@ -331,11 +419,6 @@ body{
     text-align: center;
 }
 
-.campaignFooter button{
-    background: none;
-    border:none;
-}
-
 .campaignFooter button i{
     background: none;
     border:none;
@@ -350,10 +433,43 @@ body{
     text-justify: center;
 }
 
+.campaignFooter{
+    align-items: center;
+}
+
 .campaignFooter div a{
     text-decoration: none;
     margin: auto;
     color: white;;
+}
+
+.visitCampaignButton{
+    color:white;
+    margin-left: auto;
+    width: 25%;
+    height: 40px;
+    background-color: #3B839A;
+    text-align: center;
+    text-justify: center;
+}
+
+
+.visitCampaignButton div{
+    width: 100%;
+    height: 100%;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+.visitCampaignButton div:hover{
+    background-color: #30b4ba !important;
+}
+
+.visitCampaignButton div p{
+    height: min-content;
+    font-size:25px;
 }
 
 .progress{
@@ -377,3 +493,600 @@ body{
 }
 
 /*                            FEED END                                       */
+
+/*                            VIEW CAMPAIGN BEGGIN                                       */
+
+#campaignView {
+    background: #F0F0F0;
+    width: 60%;
+    color: white;
+    margin-top: 20px;
+}
+
+#campaignView .viewHeader{
+    background: #666666;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 5px;
+}
+
+#campaignView h2{
+    display: inline;
+    font-weight: normal;
+}
+
+#campaignView h4{
+    display: inline;
+    background: #3B839A;
+    padding: 0 8px;
+    font-weight: normal;
+}
+
+#campaignView .viewDescription{
+    padding: 10px;
+}
+
+#campaignView .goalLikes, .goalCreate{
+    padding: 0 10px 10px 10px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#campaignView .description{
+    background: #30B4BA;
+    padding: 15px;
+}
+
+#campaignView .progressView, .metaCreate{
+    width: 35%;
+    background-color: #30b4ba;
+}
+
+#campaignView .progressView div{
+    background-color:#3B839A;
+    text-align: center;
+    padding: 5px;
+    max-width: 100%;
+}
+
+#campaignView .goal{
+    margin-left: 10px;
+}
+
+#campaignView .likesDeslikes{
+    display: flex;
+    align-items: center;
+    width: 20%;
+    justify-content: space-evenly;
+    color: #3B839A;
+}
+
+#campaignView .likesDeslikes button, #campaignView .likesDeslikes p{
+    display: inline;
+}
+
+#headerCampaign{
+    background: #30B4BA;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    color: white;
+    padding: 10px;
+}
+
+
+#campaignView .commentaryBox{
+    padding: 0 10px 10px 10px ;
+}
+
+#campaignView .comentaries{
+    background: #666666;
+    padding: 0 10px 10px 10px;
+}
+
+#campaignView .newCommentBTN{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+
+#campaignView .newCommentBTN button{
+    padding: 5px;
+    font-size: 15px;
+    background: #3B839A;
+    color: white;
+}
+
+#campaignView .newCommentMAIN{
+    display: none;
+    flex-direction: column;
+}
+
+#campaignView .newCommentMAIN span{
+    color: black;
+    font-size: 15px;
+}
+
+#campaignView .newCommentMAIN textarea{
+    border: 1px solid #666666;
+    font-size: 15px;
+    border: none;
+    padding: 10px;
+}
+
+#campaignView .newCommentMAIN .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5px;
+    background: none;
+}
+
+#campaignView .newCommentMAIN button{
+    background: #3B839A;
+    padding: 8px;
+    color: white;
+}
+
+#campaignView .owner{
+    color: black;
+}
+
+#campaignView .campaignBTNs{
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row;
+}
+
+#campaignView .campaignBTNs button{
+    background: #3B839A;
+    padding: 15px;
+    color: white;
+}
+
+#campaignView .campaignBTNs button:hover{
+    background: #30B4BA;
+    padding: 15px;
+    color: white;
+}
+
+
+#campaignView .modal-container{
+    background: rgba(0,0,0,.5);
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    width: 100vw;
+    height: 100vh;
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+}
+
+#campaignView .modal-container.show{
+    display: flex;
+}
+
+@keyframes modal{
+    form {
+        opacity: 0;
+        transform: translate3d(0, -60px, 0);
+    }
+
+    to {
+        opacity: 1;
+        transform: translate3d(0, 0, 0);
+    }
+}
+
+.show .modal{
+    animation: modal .4s;
+}
+
+#campaignView .modal{
+    background: #3B839A;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    border: 2px solid white;
+}
+
+#campaignView .modal h3{
+    padding: 5px;
+    font-weight: normal;
+}
+
+#campaignView .modal .closeModal{
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    padding: 5px;
+    background: #30B4BA;
+    border: 2px solid white;
+    color: white;
+    cursor: pointer;
+    width: 35px;
+    height: 35px;
+    font-size: 1.2em;
+}
+
+#campaignView .modal .closeModal:hover{
+    background: rgb(102, 167, 189);
+}
+
+#campaignView .modal .button{
+    padding: 5px;
+    color: white;
+    background: #30B4BA;
+    margin-top: 5px;
+}
+
+#campaignView .modal input{
+    padding: 5px;
+}
+
+#ownerEmail{
+    cursor: pointer;
+}
+
+/*                            VIEW CAMPAIGN END                                       */
+
+/*                            CREATE COMMENTARY BEGGIN                                       */
+.commentary .textBox{
+    background: #E9E9E9;
+    color: black;
+    padding: 5px;
+}
+
+.commentary .textBox p{
+    background: white;
+    padding: 5px;
+}
+
+.commentary{
+    display: flex;
+    flex-direction: column;
+}
+
+.commentary .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    background: white;
+}
+
+.commentary .buttons button{
+    background: #3B839A;
+    padding: 8px;
+    color: white;
+}
+
+/*CREATE CAMPAIGN STUFF*/
+
+#displayError p{
+    color:red;
+    text-align: center;
+}
+
+
+
+.metaCreate p{
+    text-align: center;
+    width: 100%;
+}
+
+.commentary .buttons button:hover{
+    background: #30B4BA;
+    padding: 8px;
+    color: white;
+}
+
+.commentary .buttons #delComment{
+    display: none;
+}
+
+.commentary h5{
+    padding: 5px 0;
+}
+
+.goalCreate{
+    align-items: initial;
+}
+
+
+.metaCreate{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.newComment {
+    display: none;
+    flex-direction: column;
+}
+
+.newComment textarea{
+    border: none;
+    padding: 10px;
+}
+
+
+.newComment .buttons{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin-top: 5px;
+    background: none;
+}
+
+.newComment button{
+    background: #3B839A;
+    padding: 8px;
+    color: white;
+}
+
+/*                            CREATE COMMENTARY END                                       */
+
+/*                            SHOW ANSWERS BEGGIN                                       */
+
+.answers{
+    flex-direction: column;
+    background: #d9d9d9;
+    padding: 7px;
+    border-bottom-right-radius: 5px;
+    border-bottom-left-radius: 5px;
+}
+
+.answers h5{
+    color: black;
+}
+
+.answers p {
+    background: #666666;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+}
+
+.answers .delAnswer{
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.answers .delAnswer button{
+    padding: 3px;
+    color: black;
+    background: #C58282;
+    border: 1px solid #860101;
+    margin: 2px;
+    border-radius: 2px;
+}
+
+.answers .delAnswer button:hover{
+    background: rgb(255, 72, 72);
+    border: 1px solid #c20101;
+}
+
+#submitCampanha i{
+    font-size: 50px;
+    color:#3B839A;
+}
+
+#createDescription{
+    width: 80%;
+
+}
+
+
+/*                           CHANGE PASSWORD BEGIN                                       */
+
+#changePassword, #recover{
+    
+    flex-direction: column;
+    background-color:rgb(255, 255, 255);
+    flex: 0;
+    align-self: center;
+    padding: 20px 20px 30px 20px;
+    border: 1px solid #3B839A;
+}
+
+#changePassword .buttons, #recover .buttons{
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 15px 5px;
+}
+
+#changePassword .fieldsChangePassword input, #recover .fieldsRecover input{
+    padding: 10px;
+    margin: 5px;
+    width: 262px;
+    border: 1px solid #80E3BE;
+    border-bottom: 1px solid #3B839A;
+    
+}
+
+#changePassword .fieldsChangePassword input::placeholder,#recover .fieldsRecover input::placeholder{
+    color: #FF474A;
+}
+
+#changePassword h2, #recover h2{
+    text-align: center;
+    font-size: 35px;
+    padding: 0 0 40px 0;
+    color: #FF474A;
+    letter-spacing: 2px;
+    font-weight: lighter;
+}
+
+
+#changePassword button, #recover button{
+    padding: 15px;
+    font-size: 16px;
+    width: 115px;
+}
+
+#changePassword button:hover, #recover button:hover {
+    cursor: pointer;
+}
+
+#changePassword #changePasswordBtn,#recoverBtn{
+    background-color: #DDFCCE;
+    border: 1px solid white;
+    color: #3B839A;
+    transition: background-color 0.3s ease;
+}
+
+#changePassword #changePasswordBtn:hover{
+    background-color: #3B839A;
+    border: 1px solid #DDFCCE;
+    color: #DDFCCE;
+}
+
+/*                           CHANGE PASSWORD END                                       */
+
+/*                           RECOVER PASSWORD BEGIN                                       */
+
+#resetPassword{
+    
+    flex-direction: column;
+    background-color:rgb(255, 255, 255);
+    flex: 0;
+    align-self: center;
+    padding: 20px 20px 30px 20px;
+    border: 1px solid #3B839A;
+}
+
+#resetPassword .buttons{
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 15px 5px;
+}
+
+#resetPassword .fieldsresetPassword input{
+    padding: 10px;
+    margin: 5px;
+    width: 262px;
+    border: 1px solid #80E3BE;
+    border-bottom: 1px solid #3B839A;
+    
+}
+
+#resetPassword .fieldsresetPassword input::placeholder{
+    color: #FF474A;
+}
+
+#resetPassword h2{
+    text-align: center;
+    font-size: 35px;
+    padding: 0 0 40px 0;
+    color: #FF474A;
+    letter-spacing: 2px;
+    font-weight: lighter;
+}
+
+
+#resetPassword button {
+    padding: 15px;
+    font-size: 16px;
+    width: 115px;
+}
+
+#resetPassword button:hover {
+    cursor: pointer;
+}
+
+#resetPassword #resetPasswordBtn{
+    background-color: #DDFCCE;
+    border: 1px solid white;
+    color: #3B839A;
+    transition: background-color 0.3s ease;
+}
+
+#resetPassword #resetPasswordBtn:hover{
+    background-color: #3B839A;
+    border: 1px solid #DDFCCE;
+    color: #DDFCCE;
+}
+
+/*                           RECOVER PASSWORD END                                       */
+
+
+/*Profile*/
+
+.contentProfile #nome{
+    font-size:30px;
+}
+
+.contentProfile #email{
+    font-size:20px;
+}
+
+.userData{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 98.5%;
+    margin:10px 0;
+    background-color: #3B839A;
+    padding:5px;
+}
+
+.userData *{
+    margin:0 5px;
+    padding:1px;
+}
+
+.userData h2, .userData button{
+    color:white;
+}
+
+.userData button{
+    height: 40px;
+    align-self: center;
+    padding:3px;
+}
+
+#changePasswordProfile div{
+    background-color: #30B4BA;
+    height: 100%;
+    border-radius:3px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+}
+
+/* recover*/
+
+#recover .buttons{
+    justify-content: center;
+}
+
+#guestHeader .headerButtons button p{
+    padding: 10px;
+    color: white;
+    border-bottom: 2px solid white;
+}
+
+#guestHeader .headerButtons button p:hover{
+    padding: 10px;
+    color: white;
+    border-bottom: 2px solid #3B839A;
+}
+
+#guestHeader .headerButtons{
+    width: 10%;
+}

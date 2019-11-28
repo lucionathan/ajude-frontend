@@ -1,9 +1,11 @@
-const BASE_URL = "http://localhost:8080";
-const outerShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)"
-const innerShadow = "inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
+import {Router} from '../router.js'
+const BACK_URL = "https://ajude-psoft.herokuapp.com/";
+const dark = "#3B839A"
+const light = "#30b4ba"
+const router = new Router()
 export class Campaign{
 
-    constructor(id,shortName, shortUrl, description, date, likes, deslikes, likedBy, deslikedBy, goal, donated){
+    constructor(id,shortName, shortUrl, description, date, likes, deslikes, likedBy, deslikedBy, goal, donated, owner){
         this.id = id;
         this.shortName = shortName;
         this.shortUrl=shortUrl;
@@ -12,15 +14,16 @@ export class Campaign{
         this.likes = likes;
         this.deslikes = deslikes;
         this.likedBy = likedBy;
-        this.deslikedBy = deslikedBy
+        this.deslikedBy = deslikedBy;
         this.goal = goal;
         this.donated = donated;
-        let user = localStorage.getItem('loggedAs')
-        this.wasLiked = likedBy.includes(user)
-        this.wasDesliked = deslikedBy.includes(user)
+        let user = localStorage.getItem('loggedAs');
+        this.wasLiked = likedBy.includes(user);
+        this.wasDesliked = deslikedBy.includes(user);
+        this.owner = owner;
     }
 
-    render(){
+    render(typeClass){
         let $div = document.createElement('div')
         $div.innerHTML = `<div class="campaignHeader">
                             <h2>${this.shortName}</h2>
@@ -35,34 +38,62 @@ export class Campaign{
                             <p class="likes">${this.likes}</p>
                             <button class="deslikeButton"><i class="material-icons">thumb_down</i></button>
                             <p class="deslikes">${this.deslikes}</p>
-                            <div>
-                                <a href="${BASE_URL}/campaign/${this.shortUrl}">VISITAR</a>
-                            </div>
+                            <p style="margin:auto;">Criada por: ${this.owner}</p>
+                            <button class="visitCampaignButton">
+                                <div>
+                                    <p>Visitar</p>
+                                </div>
+                            </button>
                         </div>                  
         `
         $div.id=`c${this.id}`
-        $div.className="campaign"
-        $div.querySelector('.progress div').style.width=`${100*this.donated/this.goal}%`
+        
+        if(typeClass == "created") {
+            $div.className="campaign created"
+        } else if(typeClass == "contributed") { 
+            $div.className="campaign contributed"
+        } else {
+            $div.className="campaign"
+        }
+        
+        $div.querySelector('.progress div').style.width=`${100*min(this.donated,this.goal)/this.goal}%`
         $div.querySelector('.likeButton').addEventListener('click', () =>{
             this.addLike()
         })
         $div.querySelector('.deslikeButton').addEventListener('click', () =>{
             this.addDeslike()
         })
+
+        $div.querySelector('.visitCampaignButton').addEventListener('click', () =>{
+            router.navigateToCampaign(this.shortUrl)
+        })
+
+        $div.querySelector('.deslikeButton i').style.color = this.wasDesliked ? dark : light
+        $div.querySelector('.likeButton i').style.color = this.wasLiked ? dark : light;
         return $div
     }
 
     addLike(){
-        this.localLike()
-        fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
-            'method' : 'PUT',
-            'body' : `{"shortUrl": "${this.shortUrl}", "choice":"like"}`,
-            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
-        }).then((res) =>{
-            return res.json()
-        }).then((res) =>{
-            this.updateCampaign(res).then(() => this.onUpdate())
-        })          
+        if(localStorage.getItem('token')){
+            this.localLike()
+            fetch(`${BACK_URL}/campaign/updateLikeDeslike`, {
+                'method' : 'PUT',
+                'body' : `{"shortUrl": "${this.shortUrl}", "choice":"like"}`,
+                'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
+            }).then((res) =>{
+                return res.json()
+            }).then((res) =>{
+                if(res.status == 500){
+                    alert('YOUR TOKEN HAS EXPIRED, PLEASE LOGIN AGAIN TO TRY AGAIN')
+                    localStorage.removeItem('loggedAs')
+                    localStorage.removeItem('token')
+                }else{
+                    this.updateCampaign(res).then(() => this.onUpdate())
+                }
+            })          
+        }else{
+            alert('YOU HAVE TO LOGIN TO DO THAT')
+        }
     }
 
     localLike(){
@@ -73,9 +104,12 @@ export class Campaign{
             this.wasLiked = true;
             this.likes++;
         }
+        let $deslikeButton = document.querySelector(`#c${this.id} .campaignFooter .deslikeButton`)
         let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
         let $likes = document.querySelector(`#c${this.id} .campaignFooter .likes`)
-        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? '' : outerShadow;
+        $likeButton.querySelector('i').style.color = this.wasLiked ? dark : light;
+        $deslikeButton.querySelector('i').style.color = this.wasDesliked ? dark : light;
+
         $likes.innerText = this.likes
     }
 
@@ -87,25 +121,37 @@ export class Campaign{
             this.wasDesliked = true;
             this.deslikes++;
         }
+        let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
         let $deslikeButton = document.querySelector(`#c${this.id} .campaignFooter .deslikeButton`)
         let $deslikes = document.querySelector(`#c${this.id} .campaignFooter .deslikes`)
-        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? '' : outerShadow;
+        $deslikeButton.querySelector('i').style.color = this.wasDesliked ? dark : light;
+        $likeButton.querySelector('i').style.color = this.wasLiked ? dark : light;
+
         $deslikes.innerText = this.deslikes
     }
 
     addDeslike(){
-        this.localDeslike()
-        
-        fetch(`${BASE_URL}/campaign/updateLikeDeslike`, {
-            'method' : 'PUT',
-            'body' : `{"shortUrl": "${this.shortUrl}", "choice":"deslike"}`,
-            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
-        }).then((res) =>{
-            return res.json()
-        }).then((res) =>{
-            this.updateCampaign(res).then(() => this.onUpdate())
-        })
-        
+        if(localStorage.getItem('token')){
+            this.localDeslike()
+            
+            fetch(`${BACK_URL}/campaign/updateLikeDeslike`, {
+                'method' : 'PUT',
+                'body' : `{"shortUrl": "${this.shortUrl}", "choice":"deslike"}`,
+                'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
+            }).then((res) =>{
+                return res.json()
+            }).then((res) =>{
+                if(res.status == 500){
+                    alert('YOUR TOKEN HAS EXPIRED, PLEASE LOGIN AGAIN TO TRY AGAIN')
+                    localStorage.removeItem('loggedAs')
+                    localStorage.removeItem('token')
+                }else{
+                    this.updateCampaign(res).then(() => this.onUpdate())
+                }
+            })
+        }else{
+            alert('YOU HAVE TO BE LOGIN TO DO THAT')
+        }
     }
 
     
@@ -134,8 +180,16 @@ export class Campaign{
         $div.querySelector('.progress div').innerText = `${this.donated}/${this.goal}`
         $div.querySelector('.campaignFooter .likes').innerText = this.likes;
         $div.querySelector('.campaignFooter .deslikes').innerText = this.deslikes;
-        $div.querySelector('.campaignFooter .deslikeButton i').style.textShadow = this.wasDesliked ? '' : outerShadow
-        $div.querySelector('.campaignFooter .likeButton i').style.textShadow = this.wasLiked ? '' : outerShadow;
+        $div.querySelector('.campaignFooter .deslikeButton i').style.color = this.wasDesliked ? dark : light
+        $div.querySelector('.campaignFooter .likeButton i').style.color = this.wasLiked ? dark : light;
         
+    }
+}
+
+function min(a,b){
+    if(a > b){
+        return b;
+    }else{
+        return a;
     }
 }
