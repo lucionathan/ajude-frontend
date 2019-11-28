@@ -42,4 +42,24 @@ export class Router{
         location.replace(`${URL_BASE}/#/campaign`)
         history.pushState({url:`/#/campaign`}, "",  `/#/campaign`)
     }
+
+    navigateToProfile(email){
+        location.replace(`${URL_BASE}/#/profile/${email}`)
+        history.pushState({url:`/#/profile/${email}`}, "",  `/#/profile/${email}`)
+    }
+
+    navigateToRecover() {
+        location.replace(`${URL_BASE}/#/recover`)
+        history.pushState({url:"#/recover"}, "", "#/recover")
+    }
+
+    navigateToChangePassword(){
+        location.replace(`${URL_BASE}/#/changePassword`)
+        history.pushState({url:`/#/changePassword`}, "",  `/#/changePassword`)
+    }
+
+    navigateToReset(token){
+        location.replace(`${URL_BASE}/#/reset/${token}`)
+        history.pushState({url:`/#/reset/${token}`}, "",  `/#/reset/${token}`)
+    }
 }

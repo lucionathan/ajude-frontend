@@ -4,6 +4,11 @@ import {Registry} from './components/registry.js'
 import { CampaignView } from './components/campaignView.js';
 import { CampaignRegistry } from './components/CampaignRegistry.js';
 import {Router} from '../router.js'
+import { Profile } from './components/profile.js';
+import { Reset } from './components/reset.js';
+import { ChangePassword } from './components/changePassword.js';
+import { Recover } from './components/recover.js';
+
 const router = new Router()
 let $container
 
@@ -20,6 +25,10 @@ function routing(){
         let data = location.hash.split("/")
         if(data[1] == 'campaign'){
             viewCampaign(data[2])
+        }else if(data[1] == 'profile'){
+            viewProfile(data[2])
+        }else if(data[1] == 'reset'){
+            viewReset(data[2])
         }
     }
     else{
@@ -42,6 +51,19 @@ function routing(){
             case "#/loading":
                 viewLogging()
                 break
+            case "#/profile":
+                viewProfile()
+                break
+            case "#/recover":
+                viewRecover()
+                break 
+            case "#/changePassword":
+                viewChangePassword()
+                break 
+            case "#/reset":
+                console.log("oii")
+                viewReset()
+                break     
         }
     }
 }
@@ -98,6 +120,24 @@ function viewCampaign(shortUrl){
 function viewCreateCampaign(){
     includeHeader(localStorage.getItem('loggedAs'))
     new CampaignRegistry()
+}
+
+function viewProfile(email) {
+    new Profile(email);
+}
+
+function viewRecover() {
+    new Recover();
+}
+
+function viewReset(token) {
+    console.log("to aq em")
+    new Reset(token);
+}
+
+
+function viewChangePassword() {
+    new ChangePassword();
 }
 
 function includeHeader(email){
