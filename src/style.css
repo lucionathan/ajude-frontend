@@ -211,14 +211,14 @@ html{
     visibility: hidden;
 }
 
-#registerForm #registerBtn{
+#registerForm #changePasswordBtn{
     background-color: #DDFCCE;
     border: 1px solid white;
     color: #3B839A;
     transition: background-color 0.3s ease;
 }
 
-#registerForm #registerBtn:hover{
+#registerForm #changePasswordBtn:hover{
     background-color: #3B839A;
     border: 1px solid #DDFCCE;
     color: #DDFCCE;
@@ -875,6 +875,143 @@ html{
     width: 80%;
 
 }
+
+
+/*                           CHANGE PASSWORD BEGIN                                       */
+
+#changePassword{
+    
+    flex-direction: column;
+    background-color:rgb(255, 255, 255);
+    flex: 0;
+    align-self: center;
+    padding: 20px 20px 30px 20px;
+    border: 1px solid #3B839A;
+}
+
+#changePassword .buttons{
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 15px 5px;
+}
+
+#changePassword .fieldsChangePassword input{
+    padding: 10px;
+    margin: 5px;
+    width: 262px;
+    border: 1px solid #80E3BE;
+    border-bottom: 1px solid #3B839A;
+    
+}
+
+#changePassword .fieldsChangePassword input::placeholder{
+    color: #FF474A;
+}
+
+#changePassword h2{
+    text-align: center;
+    font-size: 35px;
+    padding: 0 0 40px 0;
+    color: #FF474A;
+    letter-spacing: 2px;
+    font-weight: lighter;
+}
+
+
+#changePassword button {
+    padding: 15px;
+    font-size: 16px;
+    width: 115px;
+}
+
+#changePassword button:hover {
+    cursor: pointer;
+}
+
+#changePassword #changePasswordBtn{
+    background-color: #DDFCCE;
+    border: 1px solid white;
+    color: #3B839A;
+    transition: background-color 0.3s ease;
+}
+
+#changePassword #changePasswordBtn:hover{
+    background-color: #3B839A;
+    border: 1px solid #DDFCCE;
+    color: #DDFCCE;
+}
+
+/*                           CHANGE PASSWORD END                                       */
+
+/*                           RECOVER PASSWORD BEGIN                                       */
+
+#resetPassword{
+    
+    flex-direction: column;
+    background-color:rgb(255, 255, 255);
+    flex: 0;
+    align-self: center;
+    padding: 20px 20px 30px 20px;
+    border: 1px solid #3B839A;
+}
+
+#resetPassword .buttons{
+    display: flex;
+    align-self: center;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 15px 5px;
+}
+
+#resetPassword .fieldsresetPassword input{
+    padding: 10px;
+    margin: 5px;
+    width: 262px;
+    border: 1px solid #80E3BE;
+    border-bottom: 1px solid #3B839A;
+    
+}
+
+#resetPassword .fieldsresetPassword input::placeholder{
+    color: #FF474A;
+}
+
+#resetPassword h2{
+    text-align: center;
+    font-size: 35px;
+    padding: 0 0 40px 0;
+    color: #FF474A;
+    letter-spacing: 2px;
+    font-weight: lighter;
+}
+
+
+#resetPassword button {
+    padding: 15px;
+    font-size: 16px;
+    width: 115px;
+}
+
+#resetPassword button:hover {
+    cursor: pointer;
+}
+
+#resetPassword #resetPasswordBtn{
+    background-color: #DDFCCE;
+    border: 1px solid white;
+    color: #3B839A;
+    transition: background-color 0.3s ease;
+}
+
+#resetPassword #resetPasswordBtn:hover{
+    background-color: #3B839A;
+    border: 1px solid #DDFCCE;
+    color: #DDFCCE;
+}
+
+/*                           RECOVER PASSWORD END                                       */
 
 .hidden{
     visibility: hidden;
