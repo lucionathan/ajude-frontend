@@ -18,8 +18,11 @@ function routing(){
     $container.innerHTML = ''    
     if(location.hash.split("/").length > 2){
         let data = location.hash.split("/")
-        if(data[1] == 'campaign'){
+        if(data[1] == 'campaign' && data[2] != "edit"){
             viewCampaign(data[2])
+        }
+        if(data[1] == 'campaign' && data[2] == 'edit'){
+            viewEditCampaign(data[3])
         }
     }
     else{
@@ -97,6 +100,11 @@ function viewCampaign(shortUrl){
 function viewCreateCampaign(){
     includeHeader(localStorage.getItem('loggedAs'))
     new CampaignRegistry()
+}
+
+function viewEditCampaign(shortUrl){
+    includeHeader(localStorage.getItem('loggedAs'))
+    new CampaignRegistry(shortUrl)
 }
 
 function includeHeader(email){
