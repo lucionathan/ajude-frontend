@@ -879,7 +879,7 @@ html{
 
 /*                           CHANGE PASSWORD BEGIN                                       */
 
-#changePassword{
+#changePassword, #recover{
     
     flex-direction: column;
     background-color:rgb(255, 255, 255);
@@ -889,7 +889,7 @@ html{
     border: 1px solid #3B839A;
 }
 
-#changePassword .buttons{
+#changePassword .buttons, #recover .buttons{
     display: flex;
     align-self: center;
     flex-direction: row;
@@ -897,7 +897,7 @@ html{
     margin: 15px 5px;
 }
 
-#changePassword .fieldsChangePassword input{
+#changePassword .fieldsChangePassword input, #recover .fieldsRecover input{
     padding: 10px;
     margin: 5px;
     width: 262px;
@@ -906,11 +906,11 @@ html{
     
 }
 
-#changePassword .fieldsChangePassword input::placeholder{
+#changePassword .fieldsChangePassword input::placeholder,#recover .fieldsRecover input::placeholder{
     color: #FF474A;
 }
 
-#changePassword h2{
+#changePassword h2, #recover h2{
     text-align: center;
     font-size: 35px;
     padding: 0 0 40px 0;
@@ -920,17 +920,17 @@ html{
 }
 
 
-#changePassword button {
+#changePassword button, #recover button{
     padding: 15px;
     font-size: 16px;
     width: 115px;
 }
 
-#changePassword button:hover {
+#changePassword button:hover, #recover button:hover {
     cursor: pointer;
 }
 
-#changePassword #changePasswordBtn{
+#changePassword #changePasswordBtn,#recoverBtn{
     background-color: #DDFCCE;
     border: 1px solid white;
     color: #3B839A;
@@ -1061,4 +1061,10 @@ html{
     flex-direction: column;
     justify-content: center;
     align-content: center;
+}
+
+/* recover*/
+
+#recover .buttons{
+    justify-content: center;
 }
