@@ -80,21 +80,33 @@
         <div class="dashBoard">
             <main>
                 <div id="menu">
-                    <input id="stringQuery" type="text">
-                    <button id="backendQuery"><i class="material-icons">search</i></button>
-                    <p>Deseja apenas pesquisas ativas?</p>
-                    <input id="activeQuery" type="checkbox" checked>
+                    <div>
+                        <input id="stringQuery" type="text" placeholder="Pesquisar">
+                        <button id="backendQuery"><i class="material-icons">search</i></button>
+                    </div>
+                    <div style="justify-content: space-around;">
+                        <p>Apenas campanhas ativas?</p>
+                        <input id="activeQuery" type="checkbox" checked>
+                    </div>
                 </div>
                 <div class="content">
                     <div id="feed">
-                        <div>
-                            <input type="text" id="feedFilter">
+                        <div class="localFilters">
+                            <input type="text" id="feedFilter" placeholder="Filtre o conteudo do feed!">
                             <div class="localQueryButtons">
-                                <button id="orderByLikes">Nº de likes</button>
-                                <button id="orderByDate">Data</button>
-                                <button id="orderByGoal">Meta</button>
+                                <b><p>Quero ordenar por:</p></b>
+                                <div>
+                                    <button id="orderByLikes">Nº de likes</button>
+                                    <button id="orderByDate">Data</button>
+                                    <button id="orderByGoal">Meta</button>
+                                </div>
                             </div>
-                        </div>    
+                        </div>
+                        <button id="feedGoToCreateCampaign">
+                            <div>
+                                <p>CRIAR CAMPANHA</p>
+                            </div>
+                        </button>   
                         <div id="campaignFeedList">
 
                         </div>

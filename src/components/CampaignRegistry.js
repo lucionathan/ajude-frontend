@@ -17,13 +17,6 @@ export class CampaignRegistry
     render() {
         let $container = document.querySelector('#container')
         $container.innerHTML = `
-        <div id="headerCampaign">
-        <h1> aJuDe </h1>
-        <div class="buttons">
-            <button>LOGIN</button>
-            <button>CADASTRO</button>
-        </div>
-        </div>
         <div id="campaignView">
             <div class="viewHeader">
                 <input id="createShortName" type="text" placeholder="Nome da campanha" value="${this.name}">

@@ -27,26 +27,42 @@ export class Feed{
         $inputFilter.addEventListener("input", () =>{
             this.showByFilter($inputFilter.value)
         })
+        let $byLikes =  document.querySelector("#orderByLikes");
+        let $byDate =  document.querySelector("#orderByDate");
+        let $byGoal =  document.querySelector("#orderByGoal");
 
-        document.querySelector("#orderByDate").addEventListener('click', () => {
+        $byDate.addEventListener('click', () => {
             this.sortMethod = this.orderByDate
+            $byLikes.className=''
+            $byGoal.className=''
+            $byDate.className='activeOption'
             this.sort()
             this.updateFeed()
         })
-        document.querySelector("#orderByLikes").addEventListener('click', () => {
+        $byLikes.addEventListener('click', () => {
             this.sortMethod = this.orderByLikes
+            $byLikes.className='activeOption'
+            $byGoal.className=''
+            $byDate.className=''
             this.sort()
             this.updateFeed()
         })
 
-        document.querySelector("#orderByGoal").addEventListener('click', () => {
+        $byGoal.addEventListener('click', () => {
             this.sortMethod = this.orderByRemaining
+            $byLikes.className=''
+            $byGoal.className='activeOption'
+            $byDate.className=''
             this.sort()
             this.updateFeed()
         })
 
         document.querySelector("#backendQuery").addEventListener('click', () =>{
             this.backSearch()
+        })
+
+        document.querySelector('#feedGoToCreateCampaign').addEventListener('click', () =>{
+            router.navigateToCampaignCreation()
         })
 
     }
