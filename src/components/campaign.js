@@ -1,7 +1,7 @@
 import {Router} from '../router.js'
 const BACK_URL = "https://ajude-psoft.herokuapp.com/";
-const outerShadow = "0px 4px 4px rgba(0, 0, 0, 0.25)"
-const innerShadow = "inset 0px 4px 4px rgba(0, 0, 0, 0.25)"
+const dark = "#3B839A"
+const light = "#30b4ba"
 const router = new Router()
 export class Campaign{
 
@@ -63,6 +63,9 @@ export class Campaign{
         $div.querySelector('.campaignFooter div button').addEventListener('click', () =>{
             router.navigateToCampaign(this.shortUrl)
         })
+
+        $div.querySelector('.deslikeButton i').style.color = this.wasDesliked ? dark : light
+        $div.querySelector('.likeButton i').style.color = this.wasLiked ? dark : light;
         return $div
     }
 
@@ -97,9 +100,12 @@ export class Campaign{
             this.wasLiked = true;
             this.likes++;
         }
+        let $deslikeButton = document.querySelector(`#c${this.id} .campaignFooter .deslikeButton`)
         let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
         let $likes = document.querySelector(`#c${this.id} .campaignFooter .likes`)
-        $likeButton.querySelector('i').style.textShadow = this.wasLiked ? '' : outerShadow;
+        $likeButton.querySelector('i').style.color = this.wasLiked ? dark : light;
+        $deslikeButton.querySelector('i').style.color = this.wasDesliked ? dark : light;
+
         $likes.innerText = this.likes
     }
 
@@ -111,9 +117,12 @@ export class Campaign{
             this.wasDesliked = true;
             this.deslikes++;
         }
+        let $likeButton = document.querySelector(`#c${this.id} .campaignFooter .likeButton`)
         let $deslikeButton = document.querySelector(`#c${this.id} .campaignFooter .deslikeButton`)
         let $deslikes = document.querySelector(`#c${this.id} .campaignFooter .deslikes`)
-        $deslikeButton.querySelector('i').style.textShadow = this.wasDesliked ? '' : outerShadow;
+        $deslikeButton.querySelector('i').style.color = this.wasDesliked ? dark : light;
+        $likeButton.querySelector('i').style.color = this.wasLiked ? dark : light;
+
         $deslikes.innerText = this.deslikes
     }
 
@@ -167,8 +176,8 @@ export class Campaign{
         $div.querySelector('.progress div').innerText = `${this.donated}/${this.goal}`
         $div.querySelector('.campaignFooter .likes').innerText = this.likes;
         $div.querySelector('.campaignFooter .deslikes').innerText = this.deslikes;
-        $div.querySelector('.campaignFooter .deslikeButton i').style.textShadow = this.wasDesliked ? '' : outerShadow
-        $div.querySelector('.campaignFooter .likeButton i').style.textShadow = this.wasLiked ? '' : outerShadow;
+        $div.querySelector('.campaignFooter .deslikeButton i').style.color = this.wasDesliked ? dark : light
+        $div.querySelector('.campaignFooter .likeButton i').style.color = this.wasLiked ? dark : light;
         
     }
 }

@@ -71,9 +71,10 @@ document.querySelector("#loggedInHeader .ajude").addEventListener('click', () =>
     router.navigateToDashBoard()
 })
 
+$guestHeader.className= 'hidden'
+$loggedHeader.className = 'hidden'
 routing()
 window.onhashchange = routing
-
 function viewLogin(){
     dontIncludeHeader()
     new Login();
