@@ -31,6 +31,7 @@ export class Feed{
         let $byDate =  document.querySelector("#orderByDate");
         let $byGoal =  document.querySelector("#orderByGoal");
 
+        $byGoal.className='activeOption'
         $byDate.addEventListener('click', () => {
             this.sortMethod = this.orderByDate
             $byLikes.className=''

@@ -37,9 +37,11 @@ export class Campaign{
                             <p class="likes">${this.likes}</p>
                             <button class="deslikeButton"><i class="material-icons">thumb_down</i></button>
                             <p class="deslikes">${this.deslikes}</p>
-                            <div>
-                                <button>VISITAR</button>
-                            </div>
+                            <button class="visitCampaignButton">
+                                <div>
+                                    <p>Visitar</p>
+                                </div>
+                            </button>
                         </div>                  
         `
         $div.id=`c${this.id}`
@@ -52,7 +54,7 @@ export class Campaign{
             $div.className="campaign"
         }
         
-        $div.querySelector('.progress div').style.width=`${100*this.donated/this.goal}%`
+        $div.querySelector('.progress div').style.width=`${100*min(this.donated,this.goal)/this.goal}%`
         $div.querySelector('.likeButton').addEventListener('click', () =>{
             this.addLike()
         })
@@ -60,7 +62,7 @@ export class Campaign{
             this.addDeslike()
         })
 
-        $div.querySelector('.campaignFooter div button').addEventListener('click', () =>{
+        $div.querySelector('.visitCampaignButton').addEventListener('click', () =>{
             router.navigateToCampaign(this.shortUrl)
         })
 
@@ -179,5 +181,13 @@ export class Campaign{
         $div.querySelector('.campaignFooter .deslikeButton i').style.color = this.wasDesliked ? dark : light
         $div.querySelector('.campaignFooter .likeButton i').style.color = this.wasLiked ? dark : light;
         
+    }
+}
+
+function min(a,b){
+    if(a > b){
+        return b;
+    }else{
+        return a;
     }
 }
