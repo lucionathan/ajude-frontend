@@ -5,7 +5,7 @@ const light = "#30b4ba"
 const router = new Router()
 export class Campaign{
 
-    constructor(id,shortName, shortUrl, description, date, likes, deslikes, likedBy, deslikedBy, goal, donated){
+    constructor(id,shortName, shortUrl, description, date, likes, deslikes, likedBy, deslikedBy, goal, donated, owner){
         this.id = id;
         this.shortName = shortName;
         this.shortUrl=shortUrl;
@@ -14,12 +14,13 @@ export class Campaign{
         this.likes = likes;
         this.deslikes = deslikes;
         this.likedBy = likedBy;
-        this.deslikedBy = deslikedBy
+        this.deslikedBy = deslikedBy;
         this.goal = goal;
         this.donated = donated;
-        let user = localStorage.getItem('loggedAs')
-        this.wasLiked = likedBy.includes(user)
-        this.wasDesliked = deslikedBy.includes(user)
+        let user = localStorage.getItem('loggedAs');
+        this.wasLiked = likedBy.includes(user);
+        this.wasDesliked = deslikedBy.includes(user);
+        this.owner = owner;
     }
 
     render(typeClass){

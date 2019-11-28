@@ -83,6 +83,10 @@ export class Profile {
         this.sort()
         this.shown.forEach(campaign =>{
             let typeClass = campaign.owner === this.email ? "created" : "contributed"
+            console.log(campaign.owner)
+            console.log(this.email)
+
+            console.log(typeClass)
             $feed.appendChild(campaign.render(typeClass))
         })
     }
