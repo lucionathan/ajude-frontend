@@ -43,13 +43,13 @@ export class Router{
     }
 
     navigateToChangePassword(token){
-        location.replace(`/#/changePassword/${token}`)
-        history.pushState({url:`/#/changePassword/${token}`}, "",  `/#/changePassword/${token}`)
+        location.replace(`/#/changePassword`)
+        history.pushState({url:`/#/changePassword`}, "",  `/#/changePassword`)
     }
 
     navigateToReset(token){
         location.replace(`/#/reset/${token}`)
-        history.pushState({url:`/#/reset/${token}`}, "",  `/#/reset/${token}`)
+        history.pushState({url:`/#/reset/${token}`}, "",  `/#/reset /${token}`)
     }
 
 }

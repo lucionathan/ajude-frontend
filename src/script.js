@@ -22,8 +22,6 @@ function routing(){
             viewCampaign(data[2])
         }else if(data[1] == 'profile'){
             viewProfile(data[2])
-        }else if(data[1] == 'changePassword') {
-            viewChangePassword(data[2])
         }else if(data[1] == 'reset') {
             viewReset(data[2])
         }
@@ -57,8 +55,8 @@ function routing(){
             case "#/changePassword":
                 viewChangePassword()
                 break 
-            case "#/changePassword":
-                viewChangePassword()
+            case "#/reset":
+                viewReset()
                 break 
        }
     }
@@ -91,12 +89,12 @@ function viewRecover() {
 }
 
 function viewReset(token) {
-    new Reset(token)
+    new Reset(token);
 }
 
 
-function viewChangePassword(token) {
-    new ChangePassword(token);
+function viewChangePassword() {
+    new ChangePassword();
 }
 
 function viewCreateCampaign(){

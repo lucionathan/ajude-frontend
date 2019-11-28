@@ -6,7 +6,7 @@ const URL_BACKEND = config.URL_BACKEND;
 const router = new Router()
 
 export class ChangePassword {
-    constructor(token) {
+    constructor() {
         let $container = document.querySelector('#container')
 
         $container.innerHTML = ''
@@ -21,12 +21,13 @@ export class ChangePassword {
             let $newPassword2 = $container.querySelector('form').querySelector('#newPassword2');
             let $passwordMessage = $container.querySelector('form').querySelector('#passwordMessage');
             if($newPassword.value === $newPassword2.value) {
+
+                this.change(localStorage.getItem('loggedAs'), $password.value, $newPassword.value, token)
+
                 $passwordMessage.innerHTML = "";
                 $password.value = "";
                 $newPassword.value = "";
                 $newPassword2.value = "";
-
-                this.change(localStorage.getItem('loggedAs'), $password.value, $newPassword.value, token)
             } else {
                 $passwordMessage.innerHTML = "As senhas são diferentes.";
             }
@@ -37,12 +38,12 @@ export class ChangePassword {
 
     }
 
-    change(email, password, newPassword, token) {
+    change(email, password, newPassword) {
         console.log(email)
         fetch(`${URL_BACKEND}user/changepassword`, {
             'method' : 'POST',
             'body': `{"email":"${email}", "password":"${password}", "newPassword":"${newPassword}"}`,
-            'headers' : {'Authorization':`Bearer ${token}`,'Content-Type' : 'application/json'}
+            'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
         }).catch(err => {
             
                 console.log("\n\n[DEBUG script.js register]" + err)
