@@ -22,7 +22,7 @@ export class ChangePassword {
             let $passwordMessage = $container.querySelector('form').querySelector('#passwordMessage');
             if($newPassword.value === $newPassword2.value) {
 
-                this.change(localStorage.getItem('loggedAs'), $password.value, $newPassword.value, token)
+                this.change(localStorage.getItem('loggedAs'), $password.value, $newPassword.value)
 
                 $passwordMessage.innerHTML = "";
                 $password.value = "";
@@ -53,7 +53,7 @@ export class ChangePassword {
                     return res.json()
                 } else {
                     let $container = document.querySelector('#container')
-
+                    console.log(123)
                     $container.querySelector('form').querySelector('#messageChange').innerHTML = "Senha incorreta."          
                 }
             }).then(res => {  

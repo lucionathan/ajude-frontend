@@ -7,6 +7,8 @@ const router = new Router()
 
 export class Reset {
     constructor(token) {
+        let tokenHeader = token.split('=')
+        console.log(tokenHeader)
         let $container = document.querySelector('#container')
 
         $container.innerHTML = ''
@@ -24,7 +26,7 @@ export class Reset {
                 $newPassword.value = "";
                 $newPassword2.value = "";
 
-                this.reset($newPassword.value, token)
+                this.reset($newPassword.value, tokenHeader[1])
             } else {
                 $passwordMessage.innerHTML = "As senhas são diferentes.";
             }
@@ -37,9 +39,9 @@ export class Reset {
 
     reset(newPassword, token) {
         console.log(email)
-        fetch(`${URL_BACKEND}user/reset`, {
+        fetch(`${URL_BACKEND}user/reset?token=${token}`, {
             'method' : 'POST',
-            'body': `{"new_password":"${newPassword}"}`,
+            'body': `{"password":"${newPassword}"}`,
             'headers' : {'Authorization':`Bearer ${token}`,'Content-Type' : 'application/json'}
         }).catch(err => {
             

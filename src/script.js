@@ -22,8 +22,6 @@ function routing(){
             viewCampaign(data[2])
         }else if(data[1] == 'profile'){
             viewProfile(data[2])
-        }else if(data[1] == 'reset') {
-            viewReset(data[2])
         }
     }
     else{

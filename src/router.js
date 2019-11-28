@@ -48,8 +48,8 @@ export class Router{
     }
 
     navigateToReset(token){
-        location.replace(`/#/reset/${token}`)
-        history.pushState({url:`/#/reset/${token}`}, "",  `/#/reset /${token}`)
+        location.replace(`/#/reset${token}`)
+        history.pushState({url:`/#/reset${token}`}, "",  `/#/reset${token}`)
     }
 
 }
