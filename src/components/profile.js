@@ -19,7 +19,6 @@ export class Profile {
         'headers' : {'Authorization':`Bearer ${localStorage.getItem('token')}`,'Content-Type' : 'application/json'}
         }).then(res => {return res.json()
         }).then(res => {
-            console.log(res)
             this.populateCampaigns(res.campaigns);
             this.render(res.firstName, res.lastName, this.email)
         })
@@ -32,19 +31,33 @@ export class Profile {
             this.showByFilter($inputFilter.value)
         })
 
-        document.querySelector("#orderByDateProfile").addEventListener('click', () => {
+        let $byLikes =  document.querySelector("#orderByLikesProfile");
+        let $byDate =  document.querySelector("#orderByDateProfile");
+        let $byGoal =  document.querySelector("#orderByGoalProfile");
+
+        $byGoal.className='activeOption'
+        $byDate.addEventListener('click', () => {
             this.sortMethod = this.orderByDate
+            $byLikes.className=''
+            $byGoal.className=''
+            $byDate.className='activeOption'
             this.sort()
             this.updateCampaigns()
         })
-        document.querySelector("#orderByLikesProfile").addEventListener('click', () => {
+        $byLikes.addEventListener('click', () => {
             this.sortMethod = this.orderByLikes
+            $byLikes.className='activeOption'
+            $byGoal.className=''
+            $byDate.className=''
             this.sort()
             this.updateCampaigns()
         })
 
-        document.querySelector("#orderByGoalProfile").addEventListener('click', () => {
+        $byGoal.addEventListener('click', () => {
             this.sortMethod = this.orderByRemaining
+            $byLikes.className=''
+            $byGoal.className='activeOption'
+            $byDate.className=''
             this.sort()
             this.updateCampaigns()
         })
@@ -69,24 +82,18 @@ export class Profile {
     }
 
     populateCampaigns(campaigns){
-        console.log(campaigns)
         let $feed = document.querySelector('#listCampaigns')
         campaigns.forEach(c => {
             if(this.checkArray(this.userCampaigns, c.shortUrl)) {
                 let draftCampaing = new Campaign(c.id, c.shortName, c.shortUrl, c.description, c.date, c.likes, c.deslikes, c.pessoasLike, c.pessoasDeslike, c.goal, c.donated, c.owner)
                 this.userCampaigns.push(draftCampaing)
             }
-            console.log(this.userCampaigns)
         })
 
         this.shown = this.userCampaigns
         this.sort()
         this.shown.forEach(campaign =>{
             let typeClass = campaign.owner === this.email ? "created" : "contributed"
-            console.log(campaign.owner)
-            console.log(this.email)
-
-            console.log(typeClass)
             $feed.appendChild(campaign.render(typeClass))
         })
     }
@@ -111,14 +118,18 @@ export class Profile {
 
     render(firstName, lastName, email) {
         let $name = document.querySelector('#name')
-        $name.innerHTML = `<div id="nameContent">${firstName} ${lastName}</div>`
+        $name.innerText = `Nome: ${firstName} ${lastName}`
         let $email = document.querySelector('#email')
-        $email.innerHTML = `<div id="emailContent">${email}</div>`
-        if(localStorage.getItem('loggedAs') === email) {
+        $email.innerText = `Contato: ${email}`
         let $change = document.querySelector('#changePasswordProfile')
-            $change.innerHTML = "Alterar senha"
-            $change.href = "#/changePassword"
+        $change.addEventListener('click', () =>{
+            router.navigateToChangePassword()
+        })
+        if(!(email === localStorage.getItem('loggedAs'))){
+            $change.className='hidden'
         }
+            
+    
     }
 
     checkArray(campaigns, url) {

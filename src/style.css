@@ -7,7 +7,6 @@
 
 button{
     border:none;
-    
     background-color:transparent;
 }
 
@@ -880,4 +879,49 @@ html{
 .hidden{
     visibility: hidden;
     height: 0 !important;
+}
+
+/*Profile*/
+
+.contentProfile #nome{
+    font-size:30px;
+}
+
+.contentProfile #email{
+    font-size:20px;
+}
+
+.userData{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    width: 98.5%;
+    margin:10px 0;
+    background-color: #3B839A;
+    padding:5px;
+}
+
+.userData *{
+    margin:0 5px;
+    padding:1px;
+}
+
+.userData h2, .userData button{
+    color:white;
+}
+
+.userData button{
+    height: 40px;
+    align-self: center;
+    padding:3px;
+}
+
+#changePasswordProfile div{
+    background-color: #30B4BA;
+    height: 100%;
+    border-radius:3px;
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
 }

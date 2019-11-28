@@ -108,7 +108,7 @@ export class Feed{
         $feed.innerHTML =''
 
         for(let i = 0; i < min(5, campaigns.length); i++) 
-            this.feedCampaigns.push(new Campaign(campaigns[i].id,campaigns[i].shortName, campaigns[i].shortUrl,campaigns[i].description, campaigns[i].date, campaigns[i].likes, campaigns[i].deslikes, campaigns[i].pessoasLike, campaigns[i].pessoasDeslike, campaigns[i].goal, campaigns[i].donated));
+            this.feedCampaigns.push(new Campaign(campaigns[i].id,campaigns[i].shortName, campaigns[i].shortUrl,campaigns[i].description, campaigns[i].date, campaigns[i].likes, campaigns[i].deslikes, campaigns[i].pessoasLike, campaigns[i].pessoasDeslike, campaigns[i].goal, campaigns[i].donated, campaigns[i].owner));
         this.shown = this.feedCampaigns
         if(this.feedCampaigns.length == 0){
             let $p = document.createElement('p')

@@ -143,18 +143,25 @@
         <div class="profile">
             <main>
                 <div class="contentProfile">
-                    <div id="name"></div>
-                    <div id="email"></div>
-                    <div id="menuProfile">
+                    <div class="userData">
                         <div>
-                            <input type="text" id="feedFilterProfile">
-                            <div class="localQueryButtons">
-                                <button id="orderByLikesProfile">Nº de likes</button>
-                                <button id="orderByDateProfile">Data</button>
-                                <button id="orderByGoalProfile">Meta</button>
-                            </div>
-                            <a id="changePasswordProfile"></a>
+                            <h2 id="name"></h2>
+                            <h2 id="email"></h2>
                         </div>
+                        <button id="changePasswordProfile"><div>Alterar a senha.</div></button>
+                    </div>
+                    <div id="menuProfile" style="margin-bottom: 5px;">
+                        <div class="localFilters">
+                            <input type="text" id="feedFilterProfile" placeholder="Filtre o conteudo do feed!">
+                            <div class="localQueryButtons">
+                                <b><p>Quero ordenar por:</p></b>
+                                    <div>
+                                        <button id="orderByLikesProfile">Nº de likes</button>
+                                        <button id="orderByDateProfile">Data</button>
+                                        <button id="orderByGoalProfile">Meta</button>
+                                    </div>
+                                </div>
+                            </div>
                     </div>
                     <div id="list">
                         <div id="listCampaigns">

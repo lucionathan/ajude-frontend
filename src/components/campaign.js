@@ -38,6 +38,7 @@ export class Campaign{
                             <p class="likes">${this.likes}</p>
                             <button class="deslikeButton"><i class="material-icons">thumb_down</i></button>
                             <p class="deslikes">${this.deslikes}</p>
+                            <p style="margin:auto;">Criada por: ${this.owner}</p>
                             <button class="visitCampaignButton">
                                 <div>
                                     <p>Visitar</p>
